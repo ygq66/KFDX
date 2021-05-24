@@ -1,8 +1,7 @@
 import React,{ useState,useEffect,useLayoutEffect,Fragment,useRef } from 'react';
 import { useMappedState } from 'redux-react-hook';
-import { labelList,cameraList_S,roomDetails } from '../../api/mainApi';
+import { labelList,cameraList_S } from '../../api/mainApi';
 import { Build,Model } from '../../utils/map3d';
-import { Common } from '../../utils/mapMethods'
 import './style.scss';
 
 const FloorList = () => {
@@ -14,19 +13,11 @@ const FloorList = () => {
     const [everythings,setEverything] = useState([])
     const isClick = useRef(false)//同步进行延迟处理
     const dataRef = useRef({})//同步进行延迟处理
-    const [PolygonList,setPolygonList] = useState([])
-
-    //关闭分层
-    const closeFloor = (maps,data) =>{
-        var floorh2 = []
-        data.floor_name.forEach(element => {floorh2.push(element.floor_id.split("#")[1])});
-        Build.showFloor(maps,data.build_name.build_id,"all",floorh2)
-    }
 
     useEffect(()=>{
         cameraList_S({device_code:""}).then(res=>{
             if(res.msg === "success"){
-                var shinei  = []
+                let shinei  = []
                 res.data.forEach(element=>{
                     if(element.indoor){
                         shinei.push(element)
@@ -68,60 +59,11 @@ const FloorList = () => {
         if(!(Object.keys(map).length === 0)){
             getModelhandle(map)
         }
-        // eslint-disable-next-line
     },[map]);
+
     //点击楼层
     const handleFloor = (item,index)=>{
-        
         setCount(index)
-
-        if(PolygonList.length>0){
-            PolygonList.forEach((element)=>{
-                Model.updatePolygon(map,element.positions,element.positions.style)
-            })
-        }
-        //获取房间详情
-        roomDetails({build_id:buildData.build_name.build_id,floor_id:item.floor_id}).then(res=>{
-            if(res.msg === "success"){
-                setPolygonList(res.data)
-              
-              
-                // Common.mapFly(map,res.data[0].positions.center)
-                if(res.data.length>0){
-                    res.data.forEach((element)=>{
-                        //画面
-                        // element.positions.center.x= element.positions.center.x/100
-                        // element.positions.center.y= element.positions.center.y/100
-                        // element.positions.center.z= element.positions.center.z/100
-                        var pos = {
-                            x:Common.filter(element.positions.center.x)/100,
-                            y:Common.filter(element.positions.center.y)/100
-                        }
-                          element.positions.center.x= pos.x
-                          element.positions.center.y= pos.y
-                          Model.createPolygon(map,element.positions.points)
-                          Model.updatePolygon(map,element.positions,"gaoyadianwang_icon_Mat")
-                        // 展示图标
-                        // element.positions.push({
-                        //     typeStyle:"shiyongzhong_Mat"
-                        // })
-                        // const json = {
-                        //     typeStyle:'shiyongzhong_Mat',
-                        //     location: {
-                        //         x: Common.filter(element.positions.center.x),
-                        //         y: Common.filter(element.positions.center.y),
-                        //         z: Common.filter(element.positions.center.z),
-                        //         pitch: Common.filter(element.positions.center.pitch),
-                        //         yaw: Common.filter(element.positions.center.yaw),
-                        //         roll: Common.filter(element.positions.center.roll)
-                        //     }
-                        // }
-                        //Model.createIcon(map,json)
-                        // Model.createIcon(map,element.positions)
-                    })
-                }
-            }
-        })
         //分层
         var floorh = []
         buildData.floor_name.forEach(element => {floorh.push(element.floor_id.split("#")[1])});
@@ -138,12 +80,14 @@ const FloorList = () => {
     //关闭楼层
     const closeFloorList = ()=>{
         setShow(false);
-        closeFloor(map,buildData)
-        if(PolygonList.length>0){
-            PolygonList.forEach((element)=>{
-                Model.updatePolygon(map,element.positions,element.positions.style)
-            })
-        }
+        //关闭所有摄像头
+        everythings.forEach(element => {
+            Model.showModel(map,element.model_url,false)
+        });
+        //关闭分层
+        let floorh2 = []
+        buildData.floor_name.forEach(element => {floorh2.push(element.floor_id.split("#")[1])});
+        Build.showFloor(map,buildData.build_name.build_id,"all",floorh2)
     }
     return (
         <Fragment>

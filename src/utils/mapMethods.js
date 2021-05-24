@@ -62,8 +62,8 @@ export const Common = {
     },
     //导航地图效果清除
     navigationClose(map3d) {
-        Model.closeIcon(map3d)
+        Model.closeIcon(map3d);
         Event.clearPatrolPath(map3d);
-        //Model.getModel(map3d);   //5.22李帆帆进行调整，新加，解决头部导航点击之后鼠标点击之类的操作失灵
+        Model.getModel(map3d);
     }
 }
