@@ -1,7 +1,6 @@
 import { vSocekt as videoS, iSocket as intercomS } from '../api/address';
 import { message } from 'antd';
 
-
 //打开视频控件
 export function videoPlay(data,wm) {
     const webSocket = new WebSocket(videoS)
