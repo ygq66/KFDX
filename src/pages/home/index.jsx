@@ -149,7 +149,7 @@ function Home(){
                             let msg = e.data.Personnel
                             if(isSame.current !== msg){
                                 isSame.current = msg
-                                console.log(e.data,'点击了模型')
+                                console.log(msg.attr.type_name,'点击了模型')
                                 //点击对讲模型
                                 if(msg.attr.type_name === "对讲"){
                                     setData(msg.attr)

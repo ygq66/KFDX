@@ -460,7 +460,7 @@ export const Model = {
                     switchName: 'model',
                     Personnel: res,
                 }
-                console.log(res);
+                console.log('点击了模型参数为：',res);
             } else if (res.typename === "label" && res.attr && res.attr.buildId) {
                 data = {
                     switchName: 'buildLable',

@@ -1,5 +1,5 @@
 import React,{ useState,useEffect } from 'react';
- import { findResources } from '../../api/mainApi';
+import { findResources } from '../../api/mainApi';
 import './style.scss'
 
 const CarmerPopup = (props) => {
@@ -10,34 +10,26 @@ const CarmerPopup = (props) => {
         if(props.msgdata){
             setShow(true)
             setMSG(props.msgdata)
-          
+            //接口获取状态
             findResources({
                 resourceType:"ENCODE_DEVICE",
                 indexCode:props.msgdata.device_code
             }).then(res => {
                 if (res.msg === "SUCCESS") {
-                console.log(res.data)
-                var status=''
-                if(res.data.status==='1'){
-                    status="在线"
+                    var status=''
                     // 0离线，1在线
-                }else{
-                    status="离线"
-                }
-                // var valueInfo={
-                //     device_name:res.data.name,
-                //     category_name:props.msgdata.category_name,
-                //     deviceStatus:status
-                // }
-                setStatus(status)
-               // if(msg.attr.detail_info){ videoPlay(msg.attr)}
+                    if(res.data.status==='1'){
+                        status="在线"
+                    }else{
+                        status="离线"
+                    }
+                    setStatus(status)
                 }else{
                     console.log("请求接口报错")
                     setStatus("离线")
                 }
             })
         }
-        // eslint-disable-next-line
     },[props])
     return (
         <>

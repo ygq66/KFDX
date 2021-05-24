@@ -7,17 +7,17 @@ export function videoPlay(data,wm) {
     const webSocket = new WebSocket(videoS)
     webSocket.onopen = function (e) {
         console.log('%c video websocket is open:',"color: red;font-size:13px")
-        /* _大华_汉中_赵猛 */
-        // var json ={
-        //     "type": "play",
-        //     "cameraCode":data.device_code
-        // }
-        /* _海康_呼和浩特_卫录屏 */
+        /* _海康_汉中_赵猛 */
         var json ={
-            "type": "PlayVideo",
-            "winNumber": wm || "1",
-            "detailInfo": data.detail_info
+            "type": "play",
+            "cameraCode":data.device_code
         }
+        /* _海康_呼和浩特_卫录屏 */
+        // var json ={
+        //     "type": "PlayVideo",
+        //     "winNumber": wm || "1",
+        //     "detailInfo": data.detail_info
+        // }
         webSocket.send(JSON.stringify(json))
     }
 }

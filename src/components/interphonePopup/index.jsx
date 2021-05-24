@@ -2,8 +2,6 @@ import React,{ useState,useEffect } from 'react';
 import { intercomPlay } from '../../utils/untils';
 import { infoList } from '../../api/mainApi';
 import { Checkbox,message } from 'antd';
-
-
 import './style.scss'
 
 const InterphonePopup = (props) => {
@@ -31,7 +29,8 @@ const InterphonePopup = (props) => {
         {"device_code": "2001","device_name": "一监区201"}
     ])
     useEffect(() => {
-        if(props.msgdata){
+        if(props.msgdata !== undefined){
+            console.log(props.msgdata,'对讲窗口接收到的数据')
             setMSG(props.msgdata)
             infoList({category_id:"10004"}).then(res=>{
                 if(res.msg === "success"){
