@@ -1,0 +1,57 @@
+.home{
+    background:transparent;
+    width: 100%;
+    height: 100%;
+    .conent{
+        float: left;
+        width: 100%;
+        height: 100%;
+        // background: #000;
+        overflow: hidden;
+        position: relative;
+        .map{
+            // width: 100%;
+            // height: 100%;
+        }
+        .popup{
+            position: absolute;
+            top: 100px;
+            left: 20px;
+        }
+        .untils_site{
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+        }
+        .untils_sTools{
+            position: absolute;
+            top: 8%;
+            right: 0px;
+        }
+        .untils_alarm{
+            position: absolute;
+            top:50%;
+            right: 12px;
+        }
+        .untils_floor{
+            position: absolute;
+            top:20%;
+            right: 300px;
+        }
+        .untils_alarm2{
+            position: absolute;
+            top:10%;
+            right: 160px;
+        }
+        .untils_interPhone{
+            position: absolute;
+            top:150px;
+            left: 100px;
+        }
+        .untils_cameraPopup{
+            position: absolute;
+            top:150px;
+            left: 800px;
+        }
+    }
+}

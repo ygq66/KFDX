@@ -1,0 +1,40 @@
+#floorList{
+    width: 180px;
+    height: 350px;
+    border: 2px solid #47fbff;
+    background-color: #000000b0;
+    box-shadow: 0 0 40px 20px #077c7e4d inset;
+    border-radius: 20px;
+    .fl_title{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #3c555a;
+        span{
+            color:$theme-color;
+            font-size: 17px;
+        };
+        img{
+            cursor: pointer;
+        }
+    }
+    .fl_content{
+        margin-top: 10px;
+        margin-left: 50px;
+        height: 275px;
+        overflow-y: overlay;
+        @include scrollbar(2px);
+        ul{
+            li{
+                cursor: pointer;
+                margin-bottom: 10px;
+                font-size: 17px;
+                color:#d9f0f0;
+                transition: all .2s;
+            }
+            .acitve{
+                color:$theme-color;
+            }
+        }
+    }
+}
