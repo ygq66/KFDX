@@ -3,7 +3,7 @@ import { Button } from 'antd';
 
 import "./style.scss"
 
-export default function DataKanban(){
+export default function Details(){
 
 
 
