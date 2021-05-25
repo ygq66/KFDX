@@ -7,8 +7,13 @@ export function videoPlay(data,wm) {
     webSocket.onopen = function (e) {
         console.log('%c video websocket is open:',"color: red;font-size:13px")
         /* _海康_汉中_赵猛 */
+        // var json ={
+        //     "type": "play",
+        //     "cameraCode":data.device_code
+        // }
+        /* _海康_杭州中院_张源 */
         var json ={
-            "type": "play",
+            "type": "Patrol",
             "cameraCode":data.device_code
         }
         /* _海康_呼和浩特_卫录屏 */

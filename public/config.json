@@ -6,6 +6,5 @@
     "intercomSocket":"ws://192.168.0.27",
     "doorInterface":"http://xxxxx",
     "luwangIp":"192.168.0.245:9901",
-    "luwangName":"nmd",
-	"datamanel":"http://172.16.12.32:17009/jwvisual/service/api/jwvisual/v1/"
+    "luwangName":"nmd"
 }

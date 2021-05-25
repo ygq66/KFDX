@@ -139,7 +139,6 @@ const ResourceAtlas = (props) => {
         Cameratotal().then(res=>{
             if(res.msg === "success"){
                 setdevice(res.data)
-                console.log()
                 res.data.forEach(element => {
                     if(element.id==="10001"){
                         getEcharts(element,res.data)
@@ -215,16 +214,16 @@ const ResourceAtlas = (props) => {
       }
     //Echarts切换
     function Echartsoncheng(obj){
-    let str,strchild;
-    str={name:obj.category_name,value:parseInt(obj.count),children:[]}
-    if(obj.children instanceof Array){
-    obj.children.forEach(element => {
-        strchild={name:element.type_name,value:parseInt(element.count)}
-        str.children.push(strchild)
-        });
-    }
-    Ecsty(str);
-    return str;
+        let str,strchild;
+        str={name:obj.category_name,value:parseInt(obj.count),children:[]}
+        if(obj.children instanceof Array){
+            obj.children.forEach(element => {
+                strchild={name:element.type_name,value:parseInt(element.count)}
+                str.children.push(strchild)
+            });
+        }
+        Ecsty(str);
+        return str;
     }
     //资源图谱显示隐藏
     function ResourceList(){
