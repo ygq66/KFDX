@@ -13,7 +13,7 @@ export function videoPlay(data,wm) {
         // }
         /* _海康_杭州中院_张源 */
         var json ={
-            "type": "Patrol",
+            "type": wm || "playVideo",
             "cameraCode":data.device_code
         }
         /* _海康_呼和浩特_卫录屏 */

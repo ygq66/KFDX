@@ -36,7 +36,6 @@ function Home(){
     const [darkall,setDa] = useState(false)
     const [readyState, setReadyState] = useState('alarm_socket loading...');
     const [linkage,setLinkage] =useState(false)
-    const [isAlarmDetails,setiasd] = useState(false)
     const [alarmData,setAlarmdata] = useState()
 
     const isSame = useRef(null) //防止重复点击
@@ -68,7 +67,6 @@ function Home(){
                 console.log(e,'报警收到的信息（非首次')
                 if(e.data.length>10){
                     setAlarmdata(JSON.parse(e.data))
-                    setiasd(true)
                     setDark(true)
                     siteRef.current.open(2,'parents')
                     //报警~弹视频控件
@@ -149,14 +147,13 @@ function Home(){
                             let msg = e.data.Personnel
                             if(isSame.current !== msg){
                                 isSame.current = msg
-                                console.log(msg.attr.type_name,'点击了模型')
                                 //点击对讲模型
                                 if(msg.attr.type_name === "对讲"){
                                     setData(msg.attr)
                                 }else{
                                     setDataC(msg.attr)
                                     //弹出视频控件
-                                    if(msg.attr.detail_info){ videoPlay(msg.attr)}
+                                    if(msg.attr.detail_info){ videoPlay(msg.attr.detail_info)}
                                 }
                             }
                             break;
@@ -237,13 +234,11 @@ function Home(){
                 <div className="untils_alarm">
                     <Alarm/>
                 </div>
-                <div className="untils_alarm2">
-                    {
-                        isAlarmDetails?<GradeAlarm alarmclose={setiasd} datas={alarmData}/>:null
-                    }
-                </div>
                 <div className="untils_floor">
                     <FloorList/>
+                </div>
+                <div className="untils_alarm2">
+                    <GradeAlarm msgdata={alarmData}/>
                 </div>
                 <div className="untils_interPhone">
                     <InterphonePopup msgdata={m_data}/>

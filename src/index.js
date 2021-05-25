@@ -14,7 +14,7 @@ import './index.css'
 import { LoadingOutlined  } from '@ant-design/icons';
 const store = makeStore()
 moment.locale('zh-cn');
-Spin.setDefaultIndicator(<LoadingOutlined  style={{ fontSize: 30 }} spin />)
+Spin.setDefaultIndicator(<LoadingOutlined  style={{ fontSize: 30 }} spin/>)
 ReactDOM.render(
   <StoreContext.Provider value={store}>
     <Router>

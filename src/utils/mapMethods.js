@@ -64,6 +64,5 @@ export const Common = {
     navigationClose(map3d) {
         Model.closeIcon(map3d);
         Event.clearPatrolPath(map3d);
-        Model.getModel(map3d);
     }
 }

@@ -18,36 +18,7 @@ const GradeAlarm = (props) => {
     const [tenM,setTen] = useState([])
     const [fifteenM,setFifteen] = useState([])
     const [alarmEventlist,setAlist] = useState([])
-    useEffect(()=>{
-        let array = [...alarmEventlist]
-        array.unshift(props.datas)
-        setAlist(array)
-        setTimeout(()=>{
-            let arrayt = [...threeM]
-            arrayt.push(props.datas)
-            setThree(arrayt)
-        },180000)
-
-        setTimeout(()=>{
-            let arrayfiveM = [...fiveM]
-            arrayfiveM.push(props.datas)
-            setFive(arrayfiveM)
-        },300000)
-
-        setTimeout(()=>{
-            let arraytenM = [...tenM]
-            arraytenM.push(props.datas)
-            setTen(arraytenM)
-        },600000)
-
-        setTimeout(()=>{
-            let arrayff = [...fifteenM]
-            arrayff.push(props.datas)
-            setFifteen(arrayff)
-        },900000)
-
-        // eslint-disable-next-line
-    },[props.datas])
+    const [show,setShow] = useState(false)
     const [problems ] = useState([
         {id:3,name:"3分钟有效报警信息"},
         {id:5,name:"5分钟有效报警信息"},
@@ -55,6 +26,43 @@ const GradeAlarm = (props) => {
         {id:15,name:"15分钟有效报警信息"}
     ])
 
+    useEffect(()=>{
+        if(props.msgdata !== undefined){
+            setShow(true)
+            //当前报警信息
+            let array = [...alarmEventlist]
+            array.unshift(props.msgdata)
+            setAlist(array)
+
+            //缓存报警信息时间段
+            setTimeout(()=>{
+                let arrayt = [...threeM]
+                arrayt.unshift(props.msgdata)
+                setThree(arrayt)
+            },180000)
+
+            setTimeout(()=>{
+                let arrayfiveM = [...fiveM]
+                arrayfiveM.unshift(props.msgdata)
+                setFive(arrayfiveM)
+            },300000)
+
+            setTimeout(()=>{
+                let arraytenM = [...tenM]
+                arraytenM.unshift(props.msgdata)
+                setTen(arraytenM)
+            },600000)
+
+            setTimeout(()=>{
+                let arrayff = [...fifteenM]
+                arrayff.unshift(props.msgdata)
+                setFifteen(arrayff)
+            },900000)
+        }
+        // eslint-disable-next-line
+    },[props.msgdata])
+
+    //选择时间段
     const handleEquipment=(value)=>{
         if(value === 3){
             setAlist(threeM)
@@ -106,52 +114,56 @@ const GradeAlarm = (props) => {
     }
 
     return (
-        <div id="gradeAlarm" className="">
-            <div className="gradeAlarm_content">
-                <img className="closeImg" src={require("../../assets/images/closeBtn.png").default} alt="" onClick={()=>props.alarmclose(false)}/>
-                <div className="gradeAlarm_select">
-                    <Select
-                        onChange={handleEquipment} 
-                        placeholder="请选择类别" 
-                        defaultValue="3分钟有效报警信息"
-                        suffixIcon={<CaretDownOutlined/>}
-                        showArrow={true}
-                    >
-                    {
-                        problems.map((item, index) => {
-                            return(
-                                <Option key={index} value={item.id}>{item.name}</Option>
-                            )
-                        })
-                    }
-                    </Select>
-                </div>
-                <img className="line" src={require("../../assets/images/line.png").default} alt=""/>
-                <div className="gradeAlarm_table">
-                    <table>
-                        <thead><tr><td>报警时间</td><td>报警位置</td><td>报警描述</td><td>操作</td></tr></thead>
-                        <tbody>
+        <>
+            {
+               show?<div id="gradeAlarm" className="">
+                    <div className="gradeAlarm_content">
+                        <img className="closeImg" src={require("../../assets/images/closeBtn.png").default} alt="" onClick={()=>setShow(false)}/>
+                        <div className="gradeAlarm_select">
+                            <Select
+                                onChange={handleEquipment} 
+                                placeholder="请选择类别" 
+                                defaultValue="3分钟有效报警信息"
+                                suffixIcon={<CaretDownOutlined/>}
+                                showArrow={true}
+                            >
                             {
-                                alarmEventlist.length > 0?alarmEventlist.map((ele,index)=>{
+                                problems.map((item, index) => {
                                     return(
-                                        <tr key={index}>
-                                            <td title={timeFormat(ele.event_info[0].start_time)}>{timeFormat(ele.event_info[0].start_time)}</td>
-                                            <td title={ele.event_info[0].device_name}>{ele.event_info[0].device_name}</td>
-                                            <td title={ele.event_info[0].event_name}>{ele.event_info[0].event_name}</td>
-                                            <td className="button">
-                                                <div className="queren" onClick={()=>handleAlarm("1",ele)}>确认</div>
-                                                <div className="hulue" onClick={()=>handleAlarm("2",ele)}>忽略</div>
-                                            </td>
-                                        </tr>
+                                        <Option key={index} value={item.id}>{item.name}</Option>
                                     )
-                                }):<Empty style={{marginTop:"100px"}} image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据" /> 
+                                })
                             }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div className="gradeAlarm_footer"></div>
-        </div>
+                            </Select>
+                        </div>
+                        <img className="line" src={require("../../assets/images/line.png").default} alt=""/>
+                        <div className="gradeAlarm_table">
+                            <table>
+                                <thead><tr><td>报警时间</td><td>报警位置</td><td>报警描述</td><td>操作</td></tr></thead>
+                                <tbody>
+                                    {
+                                        alarmEventlist.length > 0?alarmEventlist.map((ele,index)=>{
+                                            return(
+                                                <tr key={index}>
+                                                    <td title={timeFormat(ele.event_info[0].start_time)}>{timeFormat(ele.event_info[0].start_time)}</td>
+                                                    <td title={ele.event_info[0].device_name}>{ele.event_info[0].device_name}</td>
+                                                    <td title={ele.event_info[0].event_name}>{ele.event_info[0].event_name}</td>
+                                                    <td className="button">
+                                                        <div className="queren" onClick={()=>handleAlarm("1",ele)}>确认</div>
+                                                        <div className="hulue" onClick={()=>handleAlarm("2",ele)}>忽略</div>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        }):<Empty style={{marginTop:"100px"}} image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据" /> 
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="gradeAlarm_footer"></div>
+                </div>:null
+            }
+        </>
     )
 }
 export default GradeAlarm;
