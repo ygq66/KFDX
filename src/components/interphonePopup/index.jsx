@@ -29,7 +29,7 @@ const InterphonePopup = (props) => {
         {"device_code": "2001","device_name": "一监区201"}
     ])
     useEffect(() => {
-        if(props.msgdata !== undefined){
+        if(props.msgdata){
             console.log(props.msgdata,'对讲窗口接收到的数据')
             setMSG(props.msgdata)
             infoList({category_id:"10004"}).then(res=>{

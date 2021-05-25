@@ -14,7 +14,7 @@ export function videoPlay(data,wm) {
         /* _海康_杭州中院_张源 */
         var json ={
             "type": wm || "playVideo",
-            "cameraCode":data.device_code
+            "cameraCode":data.detail_info
         }
         /* _海康_呼和浩特_卫录屏 */
         // var json ={

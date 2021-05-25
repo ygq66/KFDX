@@ -76,13 +76,13 @@ const ElectronicPatrol = () => {
                 Event.createRoute(mp_light,goTrajectory,false)
                 setTimeout(()=>{
                     // let WndNum = 1
-                    if(before_lines[0].patrol_camera.length>0){videoPlay({device_name:before_lines[0].patrol_camera[0].camera_name,device_code:before_lines[0].patrol_camera[0].camera_code},"Patrol")}
+                    if(before_lines[0].patrol_camera.length>0){videoPlay(before_lines[0].patrol_camera[0],"Patrol")}
                     Event.playPatrolPath(mp_light,((msg)=>{
                         before_lines.forEach(element => {
                             if(element.options.line[0] === msg.x && element.options.line[1] === msg.y){
                                 if(element.patrol_camera.length>0){
                                     // WndNum++;
-                                    videoPlay({device_name:element.patrol_camera[0].camera_name,device_code:element.patrol_camera[0].camera_code},"Patrol")
+                                    videoPlay(element.patrol_camera[0],"Patrol")
                                 }
                             }
                         });

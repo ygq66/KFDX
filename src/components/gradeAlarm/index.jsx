@@ -27,7 +27,7 @@ const GradeAlarm = (props) => {
     ])
 
     useEffect(()=>{
-        if(props.msgdata !== undefined){
+        if(props.msgdata){
             setShow(true)
             //当前报警信息
             let array = [...alarmEventlist]

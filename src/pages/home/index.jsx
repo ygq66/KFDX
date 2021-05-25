@@ -30,6 +30,7 @@ function Home(){
     const mp_dark = useMappedState(state => state.map3d_dark);
     const [ContentPage, setContentPage] = useState("div");//模块组件容器
     const [m_data,setData] = useState();//给子元素传值
+    // eslint-disable-next-line
     const [c_data,setDataC] = useState();//摄像气泡传值
     const [dark,setDark] = useState(false)//切换场景
     const [dark_width,setDw] = useState("50%")//切换场景
@@ -151,9 +152,14 @@ function Home(){
                                 if(msg.attr.type_name === "对讲"){
                                     setData(msg.attr)
                                 }else{
-                                    setDataC(msg.attr)
                                     //弹出视频控件
-                                    if(msg.attr.detail_info){ videoPlay(msg.attr.detail_info)}
+                                    if(msg.attr.detail_info){ 
+                                        videoPlay(msg.attr)
+                                    }else{
+                                        message.warning("暂无视频编码");
+                                    }
+                                    //视频状态
+                                    // setDataC(msg.attr)
                                 }
                             }
                             break;
