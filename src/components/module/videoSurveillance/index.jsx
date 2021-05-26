@@ -32,6 +32,9 @@ const VideoSurveillance = (props) => {
                 setSpinning(false)
             }
         })
+        return () => {
+            closePolygon()
+        }
     }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
     const getToTal = (arr) => {

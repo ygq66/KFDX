@@ -59,7 +59,6 @@ function Header() {
     }
     // handle top
     const handle_top = (item, index) => {
-        console.log(mp_light, '??????')
         if (mp_light) {
             Common.navigationClose(mp_light)
         }

@@ -3,7 +3,7 @@ import './style.scss'
 import Header from '../../components/header'
 import MapLight from '../../components/map_light'
 import MapDark from '../../components/map_dark'
-import { Model, createMap, Build } from '../../utils/map3d'
+import { Model, createMap } from '../../utils/map3d'
 import { useMappedState, useDispatch } from 'redux-react-hook';
 import Site from '../../components/site' //数字化工具
 import SmallTools from '../../components/smallTools' //小工具
@@ -43,8 +43,8 @@ function Home() {
     //监听窗口事件
     useEffect(() => {
         window.addEventListener('beforeunload', function () {
-            Model.closeIcon(mp_light)
-            Build.allShow(mp_light, true)
+            // Model.closeIcon(mp_light)
+            // Build.allShow(mp_light, true)
         });
         // eslint-disable-next-line
     }, []);
@@ -71,7 +71,7 @@ function Home() {
                     setDark(true)
                     siteRef.current.open(2, 'parents')
                     //报警~弹视频控件
-                    videoPlay(JSON.parse(e.data).device_info)
+                    videoPlay(JSON.parse(e.data).event_info[0],'LinkAlarm')
                     //延迟地图方法
                     setTimeout(() => {
                         cameraList_S({ device_code: JSON.parse(e.data).device_info.device_code }).then(res => {
@@ -157,7 +157,7 @@ function Home() {
                                         message.warning("暂无视频编码");
                                     }
                                     //视频状态
-                                    // setDataC(msg.attr)
+                                    setDataC(msg.attr)
                                 }
                             }
                             break;
@@ -209,6 +209,7 @@ function Home() {
         getMapURL()
         // eslint-disable-next-line
     }, [])
+
     return (
         <div className="home">
             <Header />
