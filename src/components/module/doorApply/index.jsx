@@ -165,7 +165,7 @@ const DoorApply = (props) => {
             </div>
 
             {doorVislib ? <div className="doorapp-pop">
-                <span className="doorapp-pop-tit">({doorName})&nbsp;&nbsp;门禁状态 : {dooState}</span>
+                <span className="doorapp-pop-tit">({doorName})&nbsp;&nbsp;<br/>门禁状态 : {dooState}</span>
                 <img className="doorapp-pop-cls" src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => doorqpVisble()} />
                 <ul>
                     <li onClick={() => caozuo(1)} className={count === "1" ? "active" : null}><img src={require("../../../assets/images/km.png").default} alt=""></img><span>开门</span><span></span></li>

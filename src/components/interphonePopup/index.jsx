@@ -130,4 +130,5 @@ const InterphonePopup = (props) => {
 
     )
 }
-export default InterphonePopup;
+
+export default React.memo(InterphonePopup);

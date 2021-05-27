@@ -81,8 +81,10 @@ const constant =  {
   SPCC_DoorState : `${doorUrl}/SPCC/DoorState`,
 
   //门禁进出记录
-  SPCC_DoorList : `${doorUrl}/SPCC/DoorList`
-   
+  SPCC_DoorList : `${doorUrl}/SPCC/DoorList`,
+
+  //点线追查
+  traceDrag : `${ApiUrl2}/trace/drag`,
 } 
 
 export default constant;

@@ -52,37 +52,41 @@ const ElectronicPatrol = () => {
             if(res.msg === "success"){
                 var before_lines = res.data.patrol_line_subsection
                 var trajectory =[]
-                // var cameraNum = 0;
-                if(res.data.indoor === false){
-                    before_lines.forEach(element => {
-                        if(element.patrol_camera.length>0){
-                            // cameraNum++;
-                        }
-                        trajectory.push({
-                            id:res.data.id,
-                            x:element.options.line[0],
-                            y:element.options.line[1],
-                            z:400,
-                            floor:"F1"
-                        })
-                    });
-                }
+                
+                before_lines.forEach(element => {
+                    trajectory.push({
+                        id:res.data.id,
+                        x:element.options.line[0],
+                        y:element.options.line[1],
+                        z:400,
+                        floor:"F1"
+                    })
+                });
+
                 let goTrajectory = {
                     "style": "sim_arraw_Cyan",
                     "width": 200,
                     "speed": speed,
                     "geom":trajectory
                 }
+                console.log("创建路线的数据",goTrajectory)
+
                 Event.createRoute(mp_light,goTrajectory,false)
                 setTimeout(()=>{
                     // let WndNum = 1
-                    if(before_lines[0].patrol_camera.length>0){videoPlay(before_lines[0].patrol_camera[0],"Patrol")}
+                    // if(before_lines[0].patrol_camera.length>0){
+                    //     before_lines[0].patrol_camera.forEach((elcc)=>{
+                    //         videoPlay(elcc,"Patrol")
+                    //     })
+                    // }
                     Event.playPatrolPath(mp_light,((msg)=>{
                         before_lines.forEach(element => {
                             if(element.options.line[0] === msg.x && element.options.line[1] === msg.y){
                                 if(element.patrol_camera.length>0){
                                     // WndNum++;
-                                    videoPlay(element.patrol_camera[0],"Patrol")
+                                    element.patrol_camera.forEach((elc)=>{
+                                        videoPlay(elc,"Patrol")
+                                    })
                                 }
                             }
                         });

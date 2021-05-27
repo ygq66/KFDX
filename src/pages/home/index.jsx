@@ -157,7 +157,7 @@ function Home() {
                                         message.warning("暂无视频编码");
                                     }
                                     //视频状态
-                                    setDataC(msg.attr)
+                                    // setDataC(msg.attr)
                                 }
                             }
                             break;

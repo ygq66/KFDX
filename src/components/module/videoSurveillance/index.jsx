@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Tree, Input, Button, Spin } from 'antd';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
-import { regionList, cameraList_S, labelList } from '../../../api/mainApi';
+import { regionList, cameraList_S, labelList, traceDrag } from '../../../api/mainApi';
 import { Common } from '../../../utils/mapMethods';
 import { videoPlay } from '../../../utils/untils'
 import { useMappedState } from 'redux-react-hook';
-import { Model, Build } from '../../../utils/map3d'
+import { createMap, Model, Build, Event } from '../../../utils/map3d'
 import { message } from 'antd';
 import './style.scss';
 
@@ -18,9 +18,10 @@ const VideoSurveillance = (props) => {
     const [spinning, setSpinning] = useState(true)
     const [allPolygonObj, setapj] = useState([])
     const [isPolygon, setPolygon] = useState(true)
-
+    const [isPoint, setDrowPoint] = useState(true)
+    const [isLine, setLine] = useState(true)
+    const [gidList, setGilist] = useState([])
     let array_list = null
-    let list = { name: "点追查", children: ["上枪机", "上枪机", "上枪机", "上枪机", "上枪机"] }
     //Compiled with warnings
     useEffect(() => {
         regionList({ category_id: "10001" }).then(res => {
@@ -32,6 +33,27 @@ const VideoSurveillance = (props) => {
                 setSpinning(false)
             }
         })
+
+        window.receiveMessageFromIndex = function (e) {
+            if (e !== undefined) {
+                switch (e.data.switchName) {
+                    case 'MousePosition':
+                            const position = { ...e.data.Personnel, z: Number(e.data.Personnel.z) + 50 }
+                            Event.pointTracing(mp_light,position,(msg)=>{
+                                getDragList("point",[position],msg.gid)
+                                var cc = gidList
+                                cc.push(msg.gid)
+                                setGilist(cc)
+                            })
+                        break;
+                    default:
+                        return null;
+                }
+            }
+        }
+        //监听message事件
+        window.addEventListener("message", window.receiveMessageFromIndex, false);
+
         return () => {
             closePolygon()
         }
@@ -50,22 +72,49 @@ const VideoSurveillance = (props) => {
         return num;
     }
 
+    //获取点线追踪数据的接口
+    const getDragList = (type,center,gid) => {
+        traceDrag({ type: type, positions: center }).then(res => {
+            if (res.msg === "success") {
+                let allList = Dotlinelist
+                if(type === "point"){
+                    allList.push({name:"点追踪",gid:gid,children:res.data})
+                }else{
+                    allList.push({name:"线追踪",children:res.data})
+                }
+                setlinelist(allList)
+                DlVislib(true)
+            }
+        })
+    }
+
+    //关闭点线绘画
+    const closePoint = () =>{
+        Model.endEditing(mp_light);
+        Model.closeCircle(mp_light);
+        setDrowPoint(true)
+    }
+
     function Dotlineselect(ort) {
-        array_list = [...Dotlinelist]
         switch (ort) {
             case 1:
-                list.name = "点追查";
-                array_list.push(list)
-                setlinelist(array_list)
-                DlVislib(true)
+                createMap.getMousePosition(mp_light)
+                setDrowPoint(!isPoint)
+                if(!isPoint){closePoint()}
                 break;
             case 2:
-                list.name = "线追查";
-                array_list.push(list)
-                DlVislib(true)
-                setlinelist(array_list)
+                setLine(false)
+                closePoint()
+                Model.drawLine(mp_light, res => {
+                    console.log(res.points, "线追查");
+                    getDragList("linestring",res.points)
+                    setLine(true)
+                    Model.endEditing(mp_light);
+                    Model.closeLine(mp_light);
+                })
                 break;
             case 3:
+                closePoint()
                 if (isPolygon) {
                     Common.initializationPosition(mp_light)
                     cameraList_S({ device_code: "" }).then(res => {
@@ -84,6 +133,7 @@ const VideoSurveillance = (props) => {
                     setPolygon(false)
                 } else {
                     closePolygon()
+                    setPolygon(true)
                 }
                 break;
             default:
@@ -106,12 +156,15 @@ const VideoSurveillance = (props) => {
     }
     function dotLineclose() {
         DlVislib(!DotlineVislib)
+        var sadas = []
+        setlinelist(sadas)
     }
-    function dotLinedelete(index) {
+    function dotLinedelete(index,gid) {
         index--;
         array_list = [...Dotlinelist]
         array_list.remove(index)
         setlinelist(array_list)
+        if(gid){Model.removeGid(mp_light,gid)}
     }
     // eslint-disable-next-line
     Array.prototype.remove = function (obj) {
@@ -180,7 +233,6 @@ const VideoSurveillance = (props) => {
         allPolygonObj.forEach(element => {
             Model.removeGid(mp_light, element.gid)
         });
-        setPolygon(true)
     }
 
     //树结构搜索格式化
@@ -260,17 +312,24 @@ const VideoSurveillance = (props) => {
         }
         return { title, key: item.key };
     });
+
+    //关闭这个页面
+    const closeVideoSur = () =>{
+        props.close();
+        closePolygon(); 
+        Build.allShow(mp_light, true);
+    }
     return (
         <div id="VideoSurveillance" className="VideoSurveillance animate_speed animate__animated animate__fadeInLeft">
             <div className="VideoSurveillance_top">
                 <h1>视频列表</h1>
-                <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => { props.close(); closePolygon(); Build.allShow(mp_light, true) }} />
+                <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() =>closeVideoSur()} />
             </div>
 
             <div className="VideoSurveillance_list">
                 <div className="VideoSurveillance_title">
-                    <span onClick={() => Dotlineselect(1)}>点查</span>
-                    <span onClick={() => Dotlineselect(2)}>线查</span>
+                    <span className={isPoint ? null : "span_active"} onClick={() => Dotlineselect(1)}>点查</span>
+                    <span className={isLine ? null : "span_active"} onClick={() => Dotlineselect(2)}>线查</span>
                     <span className={isPolygon ? null : "span_active"} onClick={() => { Dotlineselect(3) }}>可视区域</span>
                 </div>
                 <div className="Treelist">
@@ -302,26 +361,18 @@ const VideoSurveillance = (props) => {
                     {
                         Dotlinelist.map((item, index) => {
                             return (index++, console.log("INDEX", index),
-                                item.name === "点追查" ? <div className="Dotline-Nr">
-                                    <p><span className="Dotline-Nr-tit">{index}.{item.name}</span><img src={require("../../../assets/images/shanchu-3.png").default} alt="" onClick={() => dotLinedelete(index)}></img></p>
+                                <div className="Dotline-Nr">
+                                    <p><span className="Dotline-Nr-tit">{index}.{item.name}</span><img src={require("../../../assets/images/shanchu-3.png").default} alt="" onClick={() => dotLinedelete(index,item.gid)}></img></p>
                                     {
                                         item.children.map((str, key) => {
-                                            return (key++, <span>{key}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{str}</span>)
+                                            return (key++, <span>{key}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{str.device_name}</span>)
                                         })
                                     }
-                                </div> :
-                                    <div className="Dotline-Nd">
-                                        <p><span className="Dotline-Nr-tit">{index}.{item.name}</span><img src={require("../../../assets/images/shanchu-3.png").default} alt="" onClick={() => dotLinedelete(index)}></img></p>
-                                        {
-                                            item.children.map((str, key) => {
-                                                return (key++, <span>{key}&nbsp;{str}</span>)
-                                            })
-                                        }
-                                    </div>
+                                </div>
                             )
                         })
                     }
-                    <div className="Dotline-exp">导出报告</div>
+                    {/* <div className="Dotline-exp">导出报告</div> */}
                 </div> : ""}
         </div>
     )
