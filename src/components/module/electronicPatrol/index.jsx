@@ -49,19 +49,29 @@ const ElectronicPatrol = () => {
         setShow2(true)
         setCount2(9)
         lineAlllist({id:value.id}).then(res=>{
+            
             if(res.msg === "success"){
                 var before_lines = res.data.patrol_line_subsection
                 var trajectory =[]
-                
                 before_lines.forEach(element => {
                     trajectory.push({
                         id:res.data.id,
                         x:element.options.line[0],
                         y:element.options.line[1],
                         z:400,
-                        floor:"F1"
+                        floor:"F1",
+                        cameraList:element.patrol_camera
                     })
+
                 });
+                trajectory.push({
+                    id:res.data.id,
+                    x:before_lines[before_lines.length-1].options.noodles[0][2],
+                    y:before_lines[before_lines.length-1].options.noodles[0][3],
+                    z:400,
+                    floor:"F1",
+                    cameraList:before_lines[before_lines.length-1].patrol_camera
+                })
 
                 let goTrajectory = {
                     "style": "sim_arraw_Cyan",
@@ -69,23 +79,28 @@ const ElectronicPatrol = () => {
                     "speed": speed,
                     "geom":trajectory
                 }
-                console.log("创建路线的数据",goTrajectory)
-
+                console.log("创建路线的数据",trajectory)
                 Event.createRoute(mp_light,goTrajectory,false)
                 setTimeout(()=>{
-                    // let WndNum = 1
-                    // if(before_lines[0].patrol_camera.length>0){
-                    //     before_lines[0].patrol_camera.forEach((elcc)=>{
-                    //         videoPlay(elcc,"Patrol")
-                    //     })
-                    // }
+                    if(before_lines[0].patrol_camera.length>0){
+                        before_lines[0].patrol_camera.forEach((elcs,index)=>{
+                            (function(index){
+                                setTimeout(()=>{
+                                    videoPlay(elcs,"Patrol")
+                                },index*500)
+                            }(index))
+                        })
+                    }
                     Event.playPatrolPath(mp_light,((msg)=>{
-                        before_lines.forEach(element => {
-                            if(element.options.line[0] === msg.x && element.options.line[1] === msg.y){
-                                if(element.patrol_camera.length>0){
-                                    // WndNum++;
-                                    element.patrol_camera.forEach((elc)=>{
-                                        videoPlay(elc,"Patrol")
+                        trajectory.forEach(element=> {
+                            if(element.x === msg.x && element.y === msg.y){
+                                if(element.cameraList.length>0){
+                                    element.cameraList.forEach((elc,index)=>{
+                                        (function(index){
+                                            setTimeout(()=>{
+                                                videoPlay(elc,"Patrol")
+                                            },index*500)
+                                        }(index))
                                     })
                                 }
                             }
