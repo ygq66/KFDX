@@ -15,6 +15,6 @@ ul,li{
 .animate_speed{
     animation-delay:-.2s;
 }
-#streamingVideo{
-    height: 101%;
+h1,h2{
+    margin: 0;
 }

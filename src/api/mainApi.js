@@ -161,6 +161,13 @@ export function infoUpdate(paramsData) {
         data: paramsData
     })
 }
+export function roamflyList() {
+    return request({
+        url: constant.roamflyList,
+        method: 'get'
+    })
+}
+
 //门禁
 export function SPCC_doControl(paramsData) {
     return request({

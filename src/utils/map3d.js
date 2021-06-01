@@ -749,6 +749,7 @@ export const Event = {
     },
     // 创建路线
     createRoute(view3d, routeData, flag, project, url, floorHeight) {
+        debugger;
         Event.LwList = [];
         if (flag) {
             Event.getLuWang(view3d, routeData.geom, routeData, project, url, floorHeight)

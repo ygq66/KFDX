@@ -49,7 +49,6 @@ const ElectronicPatrol = () => {
         setShow2(true)
         setCount2(9)
         lineAlllist({id:value.id}).then(res=>{
-            
             if(res.msg === "success"){
                 var before_lines = res.data.patrol_line_subsection
                 var trajectory =[]

@@ -24,7 +24,6 @@ const MapLight = (props) => {
             setTimeout(() => {
                 Common.initializationPosition(map_light)
             },0);
-
             setTimeout(() => {
                 cameraList_S().then(res=>{
                     var results = res.data;

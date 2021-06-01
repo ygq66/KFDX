@@ -127,10 +127,17 @@
         box-shadow: 0 0 40px 20px #077c7e4d inset;
         border-radius: 20px;
         padding: 20px;
+        .titleName{
+            color:$theme-color;
+            margin-bottom: 10px;
+            span{
+                color:#d9f0f0;
+            }
+        }
         .faceImgContent{
             display: flex;
             .faceUrl,.imageUrl{
-                color:#d9f0f0;
+                color:$theme-color;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
