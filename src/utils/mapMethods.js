@@ -44,7 +44,7 @@ export const Common = {
                 }
             },(msg)=>{
                 if(++index<data.length){
-                    setTimeout(()=>{Common.addModel(index,data,map3d);},0)
+                    setTimeout(()=>{Common.addModel(index,data,map3d);console.log('加载了第',index,'个模型',data)},0)
                 }else{
                     console.log('模型加载完毕')
                     Model.getModel(map3d);
@@ -52,7 +52,7 @@ export const Common = {
             })
         }else{
             if(++index<data.length){
-                setTimeout(()=>{Common.addModel(index,data,map3d);},0)
+                setTimeout(()=>{Common.addModel(index,data,map3d);console.log('加载了第',index,'个模型',data)},0)
             }else{
                 console.log('模型加载完毕')
                 Model.getModel(map3d);
