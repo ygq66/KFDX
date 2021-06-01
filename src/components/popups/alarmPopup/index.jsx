@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Empty } from 'antd';
 import './style.scss'
-import { timeFormat } from '../../utils/untils'
+import { timeFormat } from '../../../utils/untils'
 import { CaretDownOutlined } from '@ant-design/icons';
-import { Model } from '../../utils/map3d'
+import { Model } from '../../../utils/map3d'
 import { useMappedState } from 'redux-react-hook';
-import { infoUpdate, cameraList_S, cameraRegion } from '../../api/mainApi';
-import { Common } from '../../utils/mapMethods'
+import { infoUpdate, cameraList_S, cameraRegion } from '../../../api/mainApi';
+import { Common } from '../../../utils/mapMethods'
 
 const { Option } = Select;
-const GradeAlarm = (props) => {
+const AlarmPopup = (props) => {
     const mapDark = useMappedState(state => state.map3d_dark);
     const alarmPolygons = useMappedState(state => state.alarmMsg);
     const [threeM, setThree] = useState([])
@@ -18,15 +18,22 @@ const GradeAlarm = (props) => {
     const [fifteenM, setFifteen] = useState([])
     const [alarmEventlist, setAlist] = useState([])
     const [show, setShow] = useState(false)
+    const [imgShow, setImgshow] = useState(false)
     const [problems] = useState([
         { id: 3, name: "3分钟有效报警信息" },
         { id: 5, name: "5分钟有效报警信息" },
         { id: 10, name: "10分钟有效报警信息" },
         { id: 15, name: "15分钟有效报警信息" }
     ])
+    const [faceUrl, setfaceUrl] = useState({face:"",image:""})
 
     useEffect(() => {
         if (props.msgdata) {
+            //人脸抓拍
+            if(props.msgdata.event_type === "1644175361" || props.msgdata.event_type === "1644171265"){
+                setfaceUrl({face:props.msgdata.face.faceurl,image:props.msgdata.face.imageUrl})
+                setImgshow(true)
+            }
             setShow(true)
             //当前报警信息
             let array = [...alarmEventlist]
@@ -114,10 +121,10 @@ const GradeAlarm = (props) => {
     return (
         <>
             {
-                show ? <div id="gradeAlarm" className="">
-                    <div className="gradeAlarm_content">
-                        <img className="closeImg" src={require("../../assets/images/closeBtn.png").default} alt="" onClick={() => setShow(false)} />
-                        <div className="gradeAlarm_select">
+                show ? <div id="alarmPopup" className="">
+                    <div className="alarmPopup_content">
+                        <img className="closeImg" src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => setShow(false)} />
+                        <div className="alarmPopup_select">
                             <Select
                                 onChange={handleEquipment}
                                 placeholder="请选择类别"
@@ -134,8 +141,8 @@ const GradeAlarm = (props) => {
                                 }
                             </Select>
                         </div>
-                        <img className="line" src={require("../../assets/images/line.png").default} alt="" />
-                        <div className="gradeAlarm_table">
+                        <img className="line" src={require("../../../assets/images/line.png").default} alt="" />
+                        <div className="alarmPopup_table">
                             <table>
                                 <thead><tr><td>报警时间</td><td>报警位置</td><td>报警描述</td><td>操作</td></tr></thead>
                                 <tbody>
@@ -152,16 +159,31 @@ const GradeAlarm = (props) => {
                                                     </td>
                                                 </tr>
                                             )
-                                        }) : <Empty style={{ marginTop: "100px" }} image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据" />
+                                        }) : <Empty style={{ marginTop: "60px" }} image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据" />
                                     }
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div className="gradeAlarm_footer"></div>
+                    <div className="alarmPopup_footer"></div>
+                    {
+                        imgShow?<div className="faceImg">
+                            <img className="closeImg" src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => setImgshow(false)} />
+                            <div className="faceImgContent">
+                                <div class="faceUrl">
+                                    <span>人脸库</span>
+                                    <img src={faceUrl.face} alt=""/>
+                                </div>
+                                <div class="imageUrl">
+                                    <span>人脸抓拍</span>
+                                    <img src={faceUrl.image} alt=""/>
+                                </div>
+                            </div>
+                        </div>:null
+                    }
                 </div> : null
             }
         </>
     )
 }
-export default GradeAlarm;
+export default AlarmPopup;

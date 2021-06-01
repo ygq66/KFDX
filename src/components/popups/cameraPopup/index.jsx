@@ -36,7 +36,7 @@ const CarmerPopup = (props) => {
                 show?<div className={`${"animate_speed animate__animated"} ${"animate__zoomIn"}`} id="cameraPopup">
                     <div className="cp_title">
                         <span>设备</span>
-                        <img src={require('../../assets/images/closeBtn.png').default} alt="close" onClick={()=>{setShow(false)}}/>
+                        <img src={require('../../../assets/images/closeBtn.png').default} alt="close" onClick={()=>{setShow(false)}}/>
                     </div>
                     <div className="cp_content">
                         <div className="titleName">

@@ -7,11 +7,11 @@ import { Model, createMap } from '../../utils/map3d'
 import { useMappedState, useDispatch } from 'redux-react-hook';
 import Site from '../../components/site' //数字化工具
 import SmallTools from '../../components/smallTools' //小工具
-import Alarm from '../../components/alarm' //报警
-import GradeAlarm from '../../components/gradeAlarm' //报警
+import Alarm from '../../components/alarmTotal' //报警
 import FloorList from '../../components/floorList' //楼层
-import InterphonePopup from '../../components/interphonePopup' //对讲气泡
-import CameraPopup from '../../components/cameraPopup' //摄像头气泡
+import AlarmPopup from '../../components/popups/alarmPopup' //报警气泡
+import InterphonePopup from '../../components/popups/interphonePopup' //对讲气泡
+import CameraPopup from '../../components/popups/cameraPopup' //摄像头气泡
 import { cameraList_S, cameraRegion, getConfig_L } from '../../api/mainApi'
 import { ASocekt as alarmS } from '../../api/address';
 import { videoPlay } from '../../utils/untils'
@@ -199,7 +199,7 @@ function Home() {
         getConfig_L().then(res => {
             if (res.msg === "success") {
                 let configMap = res.data[0]
-                console.log(configMap, '接口获取地图url配置:')
+                console.log('接口获取地图url配置:',configMap)
                 dispatch({ type: "mp_light_url", mapLight_url: configMap.map_database_url });
                 dispatch({ type: "mp_dark_url", mapDark_url: configMap.digit_model_url });
             }
@@ -243,7 +243,7 @@ function Home() {
                     <FloorList />
                 </div>
                 <div className="untils_alarm2">
-                    <GradeAlarm msgdata={alarmData} />
+                    <AlarmPopup msgdata={alarmData} />
                 </div>
                 <div className="untils_interPhone">
                     <InterphonePopup msgdata={m_data} />

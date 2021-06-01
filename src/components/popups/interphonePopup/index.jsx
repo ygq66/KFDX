@@ -1,6 +1,6 @@
 import React,{ useState,useEffect } from 'react';
-import { intercomPlay } from '../../utils/untils';
-import { infoList } from '../../api/mainApi';
+import { intercomPlay } from '../../../utils/untils';
+import { infoList } from '../../../api/mainApi';
 import { Checkbox,message } from 'antd';
 import './style.scss'
 
@@ -91,7 +91,7 @@ const InterphonePopup = (props) => {
                 show?<div className={`${"animate_speed animate__animated"} ${aaa}`} id="InterphonePopup">
                     <div className="cp_title">
                         <span>对讲</span>
-                        <img src={require('../../assets/images/closeBtn.png').default} alt="close" onClick={()=>{setShow(false)}}/>
+                        <img src={require('../../../assets/images/closeBtn.png').default} alt="close" onClick={()=>{setShow(false)}}/>
                     </div>
                     <div className="cp_content">
                         <div className="titleName">

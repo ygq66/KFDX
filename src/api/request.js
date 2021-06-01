@@ -43,7 +43,7 @@ service.interceptors.response.use(
     // }
   },
   error => {
-    message.error("接口未知错误 请联系张源");
+    message.error("接口未知错误");
     // if (error.response.status === 504 || error.response.status === 404) {
     //     message.error('"服务器失去响应！');
     // } else if (error.response.status === 401) {
