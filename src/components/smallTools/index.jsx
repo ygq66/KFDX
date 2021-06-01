@@ -3,6 +3,7 @@ import { Common } from '../../utils/mapMethods';
 import { useMappedState } from 'redux-react-hook';
 import { roamflyList } from '../../api/mainApi';
 import { Event } from '../../utils/map3d'
+import { message } from 'antd';
 import './style.scss'
 
 const SmallTools = () => {
@@ -10,9 +11,12 @@ const SmallTools = () => {
     const iconList = [{ icon: "fuwei", name: "复位" }, { icon: "changjing", name: "场景" }, { icon: "zhibeizhen", name: "指北" }, { icon: "roam", name: "漫游" }]
     const [roamList, setRoamList] = useState([])
     const [count, setCount] = useState()
+    const [count2, setCount2] = useState()
     const [show, setShow] = useState(false)
     const mp_light = useMappedState(state => state.map3d_light);
     const mp_dark = useMappedState(state => state.map3d_dark);
+    const [isOver,setOver] = useState(true)
+
     const getRoamList = ()=>{
         roamflyList().then(res => {
             if (res.msg === "success") {
@@ -39,36 +43,47 @@ const SmallTools = () => {
     }, [mp_light,mp_dark])
     
     const roamLine = (type,item,index)=>{
-        let ndatas = item.postions.points
-        if(type === "stop"){
-            setCount(index)
-            Event.pausePatrolPath(mp_light)
-        }else if(type === "Go_on"){
-            setCount()
-            Event.continuePatrolPath(mp_light)
-        }else if(type === "start"){
-            let trajectory = [] 
-            ndatas.forEach(element => {
-                trajectory.push({
-                    id:item.id,
-                    x:element.x,
-                    y:element.y,
-                    z:element.z,
-                    floor:"F1"
-                })
-            });
-            let goTrajectory = {
-                "style": "sim_arraw_Cyan",
-                "width": 200,
-                "speed":20,
-                "geom":trajectory
+        setOver(false)
+        if(isOver || count2 === index){
+            let ndatas = item.postions.points
+            if(type === "stop"){
+                setCount(index)
+                Event.pausePatrolPath(mp_light)
+            }else if(type === "Go_on"){
+                setCount()
+                Event.continuePatrolPath(mp_light)
+            }else if(type === "start"){
+                setCount2(index)
+                let trajectory = [] 
+                ndatas.forEach(element => {
+                    trajectory.push({
+                        id:item.id,
+                        x:element.x,
+                        y:element.y,
+                        z:element.z,
+                        floor:"F1"
+                    })
+                });
+                let goTrajectory = {
+                    "style": "sim_arraw_Cyan",
+                    "width": 200,
+                    "speed":20,
+                    "geom":trajectory
+                }
+                Event.createRoute(mp_light,goTrajectory,false)
+                Event.playPatrolPath(mp_light)
+            }else if(type === "end"){
+                if(count === index){setOver(true)}
+                setCount()
+                Event.clearPatrolPath(mp_light)
+                Common.initializationPosition(mp_light)
             }
-            Event.createRoute(mp_light,goTrajectory,false)
-            Event.playPatrolPath(mp_light)
-        }else if(type === "end"){
-            setCount()
-            Event.clearPatrolPath(mp_light)
-            Common.initializationPosition(mp_light)
+        }else{
+            if(type === "end" && count === index){
+                setOver(true)
+            }else{
+                message.warning("请先结束当前漫游路线");
+            }
         }
     }
     return (
