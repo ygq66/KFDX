@@ -10,6 +10,7 @@ export function makeStore() {
         map3d_dark:{},//黑地图对象
         mapLight_url:"",//白地图url
         mapDark_url:"",//黑地图url
-        alarmMsg:[]//报警闪光的对象合集
+        alarmMsg:[],//报警闪光的对象合集
+        isVideo:""//控件下载提示
     })
 }

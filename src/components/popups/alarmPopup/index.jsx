@@ -175,7 +175,7 @@ const AlarmPopup = (props) => {
                             <div className="titleName">位置：<span>{faceUrl.name}</span></div>
                             <div className="faceImgContent">
                                 <div class="faceUrl">
-                                    <span>人脸库</span>
+                                    <span>人脸抓拍</span>
                                     <img src={faceUrl.face} alt=""/>
                                 </div>
                                 <div class="imageUrl">

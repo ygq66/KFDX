@@ -17,6 +17,7 @@ const SmallTools = () => {
     const mp_dark = useMappedState(state => state.map3d_dark);
     const [isOver,setOver] = useState(true)
 
+    //获取漫游列表
     const getRoamList = ()=>{
         roamflyList().then(res => {
             if (res.msg === "success") {
@@ -33,8 +34,8 @@ const SmallTools = () => {
                 }
                 break;
             case 3:
-                setRoam(true)
                 getRoamList()
+                setRoam(true)
                 break;
             default:
                 console.log(iconList[index].name)

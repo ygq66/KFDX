@@ -2,8 +2,13 @@ import { vSocekt as videoS, iSocket as intercomS } from '../api/address';
 import { message } from 'antd';
 
 //打开视频控件
-export function videoPlay(data,wm) {
+export function videoPlay(data,wm,callback) {
     const webSocket = new WebSocket(videoS)
+    webSocket.onclose  =function(e){
+        if (callback) {
+            callback();
+        }
+    }
     webSocket.onopen = function (e) {
         console.log('%c video websocket is open:',"color: red;font-size:13px")
         let json;

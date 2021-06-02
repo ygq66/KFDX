@@ -63,7 +63,7 @@ const DoorApply = (props) => {
     };
     //获取门禁列表
     const getDoorList = () => {
-        regionList({ category_id: "10002" }).then(res => {
+        regionList({ category_id: "10002",onmap:true }).then(res => {
             if (res.msg === "success") {
                 setDoorlist(res.data)
                 console.log(res.data, '门禁列表')

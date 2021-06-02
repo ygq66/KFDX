@@ -6,5 +6,6 @@
     "intercomSocket":"ws://192.168.0.27",
     "doorInterface":"http://xxxxx",
     "luwangIp":"192.168.0.245:9901",
+    "videoDownload":"https://www.taobao.com/",
     "luwangName":"nmd"
 }   

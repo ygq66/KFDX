@@ -24,6 +24,9 @@ export default function reducer(state, action) {
         case "alarmMsg": {
             return { ...state,alarmMsg: action.alarmMsg }
         }
+        case "checkVideo": {
+            return { ...state,isVideo: action.isVideo }
+        }
         default:
             return state
     }

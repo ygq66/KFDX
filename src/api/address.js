@@ -7,6 +7,7 @@ var luWang;//路网接口
 var luwangName;//路网名字
 var doorUrl;//门禁接口
 var intercomS;//对讲机
+var videoDonwload_url;//视频下载地址
 
 $.ajax({
     url: "./config.json",
@@ -27,6 +28,7 @@ $.ajax({
         luwangName = response.luwangName;
         doorUrl = response.doorInterface;
         intercomS = response.intercomSocket;
+        videoDonwload_url = response.videoDownload;
     }
 })
 
@@ -38,3 +40,4 @@ export var lwIP = luWang
 export var lwName = luwangName
 export var doorInurl = doorUrl
 export var iSocket = intercomS
+export var videodurl = videoDonwload_url

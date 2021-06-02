@@ -690,9 +690,7 @@ export const Build = {
             createMap.closeWkWang(view3d)
         })
         //createMap.closeWkWang(view3d)
-
     },
-
 }
 // 功能块
 export const Event = {

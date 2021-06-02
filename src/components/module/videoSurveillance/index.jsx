@@ -4,13 +4,14 @@ import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { regionList, cameraList_S, labelList, traceDrag } from '../../../api/mainApi';
 import { Common } from '../../../utils/mapMethods';
 import { videoPlay } from '../../../utils/untils'
-import { useMappedState } from 'redux-react-hook';
+import { useMappedState, useDispatch} from 'redux-react-hook';
 import { createMap, Model, Build, Event } from '../../../utils/map3d'
 import { message } from 'antd';
 import './style.scss';
 
 const VideoSurveillance = (props) => {
     // eslint-disable-next-line
+    const dispatch = useDispatch();
     const mp_light = useMappedState(state => state.map3d_light);
     const [carmealist, setlist] = useState([]);
     const [Dotlinelist, setlinelist] = useState([]);
@@ -24,7 +25,7 @@ const VideoSurveillance = (props) => {
     let array_list = null
     //Compiled with warnings
     useEffect(() => {
-        regionList({ category_id: "10001" }).then(res => {
+        regionList({ category_id: "10001",onmap:true}).then(res => {
             if (res.msg === "success") {
                 let listarry = []
                 antdTree(res.data, listarry)
@@ -181,10 +182,24 @@ const VideoSurveillance = (props) => {
             }
         }
     }
+    //显示单摄像头的区域
+    const showArea = (data)=>{
+        closePolygon()
+        if (!(JSON.stringify(data.position) === "{}") && !(data.position === null) && data.position.points !== null) {
+            Model.createPolygon(mp_light, data.position.points, ((msg) => {
+                const gidList = [...allPolygonObj]
+                gidList.push(JSON.parse(msg))
+                setapj(gidList)
+            }))
+        }
+    }
     const onSelect = (selectedKeys, info) => {
         if (!info.node.children) {
             if (info.node.title.props.item.detail_info) {
-                videoPlay(info.node.title.props.item)
+                videoPlay(info.node.title.props.item,"playVideo",((msg)=>{
+                    let timestamp = Date.parse(new Date())+"video";
+                    dispatch({ type: "checkVideo", isVideo: timestamp });
+                }))
             } else {
                 message.warning("缺少_detail_info");
             }
@@ -194,10 +209,9 @@ const VideoSurveillance = (props) => {
                         var results = res.data[0]
                         console.log(results)
                         //飞行
-
                         Common.mapFly(mp_light, results)
                         Build.allShow(mp_light, true)
-
+                        showArea(results)
                         //分层
                         if (results.build_id) {
                             labelList({ build_id: results.build_id }).then(res2 => {

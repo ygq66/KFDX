@@ -15,8 +15,10 @@ import CameraPopup from '../../components/popups/cameraPopup' //摄像头气泡
 import { cameraList_S, cameraRegion, getConfig_L } from '../../api/mainApi'
 import { ASocekt as alarmS } from '../../api/address';
 import { videoPlay } from '../../utils/untils'
-import { message } from 'antd';
 import { Common } from '../../utils/mapMethods'
+import { message, notification } from 'antd';
+import { SmileOutlined } from '@ant-design/icons';
+import { videodurl as videoDonwload_url } from '../../api/address';
 
 function Home() {
     const ws = useRef(null);
@@ -28,6 +30,7 @@ function Home() {
     const top_module = useMappedState(state => state.top_navigation_module);
     const mp_light = useMappedState(state => state.map3d_light);
     const mp_dark = useMappedState(state => state.map3d_dark);
+    const videoShow = useMappedState(state => state.isVideo);
     const [ContentPage, setContentPage] = useState("div");//模块组件容器
     const [m_data, setData] = useState();//给子元素传值
     // eslint-disable-next-line
@@ -38,17 +41,35 @@ function Home() {
     const [readyState, setReadyState] = useState('alarm_socket loading...');
     const [linkage, setLinkage] = useState(false)
     const [alarmData, setAlarmdata] = useState()
-
     const isSame = useRef(null) //防止重复点击
+    const openNotification = () => {
+        notification.open({
+            message: '温馨提示',
+            description:<div><span>视频控件是否打开如未下载请点击<a href={videoDonwload_url}>控件</a>下载...</span></div>,
+            icon: <SmileOutlined style={{ color: '#faad14' }} />,
+            duration: 0,
+            onClick: () => {
+                console.log('Notification Clicked!');
+            },
+        });
+    };
     //监听窗口事件
     useEffect(() => {
-        window.addEventListener('beforeunload', function () {
-            // Model.closeIcon(mp_light)
-            // Build.allShow(mp_light, true)
-        });
+        // window.addEventListener('beforeunload', function () {
+        //     Model.closeIcon(mp_light)
+        //     Build.allShow(mp_light, true)
+        // });
+        const tipShow = ()=>{
+            return(
+                <div>{openNotification()}</div>
+            )
+        }
+        if(videoShow !== ""){
+            tipShow()
+        }
+        console.log(videoShow,'videoShowvideoShowvideoShowvideoShow')
         // eslint-disable-next-line
-    }, []);
-
+    }, [videoShow]);
     // 报警联动
     const webSocketInit = useCallback(() => {
         console.log('%c 报警socketReadyState:', "color: blue;font-size:13px", readyState)
@@ -152,7 +173,10 @@ function Home() {
                                 } else {
                                     //弹出视频控件
                                     if (msg.attr.detail_info) {
-                                        videoPlay(msg.attr)
+                                        videoPlay(msg.attr,"playVideo",((msg)=>{
+                                            let timestamp = Date.parse(new Date())+"video";
+                                            dispatch({ type: "checkVideo", isVideo: timestamp });
+                                        }))
                                     } else {
                                         message.warning("暂无视频编码");
                                     }
@@ -209,7 +233,6 @@ function Home() {
         getMapURL()
         // eslint-disable-next-line
     }, [])
-
     return (
         <div className="home">
             <Header />
