@@ -42,6 +42,7 @@ function Home() {
     const [linkage, setLinkage] = useState(false)
     const [alarmData, setAlarmdata] = useState()
     const isSame = useRef(null) //防止重复点击
+    const isSame2 = useRef(null) //防止重复点击
     const openNotification = () => {
         notification.open({
             message: '温馨提示',
@@ -183,6 +184,22 @@ function Home() {
                                     //视频状态
                                     // setDataC(msg.attr)
                                 }
+                            }
+                            break;
+                        case 'ImagePC':
+                            let iconMsg = e.data.Personnel;
+                            if(isSame2.current !== iconMsg){
+                                isSame2.current = iconMsg
+                                if(iconMsg.attr.category_name === "摄像头"){
+                                    if (iconMsg.attr.detail_info) {
+                                        videoPlay(iconMsg.attr,"playVideo",((msg)=>{
+                                            let timestamp = Date.parse(new Date())+"video";
+                                            dispatch({ type: "checkVideo", isVideo: timestamp });
+                                        }))
+                                    } else {
+                                        message.warning("暂无视频编码");
+                                    }
+                                }   
                             }
                             break;
                         default:

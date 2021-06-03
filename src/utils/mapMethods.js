@@ -59,6 +59,32 @@ export const Common = {
             }
         }
     },
+    //往地图递归添加图标
+    add_iconModel(index,data,map3d){
+        let iccon = data[index].model_name + "_icon"
+        if (data[index].model_name === null) {
+            iccon = "menjin_icon"
+        }
+        Model.createIcon(map3d,{
+            typeStyle: iccon,
+            attr:data[index],
+            location: {
+                x: Common.filter(data[index].center.x),
+                y: Common.filter(data[index].center.y),
+                z: Common.filter(data[index].center.z),
+                pitch: Common.filter(data[index].center.pitch),
+                yaw: Common.filter(data[index].center.yaw),
+                roll: Common.filter(data[index].center.roll)
+            }
+        },(msg)=>{
+            if(++index<data.length){
+                setTimeout(()=>{ Common.add_iconModel(index,data,map3d)})
+            }else{
+                console.log('图标模型加载完毕')
+                Model.getModel(map3d);
+            }
+        })
+    },
     //导航地图效果清除
     navigationClose(map3d) {
         Model.closeIcon(map3d);

@@ -25,7 +25,7 @@ const AlarmPopup = (props) => {
         { id: 10, name: "10分钟有效报警信息" },
         { id: 15, name: "15分钟有效报警信息" }
     ])
-    const [faceUrl, setfaceUrl] = useState({face:"",image:"",name:""})
+    const [faceUrl, setfaceUrl] = useState({face:"",image:"",name:"",address:""})
 
     useEffect(() => {
         if (props.msgdata) {
@@ -34,7 +34,8 @@ const AlarmPopup = (props) => {
                 setfaceUrl({
                     face:props.msgdata.face.faceurl,
                     image:props.msgdata.face.imageUrl,
-                    name:props.msgdata.event_info[0].device_name
+                    name:props.msgdata.event_type.id === "1644175361"?props.msgdata.face.name:"未知",
+                    address:props.msgdata.event_info[0].device_name
                 })
                 setImgshow(true)
             }
@@ -172,10 +173,11 @@ const AlarmPopup = (props) => {
                     {
                         imgShow?<div className="faceImg">
                             <img className="closeImg" src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => setImgshow(false)} />
-                            <div className="titleName">位置：<span>{faceUrl.name}</span></div>
+                            <div className="titleName">位置：<span>{faceUrl.address}</span></div>
+                            <div className="titleName">姓名：<span>{faceUrl.name}</span></div>
                             <div className="faceImgContent">
                                 <div class="faceUrl">
-                                    <span>人脸抓拍</span>
+                                    <span>{faceUrl.name !== "未知"?"人脸库照片":"人脸抓拍"}</span>
                                     <img src={faceUrl.face} alt=""/>
                                 </div>
                                 <div class="imageUrl">

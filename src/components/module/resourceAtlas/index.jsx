@@ -23,24 +23,6 @@ const ResourceAtlas = (props) => {
     //echarts数据
     const [Echartslist, Ecsty] = useState([])
     //调取气泡
-    const setPaopao = (data) => {
-        let iccon = data.model_name + "_icon"
-        if (data.model_name === null) {
-            iccon = "menjin_icon"
-        }
-        const json = {
-            typeStyle: iccon,
-            location: {
-                x: Common.filter(data.center.x),
-                y: Common.filter(data.center.y),
-                z: Common.filter(data.center.z),
-                pitch: Common.filter(data.center.pitch),
-                yaw: Common.filter(data.center.yaw),
-                roll: Common.filter(data.center.roll)
-            }
-        }
-        Model.createIcon(mp_light, json)
-    }
     const getEcharts = useCallback((obj, type) => {
         //此种类气泡的显示
         if (type === "click") {
@@ -48,21 +30,13 @@ const ResourceAtlas = (props) => {
             if (obj.category_name === "摄像头") {
                 cameraList_S({ device_code: "" }).then(res => {
                     if (res.msg === "success") {
-                        res.data.forEach(element => {
-                            if (element.center) {
-                                setPaopao(element)
-                            }
-                        });
+                        Common.add_iconModel(0,res.data,mp_light)
                     }
                 })
             } else {
                 infoListS({ category_id: obj.id }).then(res => {
                     if (res.msg === "success") {
-                        res.data.forEach(element => {
-                            if (element.center) {
-                                setPaopao(element)
-                            }
-                        })
+                        Common.add_iconModel(0,res.data,mp_light)
                     }
                 })
             }
