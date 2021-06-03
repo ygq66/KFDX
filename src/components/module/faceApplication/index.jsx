@@ -2,7 +2,7 @@ import React, {useState,useRef,useLayoutEffect,Fragment} from 'react';
 import { DatePicker,Space,Slider,Empty,message,Spin } from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { businessFace,businessSearch,infoList,labelList,buildList } from '../../../api/mainApi'
-import { useMappedState } from 'redux-react-hook';
+import { useMappedState, useDispatch } from 'redux-react-hook';
 import { Event,Build } from '../../../utils/map3d';
 import { Common } from '../../../utils/mapMethods';
 import { videoPlay } from '../../../utils/untils'
@@ -13,6 +13,7 @@ import "./style.scss"
 
 const FaceApplication =(props)=>{
     const inputRef = useRef();
+    const dispatch = useDispatch();
     const mp_light = useMappedState(state => state.map3d_light);
     const [tabs] = useState(["相机应用","人脸检索"])
     const [imgTabs] = useState(["上传图片","人脸库"])
@@ -37,7 +38,7 @@ const FaceApplication =(props)=>{
     const [sliderBottom,setSb] = useState(true)
     const [cameraListS,setSlist] = useState([])
     const [cameraListS2,setSlist2] = useState([])
-    const [renSelect,setRenSelect] = useState({name:"",cardid:""})//人脸库查询
+    const [renSelect,setRenSelect] = useState({pageNo:"1",pageSize:"1000",name:"",certificateNum:""})//人脸库查询
     const [isRlgj,setRlgj] = useState(false)
     const [spinning,setSpinning] = useState(false)
     useLayoutEffect(()=>{
@@ -55,7 +56,12 @@ const FaceApplication =(props)=>{
     }
     //人脸库数据
     const getFacelibrary = ()=>{
-        businessFace({name:"",cardid:""}).then(res=>{
+        businessFace({
+            pageNo:"1",
+            pageSize:"1000",
+            name:"",
+            certificateNum:""
+        }).then(res=>{
             if(res.msg === "success"){
                 renSupplement(res.data)
             }else{
@@ -70,14 +76,14 @@ const FaceApplication =(props)=>{
                 let number_r =  4-(data.length)
                 for(let i = 0;i<number_r;i++){
                     data.push({name:"zw"})
-                    setRenData(data)
                 }
+                setRenData(data)
             }else{
                 let number_r =  4-(data.length%4)
                 for(let i = 0;i<number_r;i++){
                     data.push({name:"zw"})
-                    setRenData(data)
                 }
+                setRenData(data)
             }
         }
     }
@@ -139,19 +145,24 @@ const FaceApplication =(props)=>{
             setSpinning(true)
             setRenImg(false)
             businessSearch({
-                threshold:baifenbi.toString(),
+                pageNo: 1,
+                pageSize: 1000,
                 startTime:time.stime,
                 endTime:time.etime,
-                base64Img:UploadImg
+                minSimilarity: baifenbi,
+                maxSimilarity: 100,
+                facePicUrl:UploadImg
             }).then(res=>{
                 if(res.msg === "success"){
                     setRlgj(true)
                     setSlist(res.data)
                     setSpinning(false)
-                    if(res.data[0].time){
-                        setTrack(false)
-                    }else{
-                        setTrack(true)
+                    if(res.data.length>0){
+                        if(res.data[0].time){
+                            setTrack(false)
+                        }else{
+                            setTrack(true)
+                        }
                     }
                 }else{
                     setSpinning(false)
@@ -163,17 +174,13 @@ const FaceApplication =(props)=>{
     }
     //人脸库条件查询
     const searchRen = ()=>{
-        let renSelect_HH;
-        if(!(renSelect.name === "" && renSelect.cardid === "")){
-            renSelect_HH = renSelect;
-        }
-        businessFace(renSelect_HH).then(res=>{
+        businessFace(renSelect).then(res=>{
             if(res.msg === "success"){
-                if(res.data.length === 0){
-                    setRenData([])
-                }else{
+                setRenSelect({pageNo:"1",pageSize:"1000",name:"",certificateNum:""})
+                if(res.data.length>0){
                     renSupplement(res.data)
-                    setRenSelect({name:"",cardid:""})
+                }else{
+                    setRenData([])
                 }
             }
         })
@@ -181,6 +188,7 @@ const FaceApplication =(props)=>{
 
     //多个天数点击日期
     const moreTime = (ele,index)=>{
+        debugger;
         Build.allShow(mp_light,true)
         Event.clearPatrolPath(mp_light)
         setRenImg(false)
@@ -213,8 +221,12 @@ const FaceApplication =(props)=>{
             //路线经过掀层
             let minFloor = parseInt(ele.list[0].floor_id.split("#")[1].replace("F00",""));
             ele.list.forEach((element)=>{
-                if(parseInt(element.floor_id.split("#")[1].replace("F00","")) < minFloor) {
-                    minFloor = element.floor_id.split("#")[1].replace("F00","")
+                if(element.floor_id !== null){
+                    if(parseInt(element.floor_id.split("#")[1].replace("F00","")) < minFloor) {
+                        minFloor = element.floor_id.split("#")[1].replace("F00","")
+                    }
+                }else{
+                    minFloor = 1
                 }
             })
 
@@ -239,8 +251,11 @@ const FaceApplication =(props)=>{
     }
     //打开视频控件
     const goVideo = (item)=>{
-        if(item.detail_info){
-            videoPlay(item)
+        if (item.detail_info) {
+            videoPlay(item,"playVideo",((msg)=>{
+                let timestamp = Date.parse(new Date())+"video";
+                dispatch({ type: "checkVideo", isVideo: timestamp });
+            }))
         }
     }
     //选择人脸库图片
@@ -339,7 +354,7 @@ const FaceApplication =(props)=>{
                                                                                 <img src={require("../../../assets/images/camera_icon.png").default} alt=""/>
                                                                                 <span>{item.device_name}</span>
                                                                             </div>
-                                                                            <img className="playVideo" src={require("../../../assets/images/play_video1.png").default} alt="" onClick={()=>imgTabChange(index)}/>
+                                                                            <img className="playVideo" src={require("../../../assets/images/play_video1.png").default} alt="" onClick={()=>goVideo(item)}/>
                                                                         </li>
                                                                     )
                                                                 }):<Empty style={{marginTop:"50px"}} image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据" />}
@@ -401,7 +416,7 @@ const FaceApplication =(props)=>{
                     </div>
                     <div className="condition">
                         <div className="seach_name"><span>姓名：</span><input type="text" value={renSelect.name} onChange={(e)=>setRenSelect({...renSelect,name:e.target.value})}/></div>
-                        <div className="seach_id"><span>证件号：</span><input type="text" value={renSelect.cardid} onChange={(e)=>setRenSelect({...renSelect,cardid:e.target.value})}/></div>
+                        <div className="seach_id"><span>证件号：</span><input type="text" value={renSelect.certificateNum} onChange={(e)=>setRenSelect({...renSelect,certificateNum:e.target.value})}/></div>
                         <div className="seach_button" onClick={()=>searchRen()}>搜索</div>
                     </div>
                     <div className="dataList">
@@ -413,11 +428,11 @@ const FaceApplication =(props)=>{
                                             item.name!== "zw"?<Fragment>
                                                 <img src={item.faceUrl} alt=""/>
                                                 <div className="itemRight">
-                                                    <div className="itemName"><span>姓名：</span><span className="white">{item.name}</span></div>
+                                                    <div className="itemName"><span>姓名：</span><span className="white">{item.faceInfo.name}</span></div>
                                                     <span>证件号：</span>
                                                     <br/>
-                                                    <span className="white">{item.cardid}</span>
-                                                    <div className="itemmsg"><span>备注：</span><span className="white">{item.cardtypeStr}</span></div>
+                                                    <span className="white">{item.faceInfo.certificateNum}</span>
+                                                    <div className="itemmsg"><span>备注：</span><span className="white">{item.faceInfo.sex === "male"?"男":"女"}</span></div>
                                                 </div>
                                             </Fragment>:null
                                         }

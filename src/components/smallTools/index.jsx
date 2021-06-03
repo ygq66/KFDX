@@ -54,6 +54,7 @@ const SmallTools = () => {
                 setCount()
                 Event.continuePatrolPath(mp_light)
             }else if(type === "start"){
+                setCount()
                 setCount2(index)
                 let trajectory = [] 
                 ndatas.forEach(element => {
@@ -66,9 +67,9 @@ const SmallTools = () => {
                     })
                 });
                 let goTrajectory = {
-                    "style": "sim_arraw_Cyan",
+                    "style": "",
                     "width": 200,
-                    "speed":20,
+                    "speed":10,
                     "geom":trajectory
                 }
                 Event.createRoute(mp_light,goTrajectory,false)

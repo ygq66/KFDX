@@ -60,15 +60,7 @@ function Home() {
         //     Model.closeIcon(mp_light)
         //     Build.allShow(mp_light, true)
         // });
-        const tipShow = ()=>{
-            return(
-                <div>{openNotification()}</div>
-            )
-        }
-        if(videoShow !== ""){
-            tipShow()
-        }
-        console.log(videoShow,'videoShowvideoShowvideoShowvideoShow')
+        if(videoShow !== ""){openNotification()}
         // eslint-disable-next-line
     }, [videoShow]);
     // 报警联动
