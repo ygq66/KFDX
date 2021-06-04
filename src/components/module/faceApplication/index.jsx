@@ -244,7 +244,7 @@ const FaceApplication =(props)=>{
                 }
             })
             //人脸轨迹方法
-            Event.createRoute(mp_light,goTrajectory,false,luwangName,"http://"+luWang+"/api/route/shortestpath4",10)
+            Event.createRoute(mp_light,goTrajectory,true,luwangName,"http://"+luWang+"/api/route/shortestpath4",10)
         }else{
             message.warning("没有轨迹路线")
         }

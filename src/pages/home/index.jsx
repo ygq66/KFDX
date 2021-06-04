@@ -182,16 +182,16 @@ function Home() {
                             let iconMsg = e.data.Personnel;
                             if(isSame2.current !== iconMsg){
                                 isSame2.current = iconMsg
-                                if(iconMsg.attr.category_name === "摄像头"){
-                                    if (iconMsg.attr.detail_info) {
-                                        videoPlay(iconMsg.attr,"playVideo",((msg)=>{
-                                            let timestamp = Date.parse(new Date())+"video";
-                                            dispatch({ type: "checkVideo", isVideo: timestamp });
-                                        }))
-                                    } else {
-                                        message.warning("暂无视频编码");
-                                    }
-                                }   
+                                // if(iconMsg.attr.category_name === "摄像头"){
+                                //     if (iconMsg.attr.detail_info) {
+                                //         videoPlay(iconMsg.attr,"playVideo",((msg)=>{
+                                //             let timestamp = Date.parse(new Date())+"video";
+                                //             dispatch({ type: "checkVideo", isVideo: timestamp });
+                                //         }))
+                                //     } else {
+                                //         message.warning("暂无视频编码");
+                                //     }
+                                // }   
                             }
                             break;
                         default:

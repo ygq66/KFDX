@@ -77,7 +77,7 @@ const VideoSurveillance = (props) => {
     const getDragList = (type,center,gid) => {
         traceDrag({ type: type, positions: center }).then(res => {
             if (res.msg === "success") {
-                let allList = Dotlinelist
+                let allList = [...Dotlinelist]
                 if(type === "point"){
                     allList.push({name:"点追踪",gid:gid,children:res.data})
                 }else{
@@ -157,8 +157,7 @@ const VideoSurveillance = (props) => {
     }
     function dotLineclose() {
         DlVislib(!DotlineVislib)
-        var sadas = []
-        setlinelist(sadas)
+        setlinelist([])
     }
     function dotLinedelete(index,gid) {
         index--;
@@ -187,9 +186,9 @@ const VideoSurveillance = (props) => {
         closePolygon()
         if (!(JSON.stringify(data.position) === "{}") && !(data.position === null) && data.position.points !== null) {
             Model.createPolygon(mp_light, data.position.points, ((msg) => {
-                const gidList = [...allPolygonObj]
-                gidList.push(JSON.parse(msg))
-                setapj(gidList)
+                const gid_areaList = [...allPolygonObj]
+                gid_areaList.push(JSON.parse(msg))
+                setapj(gid_areaList)
             }))
         }
     }

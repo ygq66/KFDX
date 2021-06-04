@@ -15,7 +15,7 @@ const MapLight = (props) => {
     const createMapsss =(url)=>{
         var map_light = createMap.createMap({
             id: "mapv3dContainer_light",
-            url:url,
+            url:"http://192.168.0.165:9903",
             projectId: "5nbmjsdljf785208",
             token: "rt2d645ty3eadaed32268mdta6"
         },(()=>{
