@@ -170,7 +170,7 @@ function Home() {
                                     setData(msg.attr)
                                 } else {
                                     //弹出视频控件
-                                    if (msg.attr.detail_info) {
+                                    if (msg.attr) {
                                         videoPlay(msg.attr,"playVideo",((msg)=>{
                                             let timestamp = Date.parse(new Date())+"video";
                                             dispatch({ type: "checkVideo", isVideo: timestamp });
