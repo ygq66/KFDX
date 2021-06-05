@@ -12,6 +12,7 @@ import FloorList from '../../components/floorList' //楼层
 import AlarmPopup from '../../components/popups/alarmPopup' //报警气泡
 import InterphonePopup from '../../components/popups/interphonePopup' //对讲气泡
 import CameraPopup from '../../components/popups/cameraPopup' //摄像头气泡
+import BedDetails from '../../components/bedDetails' //摄像头气泡
 import { cameraList_S, cameraRegion, getConfig_L } from '../../api/mainApi'
 import { ASocekt as alarmS } from '../../api/address';
 import { videoPlay } from '../../utils/untils'
@@ -35,6 +36,7 @@ function Home() {
     const [m_data, setData] = useState();//给子元素传值
     // eslint-disable-next-line
     const [c_data, setDataC] = useState();//摄像气泡传值
+    const [b_data, setDataB] = useState();//床位传值
     const [dark, setDark] = useState(false)//切换场景
     const [dark_width, setDw] = useState("50%")//切换场景
     const [darkall, setDa] = useState(false)
@@ -43,6 +45,8 @@ function Home() {
     const [alarmData, setAlarmdata] = useState()
     const isSame = useRef(null) //防止重复点击
     const isSame2 = useRef(null) //防止重复点击
+    const isSame3 = useRef(null) //防止重复点击
+
     const openNotification = () => {
         notification.open({
             message: '温馨提示',
@@ -155,6 +159,7 @@ function Home() {
         if (map3d) {
             window.receiveMessageFromIndex = function (e) {
                 if (e !== undefined) {
+                    console.log(e.data,'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
                     switch (e.data.switchName) {
                         case 'model':
                             let msg = e.data.Personnel
@@ -192,6 +197,13 @@ function Home() {
                                 //         message.warning("暂无视频编码");
                                 //     }
                                 // }   
+                            }
+                            break;
+                        case 'buildLable_wenzi':
+                            let labelMsg = e.data.Personnel;
+                            if(isSame3.current !== labelMsg){
+                                isSame3.current = labelMsg
+                                setDataB(labelMsg)
                             }
                             break;
                         default:
@@ -272,7 +284,7 @@ function Home() {
                     <Alarm />
                 </div>
                 <div className="untils_floor">
-                    <FloorList />
+                    <FloorList/>
                 </div>
                 <div className="untils_alarm2">
                     <AlarmPopup msgdata={alarmData} />
@@ -282,6 +294,9 @@ function Home() {
                 </div>
                 <div className="untils_cameraPopup">
                     <CameraPopup msgdata={c_data} />
+                </div>
+                <div className="untils_bedDetails">
+                    <BedDetails msgdata={b_data}/>
                 </div>
             </div>
         </div>

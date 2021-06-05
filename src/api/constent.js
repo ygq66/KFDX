@@ -80,6 +80,9 @@ const constant =  {
   // --->历史轨迹查询
   businessSearch : `${ApiUrl2}/business/SearchImg`,
 
+  //监区楼层查面坐标
+  roomList : `${ApiUrl2}/bed/room/list`,
+
   //门禁控制
   SPCC_doControl : `${doorUrl}/SPCC/doControl`,
   
@@ -87,7 +90,11 @@ const constant =  {
   SPCC_DoorState : `${doorUrl}/SPCC/DoorState`,
 
   //门禁进出记录
-  SPCC_DoorList : `${doorUrl}/SPCC/DoorList`
+  SPCC_DoorList : `${doorUrl}/SPCC/DoorList`,
+
+  //床位信息查询 -- 犯人列表
+  GKBedInformationRoom : `${doorUrl}/SPCC/GKBedInformationRoom`
+
 } 
 
 export default constant;

@@ -1,0 +1,131 @@
+#bed{
+    display: flex;
+    .bedList{
+        border: 2px solid #47fbff;
+        background-color: #000000b0;
+        box-shadow: 0 0 40px 20px #077c7e4d inset;
+        border-radius: 10px;
+        width: 250px;
+        height: 400px;
+        .bl_header{
+            display: flex;
+            color:$theme-color;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 13px;
+            border-bottom: 1px solid #4c7174;
+            h2{
+                color:$theme-color;
+                font-size: 17px;
+            }
+            .bedRoom{
+                font-size: 17px;
+                font-weight: 500;
+            }
+            img{
+                width: 12px;
+                height: 12px;
+                cursor: pointer;
+            }
+        }
+        .bl_content{
+            margin-top: 10px;
+            overflow: auto;
+            height: 330px;
+            @include scrollbar(2px);
+            ul{
+                li{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 10px;
+                    color:$theme-color;
+                    margin-bottom: 10px;
+                    .name_and_num{
+                        p{
+                            padding: 2px 0;
+                            span{
+                                color:#fff;
+                            }
+                        }
+                    }
+                    .findDetails{
+                        font-size: 13px;
+                        padding: 0 10px;
+                        border: 1px solid #a2d7d8;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        color: #fff;
+                        transition: all .2s;
+                    }
+                    .active{
+                        color: $theme-color;
+                        background: #1c2d2d;
+                        border: 1px solid #47fbff;
+                    }
+                }
+            }
+        }
+    }
+    .bedDetails{
+        margin-left: 50px;
+        width: 740px;
+        height: 450px;
+        border-radius: 10px;
+        border: 2px solid #47fbff;
+        background-color: #000000b0;
+        box-shadow: 0 0 40px 20px #077c7e4d inset;
+        .bd_header{
+            color:$theme-color;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 15px 5px 0;
+            border-bottom: 1px solid #4c7174;
+            .header_left{
+                display: flex;
+                align-items: center;
+                img{
+                    width: 45px;
+                }
+            }
+            .closeImg{
+                cursor: pointer;
+            }
+        }
+        .bd_content{
+            padding: 16px 20px;
+            ul{
+                height: 380px;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                li{
+                    margin-bottom: 5px;
+                    margin-right: 25px;
+                    .prisonerPhoto{
+                        img{
+                            width: 130px;
+                            height: 150px;
+                        }
+                    }
+                    .bd_type{
+                        color:$theme-color;
+                    }
+                    .bd_data{
+                        color:#fff;
+                    }
+                }
+                li:nth-child(1){
+                    margin-bottom: 12px;
+                }
+                li:nth-child(24),li:nth-child(25){
+                    width: 360px;
+                    max-height: 66px;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                }
+            }
+        }
+    }
+}

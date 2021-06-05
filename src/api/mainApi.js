@@ -167,6 +167,13 @@ export function roamflyList() {
         method: 'get'
     })
 }
+export function roomList(paramsData) {
+    return request({
+        url: constant.roomList,
+        method: 'post',
+        data: paramsData
+    })
+}
 
 //门禁
 export function SPCC_doControl(paramsData) {
@@ -193,6 +200,13 @@ export function SPCC_DoorList(paramsData) {
 export function traceDrag(paramsData) {
     return request({
         url: constant.traceDrag,
+        method: 'post',
+        data: paramsData
+    })
+}
+export function GKBedInformationRoom(paramsData) {
+    return request({
+        url: constant.GKBedInformationRoom,
         method: 'post',
         data: paramsData
     })

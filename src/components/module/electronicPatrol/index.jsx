@@ -117,6 +117,10 @@ const ElectronicPatrol = () => {
             setShow2(false)
             setCount(0)
             setYcsb(false)
+            //退出变回继续
+            tabs2[0] = "暂停"
+            setTabs2(tabs2)
+            setStop(true)
             //退出清除路线
             Event.clearPatrolPath(mp_light)
             Common.initializationPosition(mp_light)

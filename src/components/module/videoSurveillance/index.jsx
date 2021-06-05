@@ -119,8 +119,8 @@ const VideoSurveillance = (props) => {
                 if (isPolygon) {
                     Common.initializationPosition(mp_light)
                     cameraList_S({ device_code: "" }).then(res => {
-                        let neendObj = []
                         if (res.msg === "success") {
+                            let neendObj = []
                             res.data.forEach(element => {
                                 if (!(JSON.stringify(element.position) === "{}") && !(element.position === null) && element.position.points !== null) {
                                     Model.createPolygon(mp_light, element.position.points, ((msg) => {

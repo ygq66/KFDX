@@ -505,10 +505,17 @@ export const Model = {
                     Personnel: res,
                 }
                 console.log(res);
-            } else if (res.typename === "label" && res.attr && res.attr.buildId) {
-                data = {
-                    switchName: 'buildLable',
-                    Personnel: res.attr.buildId,
+            } else if (res.typename === "label" && res.attr) {
+                if(res.attr.buildId){
+                    data = {
+                        switchName: 'buildLable',
+                        Personnel: res.attr.buildId,
+                    }
+                }else{
+                    data = {
+                        switchName: 'buildLable_wenzi',
+                        Personnel: res.attr
+                    }
                 }
             } else if (res.typename === "image") {
                 data = {

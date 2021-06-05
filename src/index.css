@@ -15,6 +15,6 @@ ul,li{
 .animate_speed{
     animation-delay:-.2s;
 }
-h1,h2{
+h1,h2,p{
     margin: 0;
 }
