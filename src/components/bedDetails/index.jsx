@@ -108,8 +108,8 @@ const BedDetails = (props) => {
                                     return (
                                         <li key={index}>
                                             <div className="name_and_num">
-                                                <p>罪犯编号：<span>{item.CRIMNAME}</span></p>
-                                                <p>罪犯姓名：<span>{item.CRIMID}</span></p>
+                                                <p>罪犯姓名：<span>{item.CRIMNAME}</span></p>
+                                                <p>罪犯编号：<span>{item.CRIMID}</span></p>
                                             </div>
                                             <div className={count === index ? "active findDetails" : "findDetails"}
                                                 onClick={() => checkBedDetails(item, index)}
