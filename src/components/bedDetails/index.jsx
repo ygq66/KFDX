@@ -43,8 +43,8 @@ const BedDetails = (props) => {
         { type: "床位号", value: "" },
     ])
 
-    useEffect(()=>{
-        if(props.msgdata){
+    useEffect(() => {
+        if (props.msgdata) {
             setShow(true)
             GKBedInformationRoom({ num: props.msgdata.room_code, jid: props.msgdata.room_name }).then(res => {
                 if (res.msg === "success") {
@@ -52,8 +52,8 @@ const BedDetails = (props) => {
                 }
             })
         }
-    },[props])
-    const checkBedDetails = (data,index) =>{
+    }, [props])
+    const checkBedDetails = (data, index) => {
         setDetails([
             { type: "img", value: "" },
             { type: "罪犯编号", value: data.CRIMID },
@@ -112,7 +112,7 @@ const BedDetails = (props) => {
                                                 <p>罪犯姓名：<span>{item.CRIMID}</span></p>
                                             </div>
                                             <div className={count === index ? "active findDetails" : "findDetails"}
-                                                onClick={() => checkBedDetails(item,index)}
+                                                onClick={() => checkBedDetails(item, index)}
                                             >查看</div>
                                         </li>
                                     )
@@ -138,11 +138,11 @@ const BedDetails = (props) => {
                                                     item.type === "img" ? <div className="prisonerPhoto">
                                                         <img src="http://192.168.0.106/person.jpg" alt="" />
                                                     </div>
-                                                        :
-                                                        <>
-                                                            <span className="bd_type">{item.type}：</span>
-                                                            <span className="bd_data">{item.value}</span>
-                                                        </>
+                                                    :
+                                                    <>
+                                                        <span className="bd_type">{item.type}：</span>
+                                                        <span className="bd_data">{item.value}</span>
+                                                    </>
                                                 }
                                             </li>
                                         )

@@ -60,14 +60,12 @@ const FloorList = () => {
             getModelhandle(map)
         }
     }, [map]);
-
     //删除所有文字标注
     const del_label = () => {
         allLabel.forEach(element => {
             Model.removeGid(map, element.gid)
         });
     }
-
     //加载标注
     const getFloorPosition = (buidId, floorId) => {
         roomList({ buildname: buidId, floorname: floorId }).then(res => {
@@ -93,7 +91,7 @@ const FloorList = () => {
                         },
                         fontcolor: "#ff0000",
                         fontsize: 80
-                    },msg => {
+                    }, msg => {
                         neendObj.push(msg)
                     })
                 });

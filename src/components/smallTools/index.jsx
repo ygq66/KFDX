@@ -67,9 +67,9 @@ const SmallTools = () => {
                     })
                 });
                 let goTrajectory = {
-                    "style": "",
+                    "style": "sim_arraw_Cyan",
                     "width": 200,
-                    "speed":10,
+                    "speed":35,
                     "geom":trajectory
                 }
                 Event.createRoute(mp_light,goTrajectory,false)
