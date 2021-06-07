@@ -88,10 +88,10 @@ const SmallTools = () => {
             }
         }
     }
-    return (
+    return (   
         <div id="smallTools">
             {
-                show ? <div className="st_iconlist animate_speed animate__animated animate__fadeInRight">
+                show ? <div className={`${"st_iconlist animate_speed animate__animated"} ${"animate__slideInRight"}`}>
                     <div className="iconTools">
                         <ul>
                             {iconList.map((item, index) => {

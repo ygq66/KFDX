@@ -68,7 +68,7 @@ const FloorList = () => {
     }
     //加载标注
     const getFloorPosition = (buidId, floorId) => {
-        roomList({ buildname: buidId, floorname: floorId }).then(res => {
+        roomList({ build_id: buidId, floor_id: floorId }).then(res => {
             if (res.msg === "success") {
                 let neendObj = []
                 res.data.forEach(results => {
@@ -103,7 +103,7 @@ const FloorList = () => {
     //点击楼层
     const handleFloor = (item, index) => {
         del_label()
-        getFloorPosition(buildData.build_name.build_id, item.floor_id.split("#")[1])
+        getFloorPosition(buildData.build_name.build_id, item.floor_id)
         //传给床位组件
         setCount(index)
         //分层

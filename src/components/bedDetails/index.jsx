@@ -46,7 +46,7 @@ const BedDetails = (props) => {
     useEffect(() => {
         if (props.msgdata) {
             setShow(true)
-            GKBedInformationRoom({ num: props.msgdata.room_code, jid: props.msgdata.room_name }).then(res => {
+            GKBedInformationRoom({ num: props.msgdata.room_code }).then(res => {
                 if (res.msg === "success") {
                     setbedList(res.list)
                 }
@@ -55,7 +55,7 @@ const BedDetails = (props) => {
     }, [props])
     const checkBedDetails = (data, index) => {
         setDetails([
-            { type: "img", value: "" },
+            { type: "img", value: data.PHOTO_URL },
             { type: "罪犯编号", value: data.CRIMID },
             { type: "罪犯姓名", value: data.CRIMNAME },
             { type: "罪犯所在监区", value: data.CRIMBRANCHARENAME },
@@ -136,7 +136,7 @@ const BedDetails = (props) => {
                                             <li key={index} title={item.value}>
                                                 {
                                                     item.type === "img" ? <div className="prisonerPhoto">
-                                                        <img src="http://192.168.0.106/person.jpg" alt="" />
+                                                        <img src={item.value} alt="犯人图片" />
                                                     </div>
                                                     :
                                                     <>

@@ -159,7 +159,6 @@ function Home() {
         if (map3d) {
             window.receiveMessageFromIndex = function (e) {
                 if (e !== undefined) {
-                    console.log(e.data,'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
                     switch (e.data.switchName) {
                         case 'model':
                             let msg = e.data.Personnel
