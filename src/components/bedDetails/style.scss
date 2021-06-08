@@ -69,7 +69,7 @@
     }
     .bedDetails{
         margin-left: 50px;
-        width: 740px;
+        width: 750px;
         height: 450px;
         border-radius: 10px;
         border: 2px solid #47fbff;
@@ -118,14 +118,32 @@
                         color:#fff;
                     }
                 }
+                .utils_li{
+                    height: 22px;
+                    color:#fff;
+                    overflow: hidden;
+                    white-space: nowrap; 
+                    text-overflow:ellipsis;
+                }
                 li:nth-child(1){
                     margin-bottom: 12px;
                 }
+                li:nth-child(4),li:nth-child(5),li:nth-child(6),li:nth-child(7){
+                    @extend .utils_li;
+                    width: 160px;
+                }
+                li:nth-child(10){
+                    width: 130.38px;
+                    @extend .utils_li;
+                }
                 li:nth-child(24),li:nth-child(25){
-                    width: 360px;
-                    max-height: 66px;
+                    color:#fff;
+                    width: 367px;
                     overflow: hidden;
-                    text-overflow:ellipsis;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
                 }
             }
         }

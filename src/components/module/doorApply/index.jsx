@@ -95,7 +95,7 @@ const DoorApply = (props) => {
                             <>
                                 <span>{list.title}</span>
                                 {
-                                    getToTal(list.children) > 0 ? <span style={{ color: "yellow" }}> (总数：{getToTal(list.children)})</span> : <span style={{ color: "yellow" }}> (总数1：{list.children.length})</span>
+                                    getToTal(list.children) > 0 ? <span style={{ color: "yellow" }}> (总数：{getToTal(list.children)})</span> : <span style={{ color: "yellow" }}> (总数：{list.children.length})</span>
                                 }
                             </>
                         } item={list}>

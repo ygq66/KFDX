@@ -161,6 +161,7 @@ const FaceApplication =(props)=>{
                         if(res.data[0].time){
                             setTrack(false)
                         }else{
+                            getFaceRoute(res.data)
                             setTrack(true)
                         }
                     }
@@ -185,21 +186,24 @@ const FaceApplication =(props)=>{
             }
         })
     }
-
     //多个天数点击日期
     const moreTime = (ele,index)=>{
-        debugger;
-        Build.allShow(mp_light,true)
-        Event.clearPatrolPath(mp_light)
         setRenImg(false)
         setrackClick(index)
         setrackClick2(true);
         setSlist2(ele.list)
+        getFaceRoute(ele.list)
+        
+    }
+    //人脸轨迹方法
+    const getFaceRoute = (data)=>{
+        Build.allShow(mp_light,true)
+        Event.clearPatrolPath(mp_light)
+        //拼接数据
         let trajectory =[]
-        if(ele.list.length>0){
-            ele.list.forEach((element)=>{
-                let flString;
-                flString = element.floor_id === null?"F1":element.floor_id.split("#")[1].replace("00","")
+        if(data.length>0){
+            data.forEach((element)=>{
+                let flString = element.floor_id === null?"F1":element.floor_id.split("#")[1].replace("00","")
                 trajectory.push({
                     id:element.id,
                     x: parseInt(element.center.x),
@@ -215,12 +219,13 @@ const FaceApplication =(props)=>{
             "speed": 20,
             "geom":trajectory
         }
+        //判断轨迹点数长度
         if(trajectory.length>1){
             //飞行
-            // Common.mapFly(mp_light,ele.list[0])
+            // Common.mapFly(mp_light,data[0])
             //路线经过掀层
-            let minFloor = parseInt(ele.list[0].floor_id.split("#")[1].replace("F00",""));
-            ele.list.forEach((element)=>{
+            var minFloor = data[0].floor_id !== null?minFloor = parseInt(data[0].floor_id.split("#")[1].replace("F00","")):minFloor = 1
+            data.forEach((element)=>{
                 if(element.floor_id !== null){
                     if(parseInt(element.floor_id.split("#")[1].replace("F00","")) < minFloor) {
                         minFloor = element.floor_id.split("#")[1].replace("F00","")
@@ -229,7 +234,6 @@ const FaceApplication =(props)=>{
                     minFloor = 1
                 }
             })
-
             buildList().then(res=>{
                 if(res.msg === "success"){
                     res.data.forEach((element)=>{
