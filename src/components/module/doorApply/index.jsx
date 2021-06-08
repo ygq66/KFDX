@@ -37,7 +37,7 @@ const DoorApply = (props) => {
             }
         })
     }
-    
+
     const onSelect = (selectedKeys, info) => {
         if (!info.node.children && info.node.item.device_code) {
             console.log(info.node.item, '门禁详情信息')
@@ -63,7 +63,7 @@ const DoorApply = (props) => {
     };
     //获取门禁列表
     const getDoorList = () => {
-        regionList({ category_id: "10002",onmap:true }).then(res => {
+        regionList({ category_id: "10002", onmap: true }).then(res => {
             if (res.msg === "success") {
                 setDoorlist(res.data)
                 console.log(res.data, '门禁列表')
@@ -138,11 +138,9 @@ const DoorApply = (props) => {
         <div id="DoorApply" className="DoorApply animate_speed animate__animated animate__fadeInLeft">
             <div className="DoorApply_top">
                 <h1>门禁应用</h1>
-
                 <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => props.close()} />
             </div>
             <div className="DoorApply_list">
-
                 <div className="Treelist">
                     <p>门禁列表 </p>
                     <Spin spinning={spinning} tip="加载中...">
@@ -163,9 +161,8 @@ const DoorApply = (props) => {
                     </Spin>
                 </div>
             </div>
-
             {doorVislib ? <div className="doorapp-pop">
-                <span className="doorapp-pop-tit">({doorName})&nbsp;&nbsp;<br/>门禁状态 : {dooState}</span>
+                <span className="doorapp-pop-tit">({doorName})&nbsp;&nbsp;<br />门禁状态 : {dooState}</span>
                 <img className="doorapp-pop-cls" src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => doorqpVisble()} />
                 <ul>
                     <li onClick={() => caozuo(1)} className={count === "1" ? "active" : null}><img src={require("../../../assets/images/km.png").default} alt=""></img><span>开门</span><span></span></li>
@@ -185,7 +182,8 @@ const DoorApply = (props) => {
                                 <span title={item.eventType}>{item.eventType}</span>
                                 <span title={item.eventId}>{item.eventId}</span>
                                 <span title={timeFormat(item.eventTime)}>{timeFormat(item.eventTime)}</span>
-                                <span title={item.personName}>{item.personName}</span></li>
+                                <span title={item.personName}>{item.personName}</span>
+                            </li>
                         )
                     })}
                 </ul>

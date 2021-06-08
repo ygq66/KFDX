@@ -12,7 +12,8 @@ import FloorList from '../../components/floorList' //楼层
 import AlarmPopup from '../../components/popups/alarmPopup' //报警气泡
 import InterphonePopup from '../../components/popups/interphonePopup' //对讲气泡
 import CameraPopup from '../../components/popups/cameraPopup' //摄像头气泡
-import BedDetails from '../../components/bedDetails' //摄像头气泡
+import DoorPopup from '../../components/popups/doorPopup' //摄像头气泡
+import BedDetails from '../../components/bedDetails' //床位列表
 import { cameraList_S, cameraRegion, getConfig_L } from '../../api/mainApi'
 import { ASocekt as alarmS } from '../../api/address';
 import { videoPlay } from '../../utils/untils'
@@ -37,6 +38,7 @@ function Home() {
     // eslint-disable-next-line
     const [c_data, setDataC] = useState();//摄像气泡传值
     const [b_data, setDataB] = useState();//床位传值
+    const [d_data, setDataD] = useState();//门禁传值
     const [dark, setDark] = useState(false)//切换场景
     const [dark_width, setDw] = useState("50%")//切换场景
     const [darkall, setDa] = useState(false)
@@ -167,6 +169,8 @@ function Home() {
                                 //点击对讲模型
                                 if (msg.attr.type_name === "对讲") {
                                     setData(msg.attr)
+                                }else if(msg.attr.type_name === "门禁"){
+                                    setDataD(msg.attr)
                                 } else {
                                     //弹出视频控件
                                     if (msg.attr) {
@@ -296,6 +300,9 @@ function Home() {
                 </div>
                 <div className="untils_bedDetails">
                     <BedDetails msgdata={b_data}/>
+                </div>
+                <div className="untils_doorPopup">
+                    <DoorPopup msgdata={d_data}/>
                 </div>
             </div>
         </div>

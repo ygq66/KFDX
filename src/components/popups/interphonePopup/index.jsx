@@ -55,8 +55,8 @@ const InterphonePopup = (props) => {
         });
 
         let dj_data = {
-            "host": msgdata.device_code,
-            "soin": sion,
+            "soin": msgdata.device_code,
+            "host": sion,
             "IsRead": IsRead
         }
         intercomPlay(dj_data)

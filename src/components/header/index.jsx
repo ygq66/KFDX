@@ -49,7 +49,7 @@ function Header() {
             }
         })
     }
-    // header module list
+    // get header_module_list
     const get_layout_list = (sid, vid) => {
         layoutList({ scenarios_id: sid, versions_id: vid }).then(res => {
             if (res.msg === "success") {
