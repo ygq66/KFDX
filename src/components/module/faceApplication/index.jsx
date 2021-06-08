@@ -41,6 +41,7 @@ const FaceApplication =(props)=>{
     const [renSelect,setRenSelect] = useState({pageNo:"1",pageSize:"1000",name:"",certificateNum:""})//人脸库查询
     const [isRlgj,setRlgj] = useState(false)
     const [spinning,setSpinning] = useState(false)
+    const [is_httpImg,setIshttp] = useState(false) //判断是人脸库还是图片上传
     useLayoutEffect(()=>{
         getFacelibrary()
         getXjyy()
@@ -118,6 +119,7 @@ const FaceApplication =(props)=>{
         reader.readAsDataURL(event.target.files[0]);
         reader.onload = function (event) { //读取完毕后调用接口
             imgFile = event.target.result;
+            setIshttp(false)
             setIchoose(true)
             setImg(imgFile)
         }
@@ -144,15 +146,29 @@ const FaceApplication =(props)=>{
         if(time.stime && time.etime && UploadImg){
             setSpinning(true)
             setRenImg(false)
-            businessSearch({
-                pageNo: 1,
-                pageSize: 1000,
-                startTime:time.stime,
-                endTime:time.etime,
-                minSimilarity: baifenbi,
-                maxSimilarity: 100,
-                facePicUrl:UploadImg
-            }).then(res=>{
+            let imgSearch_json;
+            if(is_httpImg){
+                imgSearch_json = {
+                    pageNo: 1,
+                    pageSize: 1000,
+                    startTime:time.stime,
+                    endTime:time.etime,
+                    minSimilarity: baifenbi,
+                    maxSimilarity: 100,
+                    facePicUrl:UploadImg
+                }
+            }else{
+                imgSearch_json = {
+                    pageNo: 1,
+                    pageSize: 1000,
+                    startTime:time.stime,
+                    endTime:time.etime,
+                    minSimilarity: baifenbi,
+                    maxSimilarity: 100,
+                    facePicBinaryData:UploadImg
+                }
+            }
+            businessSearch(imgSearch_json).then(res=>{
                 if(res.msg === "success"){
                     setRlgj(true)
                     setSlist(res.data)
@@ -170,7 +186,7 @@ const FaceApplication =(props)=>{
                 }
             })
         }else{
-            message.warning("参数不能为空")
+            message.warning("参数不全")
         }
     }
     //人脸库条件查询
@@ -264,6 +280,7 @@ const FaceApplication =(props)=>{
     }
     //选择人脸库图片
     const handleImg = (item)=>{
+        setIshttp(true)
         setIchoose(true)
         setImg(item.faceUrl)
     }

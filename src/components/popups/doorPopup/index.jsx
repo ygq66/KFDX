@@ -16,7 +16,7 @@ const DoorPopup = (props) => {
     useEffect(()=>{
         if(props.msgdata){
             setShow(true)
-            SPCC_DoorState({ doorIndexCodes: [props.device_code] }).then(res => {
+            SPCC_DoorState({ doorIndexCodes: [props.msgdata.device_code] }).then(res => {
                 if (res.msg === "success") {
                     let resState = res.data.authDoorList[0].doorState;
                     if (resState === 0) {
@@ -35,7 +35,7 @@ const DoorPopup = (props) => {
 
     },[props])
     const handleDoor = (data,index)=>{
-        SPCC_doControl({ doorIndexCodes: [props.device_code], controlType: data.num }).then(res => {
+        SPCC_doControl({ doorIndexCodes: [props.msgdata.device_code], controlType: data.num }).then(res => {
             if (res.msg === "success") {
                 if (res.data[0].controlResultCode === 0) {
                     message.success("操作成功");
@@ -52,7 +52,7 @@ const DoorPopup = (props) => {
                 show?<div className={`${"animate_speed animate__animated"} ${"animate__zoomIn"}`} id="DoorPopup">
                     <div className="dp_title">
                         <div className="wenzi">
-                            <span>{props.device_name}</span>
+                            <span>{props.msgdata.device_name}</span>
                             <span>状态：{dooState}</span>
                         </div>
                         <img src={require('../../../assets/images/closeBtn.png').default} alt="close" onClick={()=>{setShow(false)}}/>
