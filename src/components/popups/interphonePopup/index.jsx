@@ -7,37 +7,37 @@ import './style.scss'
 const InterphonePopup = (props) => {
     const [show,setShow] = useState(false)
     const [msgdata,setMSG] = useState({device_name:"111111",category_name:"22222222"})
-    const [aaa] = useState("animate__zoomIn")
-    const [duijianglist,setList] = useState([
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"},
-        {"device_code": "2001","device_name": "一监区201"}
-    ])
+    const [duijianglist,setList] = useState([])
     useEffect(() => {
         if(props.msgdata){
             console.log(props.msgdata,'对讲窗口接收到的数据')
             setMSG(props.msgdata)
             infoList({category_id:"10004"}).then(res=>{
                 if(res.msg === "success"){
-                    res.data.forEach(element => {
-                        element.enable = false
-                    });
-                    setList(res.data)
+                    let results = res.data
+                    //当前对讲机能呼叫的对讲机数据处理
+                    let duijiang_after = []
+                    if(props.msgdata.category_name === "对讲主机"){
+                        results.forEach((ele)=>{
+                            if(ele.device_code.slice(0,2) === props.msgdata.device_code.slice(0,2) && ele.category_name !== "对讲主机"){
+                                ele.enable = false
+                                duijiang_after.push(ele)
+                            }
+                        })
+                    }else{
+                        results.forEach((ele)=>{
+                            if(ele.device_code.slice(0,2) === props.msgdata.device_code.slice(0,2) && ele.category_name === "对讲主机"){
+                                ele.enable = false
+                                duijiang_after.push(ele)
+                            }
+                        })
+                    }
+                    duijiang_after.push({
+                        device_name:"总主机",
+                        device_code:"1000",
+                        enable:false
+                    })
+                    setList(duijiang_after)
                 }
             })
             setShow(true)
@@ -88,7 +88,7 @@ const InterphonePopup = (props) => {
     return (
         <>
             {
-                show?<div className={`${"animate_speed animate__animated"} ${aaa}`} id="InterphonePopup">
+                show?<div className={`${"animate_speed animate__animated"} ${"animate__zoomIn"}`} id="InterphonePopup">
                     <div className="cp_title">
                         <span>对讲</span>
                         <img src={require('../../../assets/images/closeBtn.png').default} alt="close" onClick={()=>{setShow(false)}}/>
