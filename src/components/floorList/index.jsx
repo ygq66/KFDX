@@ -121,6 +121,7 @@ const FloorList = () => {
     }
     //关闭楼层
     const closeFloorList = () => {
+        setCount()
         del_label()
         setShow(false);
         //关闭所有摄像头

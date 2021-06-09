@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Tree, Spin, Empty, message } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './style.scss';
-import { regionList, SPCC_doControl, SPCC_DoorState, SPCC_DoorList } from '../../../api/mainApi';
+import { useMappedState } from 'redux-react-hook';
+import { regionList, infoListS, labelList, SPCC_doControl, SPCC_DoorState, SPCC_DoorList } from '../../../api/mainApi';
 import { timeFormat } from '../../../utils/untils'
+import { Build } from '../../../utils/map3d'
+import { Common } from '../../../utils/mapMethods';
 
 const TreeNode = Tree.TreeNode;
 const DoorApply = (props) => {
+    const mp_light = useMappedState(state => state.map3d_light);
     const [doorList, setDoorlist] = useState([]);
     const [doorHistorylist, setDoorHistory] = useState([])
     const [doorVislib, DoorVislib] = useState(false)
@@ -41,9 +45,10 @@ const DoorApply = (props) => {
     const onSelect = (selectedKeys, info) => {
         if (!info.node.children && info.node.item.device_code) {
             console.log(info.node.item, '门禁详情信息')
+            
             setDoorName(info.node.item.device_name)
-            DoorVislib(true)
             setDoorData(info.node.item)
+            DoorVislib(true)
             SPCC_DoorState({ doorIndexCodes: [info.node.item.device_code] }).then(res => {
                 if (res.msg === "success") {
                     let resState = res.data.authDoorList[0].doorState;
@@ -57,6 +62,40 @@ const DoorApply = (props) => {
                         resState = "常闭"
                     }
                     setDoorState(resState)
+                }
+            })
+
+            infoListS({ 
+                category_id:info.node.item.category_id,
+                device_code:info.node.item.device_code
+            }).then(res => {
+                if (res.msg === "success") {
+                    let doorResults = res.data[0]
+                    //飞行定位
+                    Common.mapFly(mp_light, doorResults)
+                    Build.allShow(mp_light, true)
+                    //分层
+                    if (doorResults.build_id) {
+                        labelList({ build_id: doorResults.build_id }).then(res2 => {
+                            if (res2.msg === "success") {
+                                let floorList_s = res2.data[0].floor_name;
+                                let nfloor = [];
+                                floorList_s.forEach(element => {
+                                    nfloor.push(element.floor_id.split("#")[1])
+                                });
+                                Build.showFloor(mp_light, doorResults.build_id, doorResults.floor_id.split("#")[1], nfloor)
+
+                                //弹出楼层列表
+                                let messageData = {
+                                    switchName: 'buildLable',
+                                    SPJK: false,
+                                    Personnel: doorResults.build_id,
+                                    index: Number(doorResults.floor_id.charAt(doorResults.floor_id.length - 1))
+                                }
+                                window.parent.postMessage(messageData, '*')
+                            }
+                        })
+                    }
                 }
             })
         }

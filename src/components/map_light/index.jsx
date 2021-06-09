@@ -35,7 +35,7 @@ const MapLight = (props) => {
                         var res2Data = res.data;
                         res2Data.forEach((element2,index2)=>{
                             var labelData = JSON.parse(element2.label_style.model)
-                            var labelPosition = JSON.parse(labelData.attr.center)
+                            var labelPosition = labelData.location
                             Model.labelLoading(map_light,{
                                 text:element2.label_name,
                                 attr:element2,

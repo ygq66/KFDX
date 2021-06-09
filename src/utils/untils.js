@@ -13,22 +13,22 @@ export function videoPlay(data,wm,callback) {
         console.log('%c video websocket is open:',"color: red;font-size:13px")
         let json;
         /* _海康_汉中_赵猛 */
-        // json ={
-        //     "type": "play",
-        //     "cameraCode":data.device_code
-        // }
-        /* _海康_杭州中院_张源 */
-        if(wm === "LinkAlarm"){
-            json ={
-                "type": wm,
-                "cameraCode":data
-            }
-        }else{
-            json ={
-                "type": wm || "playVideo",
-                "cameraCode":data.detail_info
-            }
+        json ={
+            "type": "play",
+            "cameraCode":data.device_code
         }
+        /* _海康_杭州中院_张源 */
+        // if(wm === "LinkAlarm"){
+        //     json ={
+        //         "type": wm,
+        //         "cameraCode":data
+        //     }
+        // }else{
+        //     json ={
+        //         "type": wm || "playVideo",
+        //         "cameraCode":data.detail_info
+        //     }
+        // }
         /* _海康_呼和浩特_卫录屏 */
         // var json ={
         //     "type": "PlayVideo",

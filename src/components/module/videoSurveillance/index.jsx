@@ -10,7 +10,6 @@ import { message } from 'antd';
 import './style.scss';
 
 const VideoSurveillance = (props) => {
-    // eslint-disable-next-line
     const dispatch = useDispatch();
     const mp_light = useMappedState(state => state.map3d_light);
     const [carmealist, setlist] = useState([]);
@@ -34,7 +33,6 @@ const VideoSurveillance = (props) => {
                 setSpinning(false)
             }
         })
-
         window.receiveMessageFromIndex = function (e) {
             if (e !== undefined) {
                 switch (e.data.switchName) {
@@ -157,7 +155,9 @@ const VideoSurveillance = (props) => {
     }
     function dotLineclose() {
         DlVislib(!DotlineVislib)
-        setlinelist([])
+        let before_list = [...Dotlinelist]
+        before_list = []
+        setlinelist(before_list)
     }
     function dotLinedelete(index,gid) {
         index--;
