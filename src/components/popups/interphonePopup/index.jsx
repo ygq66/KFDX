@@ -54,14 +54,30 @@ const InterphonePopup = (props) => {
             }
         });
 
-        let dj_data = {
-            "soin": msgdata.device_code,
-            "host": sion,
-            "IsRead": IsRead
+        let dj_data;
+        if(msgdata.category_name === "对讲主机"){
+            if(sion[0] === 1000){
+                dj_data = {
+                    "soin": [msgdata.device_code],
+                    "host": sion[0],
+                    "IsRead": IsRead
+                }
+            }else{
+                dj_data = {
+                    "soin": sion,
+                    "host": msgdata.device_code,
+                    "IsRead": IsRead
+                }
+            }
+        }else{
+            dj_data = {
+                "soin": [msgdata.device_code],
+                "host": sion[0],
+                "IsRead": IsRead
+            }
         }
         intercomPlay(dj_data)
     }
-
     //多选
     const checkChange = (e,index)=>{
         if(msgdata.category_name !== "对讲主机"){
@@ -79,11 +95,20 @@ const InterphonePopup = (props) => {
                 setList(selectlist)
             }
         }else{
-            const selectlist=[...duijianglist]
-            selectlist[index].enable=e.target.checked;
-            setList(selectlist)
+            let iszong;
+            duijianglist.forEach(element => {
+                if(element.device_code === "1000"){
+                    iszong = element.enable
+                }
+            });
+            if(!iszong){
+                const selectlist=[...duijianglist]
+                selectlist[index].enable=e.target.checked;
+                setList(selectlist)
+            }else{
+                message.success("已经选择总主机")
+            }
         }
-
     }
     return (
         <>
