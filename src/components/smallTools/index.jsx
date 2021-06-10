@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Common } from '../../utils/mapMethods';
 import { useMappedState } from 'redux-react-hook';
 import { roamflyList } from '../../api/mainApi';
-import { Event } from '../../utils/map3d'
+import { createMap,Event } from '../../utils/map3d'
 import { message } from 'antd';
 import './style.scss'
 
@@ -32,6 +32,11 @@ const SmallTools = () => {
                 if (!(JSON.stringify(mp_dark) === "{}")) {
                     Common.initializationPosition(mp_dark)
                 }
+                break;
+            case 1:
+                createMap.getCurrent(mp_light,msg=>{
+                    console.log('坐标',msg)
+                })
                 break;
             case 3:
                 getRoamList()
@@ -67,26 +72,45 @@ const SmallTools = () => {
                     })
                 });
                 let goTrajectory = {
+                    "visible":false,
                     "style": "sim_arraw_Cyan",
                     "width": 200,
                     "speed":35,
                     "geom":trajectory
                 }
                 Event.createRoute(mp_light,goTrajectory,false)
-                Event.playPatrolPath(mp_light)
+                Event.playPatrolPath(mp_light,msg=>{
+                    if(msg.x === trajectory[trajectory.length-1].x){
+                        console.log("巡逻结束")
+                        setOver(true)
+                        setCount()
+                        setCount2()
+                        Event.clearPatrolPath(mp_light);
+                    }
+                })
             }else if(type === "end"){
-                if(count === index){setOver(true)}
+                if(count2 === index){setOver(true)}
                 setCount()
+                setCount2()
                 Event.clearPatrolPath(mp_light)
                 Common.initializationPosition(mp_light)
             }
         }else{
-            if(type === "end" && count === index){
+            if(type === "end" && count2 === index){
                 setOver(true)
             }else{
                 message.warning("请先结束当前漫游路线");
             }
         }
+    }
+
+    //关闭漫游列表
+    const closeRoam = ()=>{
+        setOver(true)
+        setCount()
+        setCount2()
+        Event.clearPatrolPath(mp_light);
+        Common.initializationPosition(mp_light);
     }
     return (   
         <div id="smallTools">
@@ -108,12 +132,12 @@ const SmallTools = () => {
                         isRoam ? <div className="roam animate_speed animate__animated animate__fadeIn">
                             <div className="roamTitle">
                                 <h2>漫游</h2>
-                                <img src={require('../../assets/images/cha.png').default} alt="" onClick={() => {setRoam(false);Event.clearPatrolPath(mp_light)}} />
+                                <img src={require('../../assets/images/cha.png').default} alt="" onClick={() => {closeRoam();setRoam(false)}} />
                             </div>
                             <ul>
                                 {roamList.map((item, index) => {
                                     return (
-                                        <li key={index}>
+                                        <li key={index} className={count2 === index?"active":""}>
                                             <span>{item.roam_name}</span>
                                             <div className="doSomething">
                                                 <img src={require('../../assets/images/roamStart.png').default} alt="" onClick={() => roamLine("start",item,index)} />

@@ -58,13 +58,12 @@
             }
             ul{
                 height: 240px;
-                margin-top: 10px;
                 overflow-y: auto;
                 @include scrollbar(2px);
                 li{
-                    padding: 0 19px;
-                    margin-bottom: 15px;
+                    padding: 7.5px 19px;
                     display: flex;
+                    transition: all .3s;
                     justify-content: space-between;
                     span{
                         font-size: 15px;
@@ -75,6 +74,9 @@
                             cursor: pointer;
                         }
                     }
+                }
+                .active{
+                    background:rgba(7, 238, 169, 0.233);
                 }
             }
         }

@@ -132,17 +132,28 @@
                 background: url("../../../assets/images/001.png") no-repeat;
                 p{
                     padding-left: 27px;
-                .Dotline-Nr-tit{
-                    height: 40px;
-                    line-height: 40px;
-                    display: contents;
-                    font-size: 16px;
-                    color: gainsboro;
-                }
+                    .Dotline-Nr-tit{
+                        height: 40px;
+                        line-height: 40px;
+                        display: contents;
+                        font-size: 16px;
+                        color: gainsboro;
+                    }
                     img {
                         float: right;
                         margin: 10px 10px 0px 0px;
                         cursor: pointer;
+                    }
+                }
+                .allpath{
+                    height: 150px;
+                    padding: 5px 10px;
+                    overflow-y: auto;
+                    @include scrollbar(3px);
+                    span{
+                        margin:0;
+                        display: block;
+                        margin-left: 10px;
                     }
                 }
                 span{

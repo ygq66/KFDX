@@ -21,6 +21,7 @@ const DoorApply = (props) => {
     const [dooState, setDoorState] = useState('暂无')//门禁状态
     const [doorDatas, setDoorData] = useState({})
     const [doorName, setDoorName] = useState("暂无名称")
+    const [fenceng, setSF] = useState({build_id:"",allfloor:""})
 
     useEffect(() => {
         getDoorList()
@@ -70,31 +71,41 @@ const DoorApply = (props) => {
                 device_code:info.node.item.device_code
             }).then(res => {
                 if (res.msg === "success") {
-                    let doorResults = res.data[0]
-                    //飞行定位
-                    Common.mapFly(mp_light, doorResults)
-                    Build.allShow(mp_light, true)
-                    //分层
-                    if (doorResults.build_id) {
-                        labelList({ build_id: doorResults.build_id }).then(res2 => {
-                            if (res2.msg === "success") {
-                                let floorList_s = res2.data[0].floor_name;
-                                let nfloor = [];
-                                floorList_s.forEach(element => {
-                                    nfloor.push(element.floor_id.split("#")[1])
-                                });
-                                Build.showFloor(mp_light, doorResults.build_id, doorResults.floor_id.split("#")[1], nfloor)
+                    if(res.data.length>0){
+                        let doorResults = res.data[0]
+                        //飞行定位
+                        Common.mapFly(mp_light, doorResults)
+                        console.log(fenceng,'阿西吧')
+                        if(fenceng.build_id !== "" && fenceng.allfloor !== ""){
+                            Build.showFloor(mp_light, fenceng.build_id, "all", fenceng.allfloor)
+                        }
+                        // Build.allShow(mp_light, true)
+                        //分层
+                        if (doorResults.build_id) {
+                            labelList({ build_id: doorResults.build_id }).then(res2 => {
+                                if (res2.msg === "success") {
+                                    let floorList_s = res2.data[0].floor_name;
+                                    let nfloor = [];
+                                    floorList_s.forEach(element => {
+                                        nfloor.push(element.floor_id.split("#")[1])
+                                    });
+                                    setSF({build_id:doorResults.build_id,allfloor:nfloor})
+                                    Build.showFloor(mp_light, doorResults.build_id, doorResults.floor_id.split("#")[1], nfloor)
 
-                                //弹出楼层列表
-                                let messageData = {
-                                    switchName: 'buildLable',
-                                    SPJK: false,
-                                    Personnel: doorResults.build_id,
-                                    index: Number(doorResults.floor_id.charAt(doorResults.floor_id.length - 1))
+                                    //弹出楼层列表
+                                    let messageData = {
+                                        switchName: 'buildLable',
+                                        SPJK: false,
+                                        Personnel: doorResults.build_id,
+                                        index: Number(doorResults.floor_id.charAt(doorResults.floor_id.length - 1)),
+                                        floor_id:doorResults.floor_id
+                                    }
+                                    window.parent.postMessage(messageData, '*')
                                 }
-                                window.parent.postMessage(messageData, '*')
-                            }
-                        })
+                            })
+                        }
+                    }else{
+                        message.warning("暂未上图");
                     }
                 }
             })

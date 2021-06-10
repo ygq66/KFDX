@@ -157,4 +157,4 @@ const BedDetails = (props) => {
     )
 }
 
-export default BedDetails;
+export default React.memo(BedDetails);

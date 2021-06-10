@@ -44,12 +44,18 @@ const FloorList = () => {
                         })
                         setShow(true)
                         //监听相机模型事件触发楼层列表下标
-                        if (e.data.index) { setCount(e.data.index - 1) } else { Build.allShow(mp, true) }
+                        if (e.data.index) { 
+                            setCount(e.data.index - 1) 
+                            getForPosition(e.data.floor_id)
+                        } else { 
+                            Build.allShow(mp, true) 
+                        }
                         break;
                     default:
                         return null;
                 }
             }
+            
         }
         //监听message事件
         window.addEventListener("message", window.receiveMessageFromIndex, false);
@@ -59,6 +65,7 @@ const FloorList = () => {
         if (!(Object.keys(map).length === 0)) {
             getModelhandle(map)
         }
+         // eslint-disable-next-line
     }, [map]);
     //删除所有文字标注
     const del_label = () => {
@@ -100,6 +107,32 @@ const FloorList = () => {
 
         })
     }
+
+    //分层模型加载
+    const getForPosition = (fl)=>{
+        cameraList_S({ device_code: "" }).then(res => {
+            if (res.msg === "success") {
+                let shinei = []
+                res.data.forEach(element => {
+                    if (element.indoor) {
+                        shinei.push(element)
+                    }else{
+                        Model.showModel(map, element.model_url, true)
+                    }
+                })
+                if(shinei.length>0){
+                    shinei.forEach(element => {
+                        if (element.floor_id === fl) {
+                            Model.showModel(map, element.model_url, true)
+                        } else {
+                            Model.showModel(map, element.model_url, false)
+                        }
+                    });
+                }
+                setEverything(shinei)
+            }
+        })
+    }
     //点击楼层
     const handleFloor = (item, index) => {
         del_label()
@@ -111,13 +144,7 @@ const FloorList = () => {
         buildData.floor_name.forEach(element => { floorh.push(element.floor_id.split("#")[1]) });
         Build.showFloor(map, buildData.build_name.build_id, item.floor_id.split("#")[1], floorh)
         //模型分层显示
-        everythings.forEach(element => {
-            if (element.floor_id === item.floor_id) {
-                Model.showModel(map, element.model_url, true)
-            } else {
-                Model.showModel(map, element.model_url, false)
-            }
-        });
+        getForPosition(item.floor_id)
     }
     //关闭楼层
     const closeFloorList = () => {

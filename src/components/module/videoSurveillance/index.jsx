@@ -21,6 +21,8 @@ const VideoSurveillance = (props) => {
     const [isPoint, setDrowPoint] = useState(true)
     const [isLine, setLine] = useState(true)
     const [gidList, setGilist] = useState([])
+    const [fenceng, setSF] = useState({build_id:"",allfloor:""})
+
     let array_list = null
     //Compiled with warnings
     useEffect(() => {
@@ -75,14 +77,16 @@ const VideoSurveillance = (props) => {
     const getDragList = (type,center,gid) => {
         traceDrag({ type: type, positions: center }).then(res => {
             if (res.msg === "success") {
-                let allList = [...Dotlinelist]
+                let allList = Dotlinelist
+                console.log(allList,'allList')
                 if(type === "point"){
                     allList.push({name:"点追踪",gid:gid,children:res.data})
                 }else{
                     allList.push({name:"线追踪",children:res.data})
                 }
-                setlinelist(allList)
+                console.log(allList,'阿姨？')
                 DlVislib(true)
+                setlinelist(allList)
             }
         })
     }
@@ -105,7 +109,6 @@ const VideoSurveillance = (props) => {
                 setLine(false)
                 closePoint()
                 Model.drawLine(mp_light, res => {
-                    console.log(res.points, "线追查");
                     getDragList("linestring",res.points)
                     setLine(true)
                     Model.endEditing(mp_light);
@@ -209,7 +212,9 @@ const VideoSurveillance = (props) => {
                         console.log(results)
                         //飞行
                         Common.mapFly(mp_light, results)
-                        Build.allShow(mp_light, true)
+                        if(fenceng.build_id !== "" && fenceng.allfloor !== ""){
+                            Build.showFloor(mp_light, fenceng.build_id, "all", fenceng.allfloor)
+                        }
                         showArea(results)
                         //分层
                         if (results.build_id) {
@@ -220,6 +225,7 @@ const VideoSurveillance = (props) => {
                                     floorList_s.forEach(element => {
                                         nfloor.push(element.floor_id.split("#")[1])
                                     });
+                                    setSF({build_id:results.build_id,allfloor:nfloor})
                                     Build.showFloor(mp_light, results.build_id, results.floor_id.split("#")[1], nfloor)
 
                                     //弹出楼层列表
@@ -227,7 +233,8 @@ const VideoSurveillance = (props) => {
                                         switchName: 'buildLable',
                                         SPJK: false,
                                         Personnel: results.build_id,
-                                        index: Number(results.floor_id.charAt(results.floor_id.length - 1))
+                                        index: Number(results.floor_id.charAt(results.floor_id.length - 1)),
+                                        floor_id:results.floor_id
                                     }
                                     window.parent.postMessage(messageData, '*')
                                 }
@@ -376,11 +383,13 @@ const VideoSurveillance = (props) => {
                             return (index++, console.log("INDEX", index),
                                 <div className="Dotline-Nr">
                                     <p><span className="Dotline-Nr-tit">{index}.{item.name}</span><img src={require("../../../assets/images/shanchu-3.png").default} alt="" onClick={() => dotLinedelete(index,item.gid)}></img></p>
-                                    {
-                                        item.children.map((str, key) => {
-                                            return (key++, <span>{key}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{str.device_name}</span>)
-                                        })
-                                    }
+                                    <div className="allpath">
+                                        {
+                                            item.children.map((str, key) => {
+                                                return (key++, <span>({key})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span>)
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             )
                         })

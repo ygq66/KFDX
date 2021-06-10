@@ -19,16 +19,30 @@ const InterphonePopup = (props) => {
                     let duijiang_after = []
                     if(props.msgdata.category_name === "对讲主机"){
                         results.forEach((ele)=>{
-                            if(ele.device_code.slice(0,2) === props.msgdata.device_code.slice(0,2) && ele.category_name !== "对讲主机"){
-                                ele.enable = false
-                                duijiang_after.push(ele)
+                            if(props.msgdata.device_code.length>4){
+                                if(ele.device_code.slice(0,2) === props.msgdata.device_code.slice(0,2) && ele.category_name !== "对讲主机" && ele.device_code.length>4){
+                                    ele.enable = false
+                                    duijiang_after.push(ele)
+                                }
+                            }else{
+                                if(ele.device_code.slice(0,2) === props.msgdata.device_code.slice(0,2) && ele.category_name !== "对讲主机" && ele.device_code.length<5){
+                                    ele.enable = false
+                                    duijiang_after.push(ele)
+                                }
                             }
                         })
                     }else{
                         results.forEach((ele)=>{
-                            if(ele.device_code.slice(0,2) === props.msgdata.device_code.slice(0,2) && ele.category_name === "对讲主机"){
-                                ele.enable = false
-                                duijiang_after.push(ele)
+                            if(props.msgdata.device_code.length>4){
+                                if(ele.device_code.slice(0,2) === props.msgdata.device_code.slice(0,2) && ele.category_name === "对讲主机" && ele.device_code.length>4){
+                                    ele.enable = false
+                                    duijiang_after.push(ele)
+                                }
+                            }else{
+                                if(ele.device_code.slice(0,2) === props.msgdata.device_code.slice(0,2) && ele.category_name === "对讲主机" && ele.device_code.length<5){
+                                    ele.enable = false
+                                    duijiang_after.push(ele)
+                                }
                             }
                         })
                     }
