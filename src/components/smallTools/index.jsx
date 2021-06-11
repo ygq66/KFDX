@@ -1,24 +1,27 @@
 import React, { useState, useCallback } from 'react';
 import { Common } from '../../utils/mapMethods';
 import { useMappedState } from 'redux-react-hook';
-import { roamflyList } from '../../api/mainApi';
-import { createMap,Event } from '../../utils/map3d'
+import { roamflyList, buildList } from '../../api/mainApi';
+import { createMap, Event, Build } from '../../utils/map3d'
 import { message } from 'antd';
 import './style.scss'
 
 const SmallTools = () => {
     const [isRoam, setRoam] = useState(false)
-    const iconList = [{ icon: "fuwei", name: "复位" }, { icon: "changjing", name: "场景" }, { icon: "zhibeizhen", name: "指北" }, { icon: "roam", name: "漫游" }]
+    const [isLayer, setLayer] = useState(false);//图层是否显示
+    const [buildingList, setBuild] = useState([]);//所有建筑列表
+    const [showBuild, setShowBuild] = useState(new Set());//存储当前炸裂状态下的建筑id
+    const iconList = [{ icon: "fuwei", name: "复位" }, { icon: "changjing", name: "场景" }, { icon: "zhibeizhen", name: "指北" }, { icon: "roam", name: "漫游" }, { icon: "roam", name: "图层" }]
     const [roamList, setRoamList] = useState([])
     const [count, setCount] = useState()
     const [count2, setCount2] = useState()
     const [show, setShow] = useState(false)
     const mp_light = useMappedState(state => state.map3d_light);
     const mp_dark = useMappedState(state => state.map3d_dark);
-    const [isOver,setOver] = useState(true)
+    const [isOver, setOver] = useState(true)
 
     //获取漫游列表
-    const getRoamList = ()=>{
+    const getRoamList = () => {
         roamflyList().then(res => {
             if (res.msg === "success") {
                 setRoamList(res.data)
@@ -34,53 +37,59 @@ const SmallTools = () => {
                 }
                 break;
             case 1:
-                createMap.getCurrent(mp_light,msg=>{
-                    console.log('坐标',msg)
+                createMap.getCurrent(mp_light, msg => {
+                    console.log('坐标', msg)
                 })
                 break;
             case 3:
+                setLayer(false);
                 getRoamList()
                 setRoam(true)
+                break;
+            case 4:
+                setRoam(false);
+                getBuilding();
+                setLayer(true);
                 break;
             default:
                 console.log(iconList[index].name)
         }
         //eslint-disable-next-line
-    }, [mp_light,mp_dark])
-    
-    const roamLine = (type,item,index)=>{
+    }, [mp_light, mp_dark])
+
+    const roamLine = (type, item, index) => {
         setOver(false)
-        if(isOver || count2 === index){
+        if (isOver || count2 === index) {
             let ndatas = item.postions.points
-            if(type === "stop"){
+            if (type === "stop") {
                 setCount(index)
                 Event.pausePatrolPath(mp_light)
-            }else if(type === "Go_on"){
+            } else if (type === "Go_on") {
                 setCount()
                 Event.continuePatrolPath(mp_light)
-            }else if(type === "start"){
+            } else if (type === "start") {
                 setCount()
                 setCount2(index)
-                let trajectory = [] 
+                let trajectory = []
                 ndatas.forEach(element => {
                     trajectory.push({
-                        id:item.id,
-                        x:element.x,
-                        y:element.y,
-                        z:element.z,
-                        floor:"F1"
+                        id: item.id,
+                        x: element.x,
+                        y: element.y,
+                        z: element.z,
+                        floor: "F1"
                     })
                 });
                 let goTrajectory = {
-                    "visible":false,
-                    "style": "sim_arraw_Cyan",
-                    "width": 200,
-                    "speed":35,
-                    "geom":trajectory
+                    "visible": false,
+                    "style": "sim_arraw_Cyan",
+                    "width": 200,
+                    "speed": 35,
+                    "geom": trajectory
                 }
-                Event.createRoute(mp_light,goTrajectory,false)
-                Event.playPatrolPath(mp_light,msg=>{
-                    if(msg.x === trajectory[trajectory.length-1].x){
+                Event.createRoute(mp_light, goTrajectory, false)
+                Event.playPatrolPath(mp_light, msg => {
+                    if (msg.x === trajectory[trajectory.length - 1].x) {
                         console.log("巡逻结束")
                         setOver(true)
                         setCount()
@@ -88,31 +97,49 @@ const SmallTools = () => {
                         Event.clearPatrolPath(mp_light);
                     }
                 })
-            }else if(type === "end"){
-                if(count2 === index){setOver(true)}
+            } else if (type === "end") {
+                if (count2 === index) { setOver(true) }
                 setCount()
                 setCount2()
                 Event.clearPatrolPath(mp_light)
                 Common.initializationPosition(mp_light)
             }
-        }else{
-            if(type === "end" && count2 === index){
+        } else {
+            if (type === "end" && count2 === index) {
                 setOver(true)
-            }else{
+            } else {
                 message.warning("请先结束当前漫游路线");
             }
         }
     }
-
+    // 获取所有建筑信息
+    const getBuilding = () => {
+        buildList().then(res => {
+            setBuild(res.data);
+        })
+    }
     //关闭漫游列表
-    const closeRoam = ()=>{
+    const closeRoam = () => {
         setOver(true)
         setCount()
         setCount2()
         Event.clearPatrolPath(mp_light);
         Common.initializationPosition(mp_light);
     }
-    return (   
+    // 爆炸分离
+    const SplitBuild = (buildId) => {
+        showBuild.add(buildId);
+        setShowBuild(new Set(showBuild));
+        Build.splitBuild(mp_light, buildId, 5);
+    }
+    // 分离恢复
+    const SplitBuildReset = (buildId) => {
+        showBuild.delete(buildId);
+        setShowBuild(new Set(showBuild));
+        Build.splitBuildReset(mp_light, buildId);
+    }
+
+    return (
         <div id="smallTools">
             {
                 show ? <div className={`${"st_iconlist animate_speed animate__animated"} ${"animate__slideInRight"}`}>
@@ -132,20 +159,41 @@ const SmallTools = () => {
                         isRoam ? <div className="roam animate_speed animate__animated animate__fadeIn">
                             <div className="roamTitle">
                                 <h2>漫游</h2>
-                                <img src={require('../../assets/images/cha.png').default} alt="" onClick={() => {closeRoam();setRoam(false)}} />
+                                <img src={require('../../assets/images/cha.png').default} alt="" onClick={() => { closeRoam(); setRoam(false) }} />
                             </div>
                             <ul>
                                 {roamList.map((item, index) => {
                                     return (
-                                        <li key={index} className={count2 === index?"active":""}>
+                                        <li key={index} className={count2 === index ? "active" : ""}>
                                             <span>{item.roam_name}</span>
                                             <div className="doSomething">
-                                                <img src={require('../../assets/images/roamStart.png').default} alt="" onClick={() => roamLine("start",item,index)} />
+                                                <img src={require('../../assets/images/roamStart.png').default} alt="" onClick={() => roamLine("start", item, index)} />
                                                 {
-                                                    index === count? <img src={require('../../assets/images/roamGo_on.png').default} alt="" onClick={() => roamLine("Go_on",item,index)} />
-                                                    :<img src={require('../../assets/images/roamStop.png').default} alt="" onClick={() => roamLine("stop",item,index)} />
+                                                    index === count ? <img src={require('../../assets/images/roamGo_on.png').default} alt="" onClick={() => roamLine("Go_on", item, index)} />
+                                                        : <img src={require('../../assets/images/roamStop.png').default} alt="" onClick={() => roamLine("stop", item, index)} />
                                                 }
-                                                <img src={require('../../assets/images/roamEnd.png').default} alt="" onClick={() => roamLine("end",item,index)} />
+                                                <img src={require('../../assets/images/roamEnd.png').default} alt="" onClick={() => roamLine("end", item, index)} />
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div> : null
+                    }
+                    {
+                        isLayer ? <div className="roam animate_speed animate__animated animate__fadeIn">
+                            <div className="roamTitle">
+                                <h2>图层</h2>
+                                <img src={require('../../assets/images/cha.png').default} alt="" onClick={() => { setLayer(false) }} />
+                            </div>
+                            <ul>
+                                {buildingList.map((item, index) => {
+                                    return (
+                                        <li key={index} className={count2 === index ? "active" : ""}>
+                                            <span>{item.build_name}</span>
+                                            <div className="doSomething">
+                                                <span style={{ color: showBuild.has(item.build_id) ? "red" : "" }} onClick={() => { SplitBuild(item.build_id) }}>分离</span>
+                                                <span onClick={() => { SplitBuildReset(item.build_id) }}>恢复</span>
                                             </div>
                                         </li>
                                     );

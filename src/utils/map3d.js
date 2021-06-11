@@ -506,12 +506,12 @@ export const Model = {
                 }
                 console.log(res);
             } else if (res.typename === "label" && res.attr) {
-                if(res.attr.buildId){
+                if (res.attr.buildId) {
                     data = {
                         switchName: 'buildLable',
                         Personnel: res.attr.buildId,
                     }
-                }else{
+                } else {
                     data = {
                         switchName: 'buildLable_wenzi',
                         Personnel: res.attr
@@ -548,7 +548,7 @@ export const Model = {
         view3d.OverLayerUpdateObject(obj);
     },
     // 创建图标
-    createIcon(view3d, style,callback) {
+    createIcon(view3d, style, callback) {
 
 
         // 注意,此功能为异步操作
@@ -564,7 +564,7 @@ export const Model = {
                 yaw: style.location.yaw, // 偏航角 0-360度
                 roll: style.location.roll // 翻滚角
             },
-            attr:style.attr
+            attr: style.attr
         };
         view3d.OverLayerCreateObject(obj, res => {
             // console.log(res);
@@ -699,9 +699,15 @@ export const Build = {
             createMap.closeWkWang(view3d)
         })
         //createMap.closeWkWang(view3d)
-
     },
-
+    // 爆炸分离
+    splitBuild(view3d, buildingName, floorHeight) {
+        view3d.SplitBuilding(buildingName, floorHeight);
+    },
+    // 分离恢复
+    splitBuildReset(view3d, buildingName) {
+        view3d.SplitBuildingReset(buildingName);
+    }
 }
 // 功能块
 export const Event = {
