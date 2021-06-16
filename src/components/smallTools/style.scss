@@ -84,7 +84,11 @@
                 }
             }
         }
-
+        .scenes_tool{
+            position: absolute;
+            top: 500px;
+            left:-750px;
+        }
     }
     .st_button{
         background: url(../../assets/images/xiaogongju.png) center center no-repeat;

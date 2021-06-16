@@ -211,3 +211,30 @@ export function GKBedInformationRoom(paramsData) {
         data: paramsData
     })
 }
+export function locationAdd(paramsData) {
+    return request({
+        url: constant.locationAdd,
+        method: 'post',
+        data: paramsData
+    })
+}
+export function locationDelete(paramsData) {
+    return request({
+        url: constant.locationDelete,
+        method: 'post',
+        data: paramsData
+    })
+}
+export function locationUpdate(paramsData) {
+    return request({
+        url: constant.locationUpdate,
+        method: 'post',
+        data: paramsData
+    })
+}
+export function locationList_h() {
+    return request({
+        url: constant.locationList_h,
+        method: 'get'
+    })
+}

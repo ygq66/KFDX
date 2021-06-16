@@ -83,6 +83,15 @@ const constant =  {
   //监区楼层查面坐标
   roomList : `${ApiUrl2}/bed/room/list`,
 
+  //场景接口--->添加
+  locationAdd : `${ApiUrl2}/map/location/add`,
+  //--->删除
+  locationDelete : `${ApiUrl2}/map/location/delete`,
+  //--->修改
+  locationUpdate : `${ApiUrl2}/map/location/update`,
+  //--->查询
+  locationList_h : `${ApiUrl2}/map/location/list`,
+
   //门禁控制
   SPCC_doControl : `${doorUrl}/SPCC/doControl`,
   

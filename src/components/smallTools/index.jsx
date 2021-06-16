@@ -2,16 +2,18 @@ import React, { useState, useCallback } from 'react';
 import { Common } from '../../utils/mapMethods';
 import { useMappedState } from 'redux-react-hook';
 import { roamflyList, buildList } from '../../api/mainApi';
-import { createMap, Event, Build } from '../../utils/map3d'
+import { Event, Build } from '../../utils/map3d'
 import { message } from 'antd';
 import './style.scss'
+import Scenes from '../scenes' //场景
 
 const SmallTools = () => {
     const [isRoam, setRoam] = useState(false)
+    const [isScenes, setScenes] = useState(false);//图层是否显示
     const [isLayer, setLayer] = useState(false);//图层是否显示
     const [buildingList, setBuild] = useState([]);//所有建筑列表
     const [showBuild, setShowBuild] = useState(new Set());//存储当前炸裂状态下的建筑id
-    const iconList = [{ icon: "fuwei", name: "复位" }, { icon: "changjing", name: "场景" }, { icon: "zhibeizhen", name: "指北" }, { icon: "roam", name: "漫游" }, { icon: "roam", name: "图层" }]
+    const iconList = [{ icon: "fuwei", name: "复位" }, { icon: "changjing", name: "场景" }, { icon: "zhibeizhen", name: "指北" }, { icon: "roam", name: "漫游" }, { icon: "tuceng", name: "图层" }]
     const [roamList, setRoamList] = useState([])
     const [count, setCount] = useState()
     const [count2, setCount2] = useState()
@@ -37,16 +39,18 @@ const SmallTools = () => {
                 }
                 break;
             case 1:
-                createMap.getCurrent(mp_light, msg => {
-                    console.log('坐标', msg)
-                })
+                setScenes(true)
+                setLayer(false);
+                setRoam(false)
                 break;
             case 3:
+                setScenes(false)
                 setLayer(false);
                 getRoamList()
                 setRoam(true)
                 break;
             case 4:
+                setScenes(false)
                 setRoam(false);
                 getBuilding();
                 setLayer(true);
@@ -200,6 +204,11 @@ const SmallTools = () => {
                                 })}
                             </ul>
                         </div> : null
+                    }
+                    {
+                        isScenes?<div className="scenes_tool">
+                            <Scenes close={setScenes}/>
+                        </div>: null
                     }
                 </div> : null
             }
