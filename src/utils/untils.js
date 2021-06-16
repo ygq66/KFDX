@@ -13,10 +13,10 @@ export function videoPlay(data,wm,callback) {
         console.log('%c video websocket is open:',"color: red;font-size:13px")
         let json;
         /* _海康_汉中_赵猛 */
-        json ={
-            "type": "play",
-            "cameraCode":data.device_code
-        }
+        // json ={
+        //     "type": "play",
+        //     "cameraCode":data.device_code
+        // }
         /* _海康_杭州中院_张源 */
         // if(wm === "LinkAlarm"){
         //     json ={
@@ -30,11 +30,11 @@ export function videoPlay(data,wm,callback) {
         //     }
         // }
         /* _海康_呼和浩特_卫录屏 */
-        // var json ={
-        //     "type": "PlayVideo",
-        //     "winNumber": wm || "1",
-        //     "detailInfo": data.detail_info
-        // }
+        json ={
+            "type": "PlayVideo",
+            "winNumber": wm || "1",
+            "detailInfo": data.detail_info
+        }
         webSocket.send(JSON.stringify(json))
     }
 }
