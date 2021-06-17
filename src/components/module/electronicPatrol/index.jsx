@@ -159,7 +159,7 @@ const ElectronicPatrol = () => {
     return (
         <div id="electronicPatrol">
             {
-                !show2?<div className="elp_top animate_speed animate__animated animate__fadeInLeft">
+                !show2?<div className="elp_top">
                     <ul>
                         {tabs.map((item, index) => {
                             return (

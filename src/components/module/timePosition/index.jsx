@@ -20,7 +20,7 @@ class TimePosition extends React.Component {
     render() {
         const { list } = this.state;
         return (
-            <div className="TimePosition animate_speed animate__animated animate__fadeInLeft">
+            <div className="TimePosition">
                 <div className="TimePosition_top">
                     <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={()=>this.props.close()} />
                 </div>

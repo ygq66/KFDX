@@ -185,7 +185,7 @@ const DoorApply = (props) => {
         })
     }
     return (
-        <div id="DoorApply" className="DoorApply animate_speed animate__animated animate__fadeInLeft">
+        <div id="DoorApply" className="DoorApply">
             <div className="DoorApply_top">
                 <h1>门禁应用</h1>
                 <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => props.close()} />

@@ -206,7 +206,7 @@ const ResourceAtlas = (props) => {
     }
 
     return (
-        <div id="ResourceAtlas" className="ResourceAtlas animate_speed animate__animated animate__fadeInLeft">
+        <div id="ResourceAtlas" className="ResourceAtlas">
             <div className="ResourceAtlas_top">
                 <h1>资源图谱</h1>
                 <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => { props.close(); Model.closeIcon(mp_light) }} />

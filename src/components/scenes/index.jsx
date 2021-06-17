@@ -74,7 +74,7 @@ const Scenes = (props) => {
         })
     }
     return (
-        <div id="scenes">
+        <div id="scenes" className={`${"animate_speed animate__animated"} ${"animate__fadeInUp"}`}>
             <div className="scenes_title">
                 <h2>场景</h2>
                 <img src={require('../../assets/images/cha.png').default} alt="" onClick={() => { props.close(false) }} />

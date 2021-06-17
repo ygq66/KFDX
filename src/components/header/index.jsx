@@ -4,7 +4,7 @@ import { getLogin, getConfig, layoutList } from '../../api/mainApi'
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { Common } from '../../utils/mapMethods';
 
-function Header() {
+function Header(props) {
     const dispatch = useDispatch();
     const mp_light = useMappedState(state => state.map3d_light);
     const top_count = useMappedState(state => state.top_navigation_count);
@@ -62,10 +62,10 @@ function Header() {
         if (mp_light) {
             Common.navigationClose(mp_light)
         }
+        props.animate("animate__fadeInLeft")
         dispatch({ type: "handleTop", top_navigation_count: index });
         dispatch({ type: "handleModule", top_navigation_module: item.page });
     }
-
     return (
         <div className="header">
             <div className="header_line"></div>

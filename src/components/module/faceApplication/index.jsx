@@ -293,7 +293,7 @@ const FaceApplication =(props)=>{
         opacity:.5
     }
     return(
-        <div id="FaceApplication" className="animate_speed animate__animated animate__fadeInLeft">
+        <div id="FaceApplication">
             <div className="fl_header">
                 <h1>人脸应用</h1>
                 <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={()=>{props.close();Event.clearPatrolPath(mp_light);Build.allShow(mp_light,true)}} />

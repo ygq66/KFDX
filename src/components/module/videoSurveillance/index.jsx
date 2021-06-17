@@ -340,12 +340,11 @@ const VideoSurveillance = (props) => {
         Build.allShow(mp_light, true);
     }
     return (
-        <div id="VideoSurveillance" className="VideoSurveillance animate_speed animate__animated animate__fadeInLeft">
+        <div id="VideoSurveillance" className="VideoSurveillance">
             <div className="VideoSurveillance_top">
                 <h1>视频列表</h1>
                 <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() =>closeVideoSur()} />
             </div>
-
             <div className="VideoSurveillance_list">
                 <div className="VideoSurveillance_title">
                     <span className={isPoint ? null : "span_active"} onClick={() => Dotlineselect(1)}>点查</span>

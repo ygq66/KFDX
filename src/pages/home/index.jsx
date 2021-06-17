@@ -45,6 +45,7 @@ function Home() {
     const [readyState, setReadyState] = useState('alarm_socket loading...');
     const [linkage, setLinkage] = useState(false)
     const [alarmData, setAlarmdata] = useState()
+    const [animateName,setAnimateName] = useState("animate__fadeInLeft")
     const isSame = useRef(null) //防止重复点击
     const isSame2 = useRef(null) //防止重复点击
     const isSame3 = useRef(null) //防止重复点击
@@ -153,8 +154,11 @@ function Home() {
     }, [ws, readyState, linkage]);
     // 关闭模块
     const closePage = () => {
+        setAnimateName("animate__fadeOutLeft")
         dispatch({ type: "handleTop", top_navigation_count: "" });
-        dispatch({ type: "handleModule", top_navigation_module: "" });
+        setTimeout(() => {
+            dispatch({ type: "handleModule", top_navigation_module: "" });
+        },300);
     }
     // 监听点击模型
     const getModel_s = (map3d) => {
@@ -259,7 +263,7 @@ function Home() {
     }, [])
     return (
         <div className="home">
-            <Header />
+            <Header animate={setAnimateName}/>
             <div className="conent">
                 {
                     dark ? <div className="map">
@@ -273,8 +277,8 @@ function Home() {
                     </div> : <div className="map"><MapLight setWidth="100%" /></div>
                 }
                 {top_module !== "" && <Suspense fallback={<div>"loading"</div>}>
-                    <div className="popup">
-                        <ContentPage close={closePage} />
+                    <div className={`${"popup animate_speed animate__animated"} ${animateName}`}>
+                        <ContentPage close={closePage}/>
                     </div>
                 </Suspense>}
                 <div className="untils_site">
