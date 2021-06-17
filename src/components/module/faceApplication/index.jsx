@@ -218,15 +218,17 @@ const FaceApplication =(props)=>{
         //拼接数据
         let trajectory =[]
         if(data.length>0){
-            data.forEach((element)=>{
-                let flString = element.floor_id === null?"F1":element.floor_id.split("#")[1].replace("00","")
-                trajectory.push({
-                    id:element.id,
-                    x: parseInt(element.center.x),
-                    y: parseInt(element.center.y),
-                    z: parseInt(element.center.z),
-                    floor:flString
-                })
+            data.forEach((element,index)=>{
+                let flString = element.floor_id === null?"W1":element.floor_id.split("#")[1].replace("00","")
+                if(index>0){
+                    trajectory.push({
+                        id:element.id,
+                        x: parseInt(element.center.x),
+                        y: parseInt(element.center.y),
+                        z: parseInt(element.center.z),
+                        floor:flString
+                    })
+                }
             })
         }
         let goTrajectory = {
@@ -264,7 +266,7 @@ const FaceApplication =(props)=>{
                 }
             })
             //人脸轨迹方法
-            Event.createRoute(mp_light,goTrajectory,false,luwangName,"http://"+luWang+"/api/route/shortestpath4",10)
+            Event.createRoute(mp_light,goTrajectory,true,luwangName,"http://"+luWang+"/api/route/shortestpath4",10)
         }else{
             message.warning("没有轨迹路线")
         }

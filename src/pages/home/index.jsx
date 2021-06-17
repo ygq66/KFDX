@@ -37,6 +37,7 @@ function Home() {
     const [m_data, setData] = useState();//给子元素传值
     // eslint-disable-next-line
     const [c_data, setDataC] = useState();//摄像气泡传值
+    // eslint-disable-next-line
     const [b_data, setDataB] = useState();//床位传值
     const [d_data, setDataD] = useState();//门禁传值
     const [dark, setDark] = useState(false)//切换场景
@@ -210,7 +211,7 @@ function Home() {
                             let labelMsg = e.data.Personnel;
                             if(isSame3.current !== labelMsg){
                                 isSame3.current = labelMsg
-                                setDataB(labelMsg)
+                                // setDataB(labelMsg)
                             }
                             break;
                         default:

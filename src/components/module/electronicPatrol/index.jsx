@@ -86,8 +86,10 @@ const ElectronicPatrol = () => {
                         before_lines[0].patrol_camera.forEach((elcs,index)=>{
                             (function(index){
                                 setTimeout(()=>{
-                                    // videoPlay(elcs,"Patrol") ------中院
-                                    videoPlay({device_code:elcs.camera_code})
+                                    // ------中院
+                                    videoPlay(elcs,"Patrol") 
+                                    // ------汉中
+                                    // videoPlay({device_code:elcs.camera_code})
                                 },index*1500)
                             }(index))
                         })
@@ -99,8 +101,10 @@ const ElectronicPatrol = () => {
                                     element.cameraList.forEach((elc,index)=>{
                                         (function(index){
                                             setTimeout(()=>{
-                                                // videoPlay(elc,"Patrol") ----- 中院
-                                                videoPlay({device_code:elc.camera_code})
+                                                // ------中院
+                                                videoPlay(elc,"Patrol")
+                                                // ------汉中
+                                                // videoPlay({device_code:elc.camera_code})
                                             },index*1500)
                                         }(index))
                                     })
