@@ -24,6 +24,7 @@ import { videodurl as videoDonwload_url } from '../../api/address';
 
 function Home() {
     const ws = useRef(null);
+    const timerRef = useRef(null);//动画延迟计时器
     const siteRef = useRef(null);
     const mapDark = useRef(null)//黑暗地图延迟加载的问题
     const MapLight_M = useRef(null)//黑暗地图延迟加载的问题
@@ -50,7 +51,6 @@ function Home() {
     const isSame = useRef(null) //防止重复点击
     const isSame2 = useRef(null) //防止重复点击
     const isSame3 = useRef(null) //防止重复点击
-
     const openNotification = () => {
         notification.open({
             message: '温馨提示',
@@ -71,6 +71,12 @@ function Home() {
         if(videoShow !== ""){openNotification()}
         // eslint-disable-next-line
     }, [videoShow]);
+
+    useEffect(() => {
+        return ()=>{
+            clearTimeout(timerRef.current)
+        }
+    }, [top_module])
     // 报警联动
     const webSocketInit = useCallback(() => {
         console.log('%c 报警socketReadyState:', "color: blue;font-size:13px", readyState)
@@ -157,9 +163,9 @@ function Home() {
     const closePage = () => {
         setAnimateName("animate__fadeOutLeft")
         dispatch({ type: "handleTop", top_navigation_count: "" });
-        setTimeout(() => {
+        timerRef.current = setTimeout(() => {
             dispatch({ type: "handleModule", top_navigation_module: "" });
-        },300);
+        },500);
     }
     // 监听点击模型
     const getModel_s = (map3d) => {

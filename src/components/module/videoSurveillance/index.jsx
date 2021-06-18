@@ -54,8 +54,7 @@ const VideoSurveillance = (props) => {
         }
         //监听message事件
         window.addEventListener("message", window.receiveMessageFromIndex, false);
-
-        return () => {
+        return() =>{
             closePolygon()
         }
     }, [])// eslint-disable-line react-hooks/exhaustive-deps
@@ -197,6 +196,7 @@ const VideoSurveillance = (props) => {
     }
     const onSelect = (selectedKeys, info) => {
         if (!info.node.children) {
+            Model.modelHighlight(mp_light,info.node.title.props.item.model_id)
             if (info.node.title.props.item.detail_info) {
                 videoPlay(info.node.title.props.item,"playVideo",((msg)=>{
                     let timestamp = Date.parse(new Date())+"video";
