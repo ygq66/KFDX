@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useLayoutEffect, Fragment, useRef } from 'react';
 import { useMappedState } from 'redux-react-hook';
 import { labelList, cameraList_S, roomList } from '../../api/mainApi';
-import { Build, Model } from '../../utils/map3d';
+import { Build, Model, createMap } from '../../utils/map3d';
 import './style.scss';
 
 const FloorList = () => {
     const map = useMappedState(state => state.map3d_light);
-    const [flList, setFlist] = useState(["一层", "二层", "三层", "四层", "五层", "六层", "七层"])
+    const [flList, setFlist] = useState([])
     const [count, setCount] = useState()
     const [show, setShow] = useState(false)
     const [buildData, setBdata] = useState({ build_name: { name: "默认" } })
@@ -142,6 +142,12 @@ const FloorList = () => {
         //分层
         var floorh = []
         buildData.floor_name.forEach(element => { floorh.push(element.floor_id.split("#")[1]) });
+        var FLOOR=item.floor_id.split("#")[1].substr(0,1);
+        if(FLOOR==="B"){
+            createMap.showDM(true,map);
+        }else{
+            createMap.showDM(false,map);
+        }
         Build.showFloor(map, buildData.build_name.build_id, item.floor_id.split("#")[1], floorh)
         //模型分层显示
         getForPosition(item.floor_id)

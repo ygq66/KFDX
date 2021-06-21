@@ -136,6 +136,11 @@ export const createMap = {
     //     console.log("111")
     //     Model.showModel(view3d, "FW_V001_JZ0001_WK", false);
     // }
+    //地面显示隐藏
+    showDM(groundVisible,view3d){
+        groundVisible = !groundVisible;
+        view3d.SetGroundVisible(groundVisible);
+    }
 }
 //模型标注类
 export const Model = {
@@ -675,16 +680,30 @@ export const Build = {
 
     // 楼层显示隐藏
     showFloor(view3d, buildingName, floorName, floor) {
-        let floorNum = Number(floorName.slice(-1));
+        console.log(buildingName, floorName, floor)
+
+        let floorNum = Number(floorName.substring(floorName.length-2))>=10?Number(floorName.substring(floorName.length-2)):Number(floorName.slice(-1))
+        var FLOOR=floorName.substr(0,1);
+    
+        if(FLOOR==="B"){
+            floorNum=-floorNum
+        }
+
         view3d.SetBuildingVisible(buildingName, floorName === "all" ? true : false);
-        floor.forEach((item, index) => {
-            let FNum = Number(item.slice(-1));
+        console.log("数组",floor);
+        floor.forEach(item => {
+            let FNum = Number(item.substring(1));
+            var ItmFloor=item.substr(0,1);
+            if(ItmFloor==="B"){
+                FNum=-FNum
+            }
+            console.log(FNum,floorNum,buildingName,item)
             if (FNum > floorNum) {
                 view3d.SetFloorVisible(buildingName, item, false);
             } else {
                 view3d.SetFloorVisible(buildingName, item, true);
             }
-            if (floor.length - 1 === index) {
+            if (floor.length - 1 === item) {
                 setTimeout(() => {
                     Model.getModel(view3d);
                 }, 1000)
