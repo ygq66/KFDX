@@ -18,23 +18,23 @@ export function videoPlay(data,wm,callback) {
         //     "cameraCode":data.device_code
         // }
         /* _海康_杭州中院_张源 */
-        if(wm === "LinkAlarm"){
-            json ={
-                "type": wm,
-                "cameraCode":data
-            }
-        }else{
-            json ={
-                "type": wm || "playVideo",
-                "cameraCode":data.detail_info
-            }
-        }
-        /* _海康_呼和浩特_卫录屏 */
-        // json ={
-        //     "type": "PlayVideo",
-        //     "winNumber": wm || "1",
-        //     "detailInfo": data.detail_info
+        // if(wm === "LinkAlarm"){
+        //     json ={
+        //         "type": wm,
+        //         "cameraCode":data
+        //     }
+        // }else{
+        //     json ={
+        //         "type": wm || "playVideo",
+        //         "cameraCode":data.detail_info
+        //     }
         // }
+        /* _海康_呼和浩特_卫录屏 */
+        json ={
+            "type": "PlayVideo",
+            "winNumber": wm || "1",
+            "detailInfo": data.detail_info
+        }
         webSocket.send(JSON.stringify(json))
     }
 }
