@@ -196,6 +196,7 @@ const VideoSurveillance = (props) => {
     }
     const onSelect = (selectedKeys, info) => {
         if (!info.node.children) {
+            Model.clearHighlight(mp_light)
             Model.modelHighlight(mp_light,info.node.title.props.item.model_id)
             if (info.node.title.props.item.detail_info) {
                 videoPlay(info.node.title.props.item,"playVideo",((msg)=>{
@@ -338,6 +339,7 @@ const VideoSurveillance = (props) => {
         props.close();
         closePolygon(); 
         Build.allShow(mp_light, true);
+        Model.clearHighlight(mp_light)
     }
     return (
         <div id="VideoSurveillance" className="VideoSurveillance">

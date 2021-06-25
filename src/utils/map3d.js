@@ -166,6 +166,10 @@ export const Model = {
     modelHighlight(view3d,gid){
         view3d.SetObjectHighlight(gid);
     },
+    //去除地图高亮
+    clearHighlight(view3d){
+        view3d.ClearHighlight();
+    },
     //关闭编辑
     endEditing(view3d) {
         view3d.OverLayerStopEdit();
