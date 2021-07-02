@@ -3,8 +3,11 @@ import './style.scss'
 import { getLogin, getConfig, layoutList } from '../../api/mainApi'
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { Common } from '../../utils/mapMethods';
+import { useHistory } from "react-router-dom";
+
 
 function Header(props) {
+    const history = useHistory();
     const dispatch = useDispatch();
     const mp_light = useMappedState(state => state.map3d_light);
     const top_count = useMappedState(state => state.top_navigation_count);
@@ -46,17 +49,25 @@ function Header(props) {
                 }
             })
         }else{
-            getLogin({ user_name: 'admin', user_pwd: 'admin' }).then(res => {
+            getConfig().then(res => {
                 if (res.msg === "success") {
-                    dispatch({ type: "userData", userData: res.data })
-                    sessionStorage.setItem("userData",JSON.stringify(res.data))
-                    console.log("没有登录记录",res.data)
-                    getConfig().then(res => {
-                        if (res.msg === "success") {
-                            setST(res.data.sys_name)
-                            get_layout_list(res.data.scenarios_id, res.data.versions_id)
-                        }
-                    })
+                    if(res.data.is_login){
+                        getLogin({ user_name: 'admin', user_pwd: 'admin' }).then(res => {
+                            if (res.msg === "success") {
+                                dispatch({ type: "userData", userData: res.data })
+                                sessionStorage.setItem("userData",JSON.stringify(res.data))
+                                console.log("没有登录记录",res.data)
+                                getConfig().then(res => {
+                                    if (res.msg === "success") {
+                                        setST(res.data.sys_name)
+                                        get_layout_list(res.data.scenarios_id, res.data.versions_id)
+                                    }
+                                })
+                            }
+                        })
+                    }else{
+                        history.push("/login");
+                    }
                 }
             })
         }
