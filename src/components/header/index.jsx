@@ -37,17 +37,29 @@ function Header(props) {
     }
     // login
     const login_user = () => {
-        getLogin({ user_name: 'admin', user_pwd: 'admin' }).then(res => {
-            dispatch({ type: "userData", userData: res.data })
-            if (res.msg === "success") {
-                getConfig().then(res => {
-                    if (res.msg === "success") {
-                        setST(res.data.sys_name)
-                        get_layout_list(res.data.scenarios_id, res.data.versions_id)
-                    }
-                })
-            }
-        })
+        if(JSON.parse(sessionStorage.getItem('userData'))){
+            console.log("有登录记录",JSON.parse(sessionStorage.getItem('userData')))
+            getConfig().then(res => {
+                if (res.msg === "success") {
+                    setST(res.data.sys_name)
+                    get_layout_list(res.data.scenarios_id, res.data.versions_id)
+                }
+            })
+        }else{
+            getLogin({ user_name: 'admin', user_pwd: 'admin' }).then(res => {
+                if (res.msg === "success") {
+                    dispatch({ type: "userData", userData: res.data })
+                    sessionStorage.setItem("userData",JSON.stringify(res.data))
+                    console.log("没有登录记录",res.data)
+                    getConfig().then(res => {
+                        if (res.msg === "success") {
+                            setST(res.data.sys_name)
+                            get_layout_list(res.data.scenarios_id, res.data.versions_id)
+                        }
+                    })
+                }
+            })
+        }
     }
     // get header_module_list
     const get_layout_list = (sid, vid) => {

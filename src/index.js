@@ -21,7 +21,7 @@ ReactDOM.render(
       <Switch>
         <Route path="/login" exact component={Login} />
         <Route path="/home" exact component={Home} />
-        <Redirect from='/' exact to='/home'/>
+        <Redirect from='/' exact to='/login'/>
       </Switch>
     </Router>
   </StoreContext.Provider>,
