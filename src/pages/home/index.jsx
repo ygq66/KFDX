@@ -118,7 +118,7 @@ function Home() {
                          *  Common.mapFly(MapLight_M.current,results)
                          */
                       } else {
-                        if (res.data[0].length > 0) {
+                        if (res.data.length > 0) {
                           //报警闪闪
                           createMap.findObjectById(mapDark.current, res.data[0][0].real_name, msg => {
                             const usebeforeMsg = { ...msg }
@@ -142,19 +142,18 @@ function Home() {
                           }, 300)
                         } else {
                           message.warning("此次报警无坐标值_cameraRegion");
-                          // setTimeout(() => {
-                          //   var points = results.list_style ? results.list_style : results.center
-                          //   var points2 = {
-                          //     x: Common.filter(points.x),
-                          //     y: Common.filter(points.y),
-                          //     z: Common.filter(points.z),
-                          //     pitch: Common.filter(points.pitch),
-                          //     yaw: Common.filter(points.yaw),
-                          //     roll: Common.filter(points.roll)
-                          //   }
-                          //   console.log("我敢啊",results.device_code.replace(new RegExp(".","g"),"_"))
-                          //   Model.createLineBj(mapDark.current, results.device_code.replace(new RegExp(".","g"),"_"), points2, JSON.parse(e.data).device_info.device_name, 400, "#cef810")
-                          // }, 300)
+                          setTimeout(() => {
+                            var points = results.list_style ? results.list_style : results.center
+                            var points2 = {
+                              x: Common.filter(points.x),
+                              y: Common.filter(points.y),
+                              z: Common.filter(points.z),
+                              pitch: Common.filter(points.pitch),
+                              yaw: Common.filter(points.yaw),
+                              roll: Common.filter(points.roll)
+                            }
+                            Model.createLineBj(mapDark.current, results.device_code.replace(/\./g,'_'), points2, JSON.parse(e.data).device_info.device_name, 400, "#cef810")
+                          }, 300)
                         }
                       }
                     }
