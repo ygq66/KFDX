@@ -22,8 +22,8 @@ const VideoSurveillance = (props) => {
     const [isLine, setLine] = useState(true)
     const [gidList, setGilist] = useState([])
     const [fenceng, setSF] = useState({build_id:"",allfloor:""})
-
     let array_list = null
+
     //Compiled with warnings
     useEffect(() => {
         regionList({ category_id: "10001",onmap:true}).then(res => {
@@ -31,8 +31,10 @@ const VideoSurveillance = (props) => {
                 let listarry = []
                 antdTree(res.data, listarry)
                 setlist(res.data)//视频列表
-                setExpandedKeys([res.data[0].key, res.data[0].children[0].key])//默认展开
                 setSpinning(false)
+                if(res.data[0].children && res.data[0].children.length>0){
+                    setExpandedKeys([res.data[0].key, res.data[0].children[0].key])//默认展开
+                }
             }
         })
         window.receiveMessageFromIndex = function (e) {
@@ -42,6 +44,7 @@ const VideoSurveillance = (props) => {
                             const position = { ...e.data.Personnel, z: Number(e.data.Personnel.z) + 50 }
                             Event.pointTracing(mp_light,position,(msg)=>{
                                 getDragList("point",[position],msg.gid)
+                                console.log("point",[position],msg.gid,'点反胡子')
                                 var cc = gidList
                                 cc.push(msg.gid)
                                 setGilist(cc)
@@ -76,14 +79,13 @@ const VideoSurveillance = (props) => {
     const getDragList = (type,center,gid) => {
         traceDrag({ type: type, positions: center }).then(res => {
             if (res.msg === "success") {
+                closePoint()
                 let allList = Dotlinelist
-                console.log(allList,'allList')
                 if(type === "point"){
                     allList.push({name:"点追踪",gid:gid,children:res.data})
                 }else{
                     allList.push({name:"线追踪",children:res.data})
                 }
-                console.log(allList,'阿姨？')
                 DlVislib(true)
                 setlinelist(allList)
             }

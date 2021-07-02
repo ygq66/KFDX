@@ -107,10 +107,10 @@ const AlarmPopup = (props) => {
                 }
                 cameraRegion({ positions: pos }).then(res => {
                     if (res.msg === "success") {
-                        //清除文字和线
-                        Model.removeGid(mapDark, "BjZ_" + res.data[0][0].real_name)
+                        //清除文字和线和底座圆
                         Model.removeGid(mapDark, "BjX_" + res.data[0][0].real_name)
-
+                        Model.removeGid(mapDark, "BjZ_" + res.data[0][0].real_name)
+                        Model.removeGid(mapDark, "BjY_" + res.data[0][0].real_name)
                         //清除面
                         alarmPolygons.forEach(element => {
                             if (element.gid === res.data[0][0].real_name) {

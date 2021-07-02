@@ -29,10 +29,9 @@ export function videoPlay(data,wm,callback) {
         //         "cameraCode":data.detail_info
         //     }
         // }
-        /* _海康_呼和浩特_卫录屏 */
+        /* _海康__卫录屏 */
         json ={
             "type": "PlayVideo",
-            "winNumber": wm || "1",
             "detailInfo": data.detail_info
         }
         webSocket.send(JSON.stringify(json))

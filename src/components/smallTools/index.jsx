@@ -33,9 +33,11 @@ const SmallTools = () => {
     const handleTool = useCallback((index) => {
         switch (index) {
             case 0:
-                Common.initializationPosition(mp_light)
-                if (!(JSON.stringify(mp_dark) === "{}")) {
+                if (!(Object.keys(mp_dark).length === 0)) {
                     Common.initializationPosition(mp_dark)
+                }
+                if (!(Object.keys(mp_light).length === 0)) {
+                    Common.initializationPosition(mp_light)
                 }
                 break;
             case 1:

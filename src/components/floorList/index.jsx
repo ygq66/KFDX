@@ -74,6 +74,7 @@ const FloorList = () => {
         });
     }
     //加载标注
+    // eslint-disable-next-line
     const getFloorPosition = (buidId, floorId) => {
         roomList({ build_id: buidId, floor_id: floorId }).then(res => {
             if (res.msg === "success") {
@@ -104,10 +105,8 @@ const FloorList = () => {
                 });
                 setLabel(neendObj);
             }
-
         })
     }
-
     //分层模型加载
     const getForPosition = (fl)=>{
         cameraList_S({ device_code: "" }).then(res => {
@@ -136,7 +135,7 @@ const FloorList = () => {
     //点击楼层
     const handleFloor = (item, index) => {
         del_label()
-        getFloorPosition(buildData.build_name.build_id, item.floor_id)
+        // getFloorPosition(buildData.build_name.build_id, item.floor_id)
         //传给床位组件
         setCount(index)
         //分层

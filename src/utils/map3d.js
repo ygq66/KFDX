@@ -372,6 +372,22 @@ export const Model = {
                 roll: 0 // 翻滚角
             }
         };
+        const obj2 = {
+            gid: "BjY_" + gid,
+            type: 'cylinder',
+            radius: 1000.0, // 半径
+            height: 100.0, // 高
+            style: 'SplineOrangeHighlight1', // style 样式优先于color 
+            location: {
+                x: points.x,
+                y: points.y,
+                z: points.z,
+                pitch: 0, // 俯仰角 0——90度
+                yaw: 0, // 偏航角 0-360度
+                roll: 0 // 翻滚角
+            }
+        };
+        view3d.OverLayerCreateObject(obj2)
         view3d.OverLayerCreateObject(obj, res => {
             Model.labelLoading(view3d, {
                 gid: "BjZ_" + gid,
