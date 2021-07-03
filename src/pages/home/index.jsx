@@ -120,10 +120,9 @@ function Home() {
                       } else {
                         if (res.data.length > 0) {
                           //报警闪闪
-                          createMap.findObjectById(mapDark.current, res.data[0][0].real_name, msg => {
+                          createMap.findObjectById(mapDark.current, res.data[0].real_name, msg => {
                             const usebeforeMsg = { ...msg }
-                            //暂不使用
-                            // Model.updatePolygon(mapDark.current, msg, "SplineOrangeHighlight1")
+                            Model.updatePolygon(mapDark.current, msg, "SplineOrangeHighlight1")
                             beforeMsg.push(usebeforeMsg)
                             dispatch({ type: "alarmMsg", alarmMsg: beforeMsg });
                           })
@@ -138,7 +137,7 @@ function Home() {
                               yaw: Common.filter(points.yaw),
                               roll: Common.filter(points.roll)
                             }
-                            Model.createLineBj(mapDark.current, res.data[0][0].real_name, points2, JSON.parse(e.data).device_info.device_name, 400, "#cef810")
+                            Model.createLineBj(mapDark.current, res.data[0].real_name, points2, JSON.parse(e.data).device_info.device_name, 400, "#cef810")
                           }, 300)
                         } else {
                           message.warning("此次报警无坐标值_cameraRegion");

@@ -5,7 +5,7 @@ import { regionList, cameraList_S, labelList, traceDrag } from '../../../api/mai
 import { Common } from '../../../utils/mapMethods';
 import { videoPlay } from '../../../utils/untils'
 import { useMappedState, useDispatch} from 'redux-react-hook';
-import { createMap, Model, Build, Event } from '../../../utils/map3d'
+import { createMap, Model, Build } from '../../../utils/map3d'
 import { message } from 'antd';
 import './style.scss';
 
@@ -14,16 +14,12 @@ const VideoSurveillance = (props) => {
     const mp_light = useMappedState(state => state.map3d_light);
     const [carmealist, setlist] = useState([]);
     const [Dotlinelist, setlinelist] = useState([]);
-    const [DotlineVislib, DlVislib] = useState(false)
     const [spinning, setSpinning] = useState(true)
     const [allPolygonObj, setapj] = useState([])
     const [isPolygon, setPolygon] = useState(true)
     const [isPoint, setDrowPoint] = useState(true)
     const [isLine, setLine] = useState(true)
-    const [gidList, setGilist] = useState([])
     const [fenceng, setSF] = useState({build_id:"",allfloor:""})
-    let array_list = null
-
     //Compiled with warnings
     useEffect(() => {
         regionList({ category_id: "10001",onmap:true}).then(res => {
@@ -37,26 +33,6 @@ const VideoSurveillance = (props) => {
                 }
             }
         })
-        window.receiveMessageFromIndex = function (e) {
-            if (e !== undefined) {
-                switch (e.data.switchName) {
-                    case 'MousePosition':
-                            const position = { ...e.data.Personnel, z: Number(e.data.Personnel.z) + 50 }
-                            Event.pointTracing(mp_light,position,(msg)=>{
-                                getDragList("point",[position],msg.gid)
-                                console.log("point",[position],msg.gid,'点反胡子')
-                                var cc = gidList
-                                cc.push(msg.gid)
-                                setGilist(cc)
-                            })
-                        break;
-                    default:
-                        return null;
-                }
-            }
-        }
-        //监听message事件
-        window.addEventListener("message", window.receiveMessageFromIndex, false);
         return() =>{
             closePolygon()
         }
@@ -76,23 +52,22 @@ const VideoSurveillance = (props) => {
     }
 
     //获取点线追踪数据的接口
-    const getDragList = (type,center,gid) => {
+    const getDragList = (type,center) => {
         traceDrag({ type: type, positions: center }).then(res => {
             if (res.msg === "success") {
-                closePoint()
-                let allList = Dotlinelist
+                let allList = JSON.parse(JSON.stringify(Dotlinelist))
                 if(type === "point"){
-                    allList.push({name:"点追踪",gid:gid,children:res.data})
+                    allList.push({name:"点追踪",children:res.data})
                 }else{
                     allList.push({name:"线追踪",children:res.data})
                 }
-                DlVislib(true)
+                console.log(allList,'真几把服了')
                 setlinelist(allList)
             }
         })
     }
 
-    //关闭点线绘画
+    //关闭点绘画
     const closePoint = () =>{
         Model.endEditing(mp_light);
         Model.closeCircle(mp_light);
@@ -102,19 +77,24 @@ const VideoSurveillance = (props) => {
     function Dotlineselect(ort) {
         switch (ort) {
             case 1:
-                createMap.getMousePosition(mp_light)
+                createMap.getMousePosition(mp_light,msg=>{
+                    const position = { ...msg, z: Number(msg.z) + 50 }
+                    console.log(position,'回调得到得')
+                    getDragList("point",[position])
+                    closePoint()
+                })
                 setDrowPoint(!isPoint)
                 if(!isPoint){closePoint()}
                 break;
             case 2:
                 setLine(false)
                 closePoint()
-                Model.drawLine(mp_light, res => {
-                    getDragList("linestring",res.points)
-                    setLine(true)
+                Model.drawLine(mp_light,msg=> {
+                    getDragList("linestring",msg.points)
                     Model.endEditing(mp_light);
                     Model.closeLine(mp_light);
-                })
+                    setLine(true)
+                })
                 break;
             case 3:
                 closePoint()
@@ -158,32 +138,8 @@ const VideoSurveillance = (props) => {
         }
     }
     function dotLineclose() {
-        DlVislib(!DotlineVislib)
-        let before_list = [...Dotlinelist]
-        before_list = []
-        setlinelist(before_list)
-    }
-    function dotLinedelete(index,gid) {
-        index--;
-        array_list = [...Dotlinelist]
-        array_list.remove(index)
-        setlinelist(array_list)
-        if(gid){Model.removeGid(mp_light,gid)}
-    }
-    // eslint-disable-next-line
-    Array.prototype.remove = function (obj) {
-        for (var i = 0; i < this.length; i++) {
-            var temp = this[i];
-            if (!isNaN(obj)) {
-                temp = i;
-            }
-            if (temp === obj) {
-                for (var j = i; j < this.length; j++) {
-                    this[j] = this[j + 1];
-                }
-                this.length = this.length - 1;
-            }
-        }
+        // eslint-disable-next-line
+        setlinelist(new Array())
     }
     //显示单摄像头的区域
     const showArea = (data)=>{
@@ -378,18 +334,21 @@ const VideoSurveillance = (props) => {
                 </div>
             </div>
 
-            {DotlineVislib ?
+            {
+            Dotlinelist.length>0 ?
                 <div className="Dotline">
                     <div className="Dotline-tit"><span>追查过程</span><img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => dotLineclose()}></img></div>
                     {
                         Dotlinelist.map((item, index) => {
-                            return (index++, console.log("INDEX", index),
+                            return (
                                 <div className="Dotline-Nr">
-                                    <p><span className="Dotline-Nr-tit">{index}.{item.name}</span><img src={require("../../../assets/images/shanchu-3.png").default} alt="" onClick={() => dotLinedelete(index,item.gid)}></img></p>
+                                    <p><span className="Dotline-Nr-tit">{index+1}.{item.name}</span></p>
                                     <div className="allpath">
                                         {
                                             item.children.map((str, key) => {
-                                                return (key++, <span>({key})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span>)
+                                                return (
+                                                    key++, <span>({key})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span>
+                                                )
                                             })
                                         }
                                     </div>
@@ -398,7 +357,8 @@ const VideoSurveillance = (props) => {
                         })
                     }
                     {/* <div className="Dotline-exp">导出报告</div> */}
-                </div> : ""}
+                </div> : null
+            }
         </div>
     )
 
