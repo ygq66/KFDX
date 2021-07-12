@@ -4,6 +4,9 @@ var Polygon = null;
 var paopao = []; //气泡gid
 //创建地图类
 export const createMap = {
+    playSequence(view3d, id) {
+        view3d.PlaySequence(id)
+    },
     createMap(options, callback) {
         //创建实例
         /* global MapVision */
