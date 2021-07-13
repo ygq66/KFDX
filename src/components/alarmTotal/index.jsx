@@ -174,9 +174,9 @@ const Alarm = () => {
     }
     const contentp =(item) => (
         <div className="popoverContent">
-        <p onClick={()=>caozuo("1",item)}>确认</p>
-        <p onClick={()=>caozuo("2",item)}>忽略</p>
-      </div>
+            <p onClick={()=>caozuo("1",item)}>确认</p>
+            <p onClick={()=>caozuo("2",item)}>忽略</p>
+        </div>
     )
     return (
         <div id="Alarm">

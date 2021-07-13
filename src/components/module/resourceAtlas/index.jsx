@@ -111,7 +111,9 @@ const ResourceAtlas = (props) => {
                         getEcharts(element, res.data)
                         // Echartsoncheng(element)
                     }
-                    ndata[0].children.unshift(element)
+                    if(ndata.length>0){
+                        ndata[0].children.unshift(element)
+                    }
                 });
                 let listarry = []
                 antdTree(ndata, listarry)
@@ -128,6 +130,7 @@ const ResourceAtlas = (props) => {
         Treetotal(data).then(res => {
             if (res.msg === "success") {
                 setList(res.data)
+                console.log(res.data,'呃呃呃呃呃')
                 get_echarts_list(res.data)
                 // listobjLoadMaincopy=[...res.data]
             }
@@ -239,7 +242,7 @@ const ResourceAtlas = (props) => {
                                     treeData={loadlist}
                                 //showLeafIcon={false}
                                 //switcherIcon={false}
-                                ></Tree> : null
+                                ></Tree> : <Empty style={{ marginTop: "80px" }} image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据" />
                             }
                         </Spin>
                     </div>

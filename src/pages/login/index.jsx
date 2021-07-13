@@ -11,16 +11,12 @@ const Login = () => {
     const [isLoading, setLoading] = useState(false);
     const [loginTitle,setloginTitle] = useState({logo:require('../../assets/logo/ty_logo.png').default,title:'图为视业务管理系统'})
     useEffect(() => {
-        if(JSON.parse(sessionStorage.getItem('userData'))){
-            history.push("/home");
-        }else{
-            getConfig().then(res=>{
-                setloginTitle({logo:res.data.sys_logo_url,title:res.data.sys_name})
-                if(res.data.is_login){
-                    history.push("/home");
-                }
-            })
-        }
+        getConfig().then(res=>{
+            setloginTitle({logo:res.data.sys_logo_url,title:res.data.sys_name})
+            if(res.data.is_login){
+                history.push("/home");
+            }
+        })
         // eslint-disable-next-line
     },[]);
     //样式
