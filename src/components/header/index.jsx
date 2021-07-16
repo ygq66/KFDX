@@ -41,7 +41,7 @@ function Header(props) {
     // login
     const login_user = () => {
         if(JSON.parse(sessionStorage.getItem('userData'))){
-            console.log("有登录记录",JSON.parse(sessionStorage.getItem('userData')))
+            console.log("有登录记录")
             getConfig().then(res => {
                 if (res.msg === "success") {
                     setST(res.data.sys_name)
@@ -56,7 +56,7 @@ function Header(props) {
                             if (res.msg === "success") {
                                 dispatch({ type: "userData", userData: res.data })
                                 sessionStorage.setItem("userData",JSON.stringify(res.data))
-                                console.log("没有登录记录",res.data)
+                                console.log("没有登录记录")
                                 getConfig().then(res => {
                                     if (res.msg === "success") {
                                         setST(res.data.sys_name)

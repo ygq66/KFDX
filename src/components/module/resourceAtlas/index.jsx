@@ -130,7 +130,6 @@ const ResourceAtlas = (props) => {
         Treetotal(data).then(res => {
             if (res.msg === "success") {
                 setList(res.data)
-                console.log(res.data,'呃呃呃呃呃')
                 get_echarts_list(res.data)
                 // listobjLoadMaincopy=[...res.data]
             }

@@ -519,8 +519,8 @@ export const Model = {
     getModel(view3d) {
         // 过滤 对象  prefix 对象名称前缀   ，path 路径前缀
         var paramers = {
-            //prefix: 'M,T,J',
-            prefix: 'MP,T,J',
+            prefix: 'M,T,J,V',    
+            // prefix: '',
             path: '',
             speedroute: 10
         };

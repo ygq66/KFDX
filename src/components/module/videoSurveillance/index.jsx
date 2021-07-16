@@ -61,7 +61,6 @@ const VideoSurveillance = (props) => {
                 }else{
                     allList.push({name:"线追踪",children:res.data})
                 }
-                console.log(allList,'真几把服了')
                 setlinelist(allList)
             }
         })
@@ -79,7 +78,6 @@ const VideoSurveillance = (props) => {
             case 1:
                 createMap.getMousePosition(mp_light,msg=>{
                     const position = { ...msg, z: Number(msg.z) + 50 }
-                    console.log(position,'回调得到得')
                     getDragList("point",[position])
                     closePoint()
                 })
@@ -168,7 +166,6 @@ const VideoSurveillance = (props) => {
                 if (res.msg === "success") {
                     if (res.data.length > 0) {
                         var results = res.data[0]
-                        console.log(results)
                         //飞行
                         Common.mapFly(mp_light, results)
                         if(fenceng.build_id !== "" && fenceng.allfloor !== ""){
@@ -294,6 +291,7 @@ const VideoSurveillance = (props) => {
 
     //关闭这个页面
     const closeVideoSur = () =>{
+        console.log(props,'ppppppppppppppp')
         props.close();
         closePolygon(); 
         Build.allShow(mp_light, true);
@@ -341,13 +339,13 @@ const VideoSurveillance = (props) => {
                     {
                         Dotlinelist.map((item, index) => {
                             return (
-                                <div className="Dotline-Nr">
+                                <div className="Dotline-Nr" key={index}>
                                     <p><span className="Dotline-Nr-tit">{index+1}.{item.name}</span></p>
                                     <div className="allpath">
                                         {
                                             item.children.map((str, key) => {
                                                 return (
-                                                    key++, <span>({key})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span>
+                                                    key++, <span key={key}>({key})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span>
                                                 )
                                             })
                                         }
