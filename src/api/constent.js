@@ -1,4 +1,4 @@
-import { api1 as ApiUrl, api2 as ApiUrl2, doorInurl as doorUrl } from './address';
+import { api1 as ApiUrl, api2 as ApiUrl2, doorInurl as doorUrl, positionS as posPerson } from './address';
 
 // 接口集合
 const constant =  {
@@ -102,8 +102,13 @@ const constant =  {
   SPCC_DoorList : `${doorUrl}/SPCC/DoorList`,
 
   //床位信息查询 -- 犯人列表
-  GKBedInformationRoom : `${doorUrl}/SPCC/GKBedInformationRoom`
+  GKBedInformationRoom : `${doorUrl}/SPCC/GKBedInformationRoom`,
 
+  //人员定位列表
+  GetPeopleInside : `${posPerson}/PS/GetPeopleInside`,
+
+  //人员轨迹查询
+  GetTimePeople : `${posPerson}/PS/GetTimePeople`
 } 
 
 export default constant;

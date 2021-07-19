@@ -238,3 +238,15 @@ export function locationList_h() {
         method: 'get'
     })
 }
+export function GetPeopleInside() {
+    return request({
+        url: constant.GetPeopleInside,
+        method: 'get'
+    })
+}
+export function GetTimePeople() {
+    return request({
+        url: constant.GetTimePeople,
+        method: 'get'
+    })
+}

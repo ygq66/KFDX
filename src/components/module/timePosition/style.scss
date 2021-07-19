@@ -4,6 +4,13 @@
         background: url(../../../assets/images/tc-title.png) no-repeat;
         width: 358px;
         height: 34px;
+        line-height: 34px;
+        h1{
+            color: #47fbff;
+            font-size: 18px;
+            margin-left: 23px;
+            letter-spacing: 1px;
+        }
         img {
             position: absolute;
             top: -10px;
@@ -12,21 +19,21 @@
         }
     }
     .TimePosition_list {
-        width: 352px;
+        width: 356px;
         margin-top: -2px;
         margin-left: 2px;
         border: 2px solid $theme-color;
-        // height: calc(100vh - 170px);
-        background-color: #00000062;
+        border-radius: 0 0 15px 15px;
+        background-color: #000000b0;
+        box-shadow: 0 0 40px 20px #077c7e4d inset;
         border-radius: 0 0 15px 15px;
    
         ul {
-            height: calc(100vh - 208px);
+            height: calc(100vh - 170px);
             // max-height: 730px;
             overflow: auto;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 0 10px 20px #077c7e4d inset;
             @include scrollbar(3px);
             li {
                 display: flex;

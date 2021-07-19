@@ -7,5 +7,7 @@
     "doorInterface":"http://xxxxx",
     "videoDownload":"https://www.taobao.com/",
     "luwangName":"nmd",
-    "luwangIp":"192.168.0.245:9901"
+    "luwangIp":"192.168.0.245:9901",
+    "positionPerson":"http://65.68.201.19:8082",
+    "personSocket":"ws://65.68.201.19:4649"
 }   
