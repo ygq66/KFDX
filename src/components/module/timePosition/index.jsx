@@ -22,10 +22,10 @@ const TimePosition = (props) => {
             console.log('%c 人员定位 websocket is open:',"color:red;font-size:13px")
         }
         webSocket.onmessage = function (e) {
-            let results = JSON.pase(e.data)
+            let results = JSON.parse(e.data)
             console.log(results,'socket发送给前端的数据')
             if(results.xAxis){
-                getPersonIcon(results,{x:results.xAxis,y:results.yAxis})
+                getPersonIcon(results,{x:Number(results.xAxis),y:Number(results.yAxis)})
             }else{
                 let allList = JSON.parse(JSON.stringify(personList))
                 allList.push(results)
@@ -55,6 +55,8 @@ const TimePosition = (props) => {
                     y: repaclePosition(pos).y,
                     z: 1000
                 }
+            },(msg)=>{
+                console.log(msg,'加载完毕一个图标')
             })
         }, 100);
     }
@@ -71,17 +73,16 @@ const TimePosition = (props) => {
         let deviation_x = map_distance_x / location_distance_x;
         let deviation_y = map_distance_y / location_distance_y;
         //导出计算后的值
-        let map_deviation_x = mapX1 - Math.abs(( map_pos.x - locationX1) * deviation_x);
-        let map_deviation_y = mapY1 - Math.abs(( map_pos.y - locationY1) * deviation_y);
+        let map_deviation_x = mapX1 - ( map_pos.x - locationX1) * deviation_x;
+        let map_deviation_y = mapY1 - ( map_pos.y - locationY1) * deviation_y;
         let pos = { x:map_deviation_x, y:map_deviation_y };
-        console.log(pos,'换算后的坐标')
         return pos;
     }
 
     return (
         <div className="TimePosition">
             <div className="TimePosition_top">
-                <h1>门禁应用</h1>
+                <h1>实时定位</h1>
                 <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={()=>props.close()} />
             </div>
             <div className="TimePosition_list">
