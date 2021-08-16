@@ -297,6 +297,13 @@ const VideoSurveillance = (props) => {
         Build.allShow(mp_light, true);
         Model.clearHighlight(mp_light)
     }
+    //点线视频查看
+    const handelCamera = (data)=>{
+        videoPlay(data,"preview",((msg)=>{
+            let timestamp = Date.parse(new Date())+"video";
+            dispatch({ type: "checkVideo", isVideo: timestamp });
+        }))
+    }
     return (
         <div id="VideoSurveillance" className="VideoSurveillance">
             <div className="VideoSurveillance_top">
@@ -345,7 +352,7 @@ const VideoSurveillance = (props) => {
                                         {
                                             item.children.map((str, key) => {
                                                 return (
-                                                    key++, <span key={key}>({key})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span>
+                                                    key++, <span key={key} onClick={()=> handelCamera(str)}>({key})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span>
                                                 )
                                             })
                                         }

@@ -99,7 +99,7 @@ const ResourceAtlas = (props) => {
     useEffect(() => {
         post_Organization_list();
         // eslint-disable-next-line
-    }, [])
+    },[])
 
     //设备类型数量
     const get_echarts_list = (ndata) => {
@@ -125,9 +125,7 @@ const ResourceAtlas = (props) => {
 
     //组织机构
     const post_Organization_list = () => {
-        // let dalist=[];
-        let data = { category_id: "" }
-        Treetotal(data).then(res => {
+        Treetotal({ category_id: "" }).then(res => {
             if (res.msg === "success") {
                 setList(res.data)
                 get_echarts_list(res.data)
@@ -211,7 +209,7 @@ const ResourceAtlas = (props) => {
         <div id="ResourceAtlas" className="ResourceAtlas">
             <div className="ResourceAtlas_top">
                 <h1>资源图谱</h1>
-                <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => { props.close(); Model.closeIcon(mp_light) }} />
+                <img src={require("../../../assets/images/closeBtn.png").default} alt="" onClick={() => {Model.closeIcon(mp_light);props.close()}} />
             </div>
             <div className="ResourceAtlas_list">
                 <Spin spinning={spinning} tip="加载中...">

@@ -51,18 +51,18 @@ export const createMap = {
         view3d.OverLayerRemoveAll();
     },
     //设置屏幕
-    SetResolution(id, view3d) {
-        if (view3d) {
-            var divObj = document.getElementById(id);
-            if (!divObj) {
-                alert("error");
-                return;
-            }
-            var width = divObj.clientWidth;
-            var height = divObj.clientHeight;
-            view3d.SetResolution(width, height);
-        }
-    },
+    // SetResolution(id, view3d) {
+    //     if (view3d) {
+    //         var divObj = document.getElementById(id);
+    //         if (!divObj) {
+    //             alert("error");
+    //             return;
+    //         }
+    //         var width = divObj.clientWidth;
+    //         var height = divObj.clientHeight;
+    //         view3d.SetResolution(width, height);
+    //     }
+    // },
     // 获取当前视角位置
     getCurrent(view3d, callback) {
         view3d.GetCurrentPosition(pos => {
@@ -581,8 +581,6 @@ export const Model = {
     },
     // 创建图标
     createIcon(view3d, style, callback) {
-
-
         // 注意,此功能为异步操作
         const obj = {
             type: 'image', // 10102  或  image
@@ -875,7 +873,7 @@ function SetResolution(options, view3d) {
     if (view3d) {
         var divObj = document.getElementById(options.id);
         if (!divObj) {
-            alert("error");
+            console.log("设置屏幕 error");
             return;
         }
         var width = divObj.clientWidth;

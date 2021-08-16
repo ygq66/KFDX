@@ -25,7 +25,15 @@ const ElectronicPatrol = () => {
     const [problems,setProblem] = useState([{name:"撒打算",value:"0"},{name:"撒打算",value:"1"},{name:"撒打算",value:"2"}])
     const [show2,setShow2] = useState(false)//开始之后
     // eslint-disable-next-line
-    const [timeList,setTimeList] = useState([{time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},{time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},{time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},{time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},{time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},{time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},{time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"}])
+    const [timeList,setTimeList] = useState([
+        {time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},
+        {time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},
+        {time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},
+        {time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},
+        {time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},
+        {time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"},
+        {time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"}
+    ])
     // eslint-disable-next-line
     const [lineList,setLineList] = useState([]) 
     const [speed,setSpeed] = useState(20)

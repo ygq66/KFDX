@@ -274,7 +274,7 @@ const FaceApplication =(props)=>{
     //打开视频控件
     const goVideo = (item)=>{
         if (item.detail_info) {
-            videoPlay(item,"playVideo",((msg)=>{
+            videoPlay(item,"BackLinkAlarm",((msg)=>{
                 let timestamp = Date.parse(new Date())+"video";
                 dispatch({ type: "checkVideo", isVideo: timestamp });
             }))
