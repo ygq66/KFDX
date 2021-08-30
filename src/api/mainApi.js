@@ -238,15 +238,16 @@ export function locationList_h() {
         method: 'get'
     })
 }
-export function GetPeopleInside() {
+export function GetPeopleInfo() {
     return request({
-        url: constant.GetPeopleInside,
+        url: constant.GetPeopleInfo,
         method: 'get'
     })
 }
-export function GetTimePeople() {
+export function GetlocationPaths(paramsData) {
     return request({
-        url: constant.GetTimePeople,
-        method: 'get'
+        url: constant.GetlocationPaths,
+        method: 'post',
+        data: paramsData
     })
 }

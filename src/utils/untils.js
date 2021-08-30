@@ -14,23 +14,23 @@ export function videoPlay(data,wm,callback) {
     //     "cameraCode":data.device_code
     // }
     /* _海康__卫录屏 */
-    json ={
-        "type": "PlayVideo",
-        "detailInfo": data.detail_info
-    }
-    /* 园区 */
     // json ={
     //     "type": "PlayVideo",
-    //     "winNumber": "0",
-    //     "detailInfo": {
-    //         "Address": data.device_code,
-    //         "Port": "8000",
-    //         "UserName": "admin",
-    //         "Password": "dx123456",
-    //         "Channel": "1",
-    //         "CameraName": data.device_name
-    //     }
+    //     "detailInfo": data.detail_info
     // }
+    /* 园区 */
+    json ={
+        "type": "PlayVideo",
+        "winNumber": "0",
+        "detailInfo": {
+            "Address": data.device_code,
+            "Port": "8000",
+            "UserName": "admin",
+            "Password": "dx123456",
+            "Channel": "1",
+            "CameraName": data.device_name
+        }
+    }
     videoSocket.onopen = function (e) {
         console.log('%c video websocket is open:',"color: red;font-size:13px")
         videoSocket.send(JSON.stringify(json))

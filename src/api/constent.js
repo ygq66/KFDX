@@ -105,10 +105,10 @@ const constant =  {
   GKBedInformationRoom : `${doorUrl}/SPCC/GKBedInformationRoom`,
 
   //人员定位列表
-  GetPeopleInside : `${posPerson}/PS/GetPeopleInside`,
+  GetPeopleInfo : `${posPerson}/PS/GetPeopleInfo`,
 
-  //人员轨迹查询
-  GetTimePeople : `${posPerson}/PS/GetTimePeople`
+  //历史轨迹查询
+  GetlocationPaths : `${posPerson}/PS/locationPaths`
 } 
 
 export default constant;

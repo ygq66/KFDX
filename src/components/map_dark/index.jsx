@@ -11,9 +11,9 @@ import './style.scss'
     const mapUrl = useMappedState(state => state.mapDark_url);
     useEffect(() => {
         if(mapUrl){createMapsss("http://"+mapUrl)}
-        setTimeout(()=>{
-            virtualization.getPolygon({view3d:view3d,url:ApiUrl2+'/digitalize/map'})
-        },500)
+        // setTimeout(()=>{
+        //     virtualization.getPolygon({view3d:view3d,url:ApiUrl2+'/digitalize/map'})
+        // },500)
         // eslint-disable-next-line
     },[mapUrl])
     const createMapsss =(url)=>{

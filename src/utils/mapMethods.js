@@ -28,7 +28,7 @@ export const Common = {
     },  
     //往地图递归添加模型
     addModel(index,data,map3d){
-        if(data.length <=0){return}        
+        if(data.length <=0){return};        
         if(data[index].model_name !== null && data[index].model_url !== null){
             let position = data[index].list_style?data[index].list_style:data[index].center
             Model.modelLoading(map3d,{
