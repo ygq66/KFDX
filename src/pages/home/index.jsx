@@ -64,12 +64,7 @@ function Home() {
   };
   //监听窗口事件
   useEffect(() => {
-    // window.addEventListener('beforeunload', function () {
-    //     Model.closeIcon(mp_light)
-    //     Build.allShow(mp_light, true)
-    // });
     if (videoShow !== "") { openNotification() }
-    // eslint-disable-next-line
   }, [videoShow]);
 
   useEffect(() => {
@@ -93,12 +88,12 @@ function Home() {
       ws.current.onerror = e =>
         setReadyState(stateArr[ws.current?.readyState ?? 0]);
       ws.current.onmessage = e => {
-        console.log(e, '报警收到的信息（非首次')
         if (e.data.length > 10) {
           setAlarmdata(JSON.parse(e.data))
           setDark(true)
           siteRef.current.open(2, 'parents')
           //报警~弹视频控件
+          console.log(JSON.parse(e.data),'报警传值')
           videoPlay(JSON.parse(e.data).event_info[0], 'LinkAlarm')
           //延迟地图方法
           setTimeout(() => {
@@ -151,7 +146,7 @@ function Home() {
                               yaw: Common.filter(points.yaw),
                               roll: Common.filter(points.roll)
                             }
-                            Model.createLineBj(mapDark.current, results.device_code.replace(/\./g,'_'), points2, JSON.parse(e.data).device_info.device_name, 400, "#cef810")
+                            Model.createLineBj(mapDark.current, results.device_code.replace(/\./g, '_'), points2, JSON.parse(e.data).device_info.device_name, 400, "#cef810")
                           }, 300)
                         }
                       }

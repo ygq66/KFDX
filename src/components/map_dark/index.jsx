@@ -1,8 +1,8 @@
 import React,{ useEffect } from 'react';
 import {createMap} from '../../utils/map3d'
-import virtualization from '../../utils/virtualization'
+// import virtualization from '../../utils/virtualization'
 import { useMappedState,useDispatch } from 'redux-react-hook';
-import { api2 as ApiUrl2} from '../../api/address';
+// import { api2 as ApiUrl2} from '../../api/address';
 import './style.scss'
 
  const Map = (props) => {

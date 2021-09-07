@@ -1,5 +1,5 @@
 import React,{ useEffect } from 'react';
-import { createMap,Model } from '../../utils/map3d';
+import { createMap,Model,Build } from '../../utils/map3d';
 import { Common } from '../../utils/mapMethods';
 import { useMappedState,useDispatch } from 'redux-react-hook';
 import { cameraList_S,labelLists } from '../../api/mainApi'
@@ -27,7 +27,10 @@ const MapLight = (props) => {
             setTimeout(() => {
                 cameraList_S().then(res=>{
                     var results = res.data;
-                    Common.addModel(0,results,map_light)
+                    Build.allShow(map_light,true)
+                    setTimeout(() => {
+                        Common.addModel(0,results,map_light)
+                    }, 500);
                 })
                 //创建文字标注
                 labelLists().then(res=>{

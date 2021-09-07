@@ -62,6 +62,7 @@ export const Common = {
     },
     //往地图递归添加图标
     add_iconModel(index,data,map3d){
+        if(!data[index].model_name){return};        
         let iccon = data[index].model_name + "_icon"
         if (data[index].model_name === null) {
             iccon = "menjin_icon"

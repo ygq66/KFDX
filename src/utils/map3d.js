@@ -42,7 +42,7 @@ export const createMap = {
             if (event.code === "F11") {
                 setTimeout(function () {
                     SetResolution(options, view3d);
-                }, 500);
+                }, 100);
             }
         }
         return view3d;
@@ -556,6 +556,8 @@ export const Model = {
                 }
                 // console.log(res);
             } else if (res.gid.split("_")[0] === "MP") {
+                console.log(res.gid,'踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩从')
+
                 let buildarr = res.gid.split("_");
                 buildarr.shift();
                 let buildId = buildarr.join("_");
@@ -734,8 +736,7 @@ export const Build = {
     // 整个建筑显示隐藏
     allShow(view3d, buildVisible) {
         Build.getBuild(view3d, res => {
-            JSON.parse(res).forEach(item => {
-
+            Array.from(JSON.parse(res)).forEach(item => {
                 console.log(item);
                 view3d.SetBuildingVisible(item.id, buildVisible);
             })
