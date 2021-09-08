@@ -103,7 +103,8 @@ const VideoSurveillance = (props) => {
                             let neendObj = []
                             res.data.forEach(element => {
                                 if (!(JSON.stringify(element.position) === "{}") && !(element.position === null) && element.position.points !== null) {
-                                    Model.createPolygon(mp_light, element.position.points, ((msg) => {
+                                    console.log(element.position.points,'element.position.points')
+                                    Model.createPolygon(mp_light, element.position.points.slice(0,16), ((msg) => {
                                         neendObj.push(JSON.parse(msg))
                                     }))
                                 }

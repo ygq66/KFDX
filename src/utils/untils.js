@@ -8,35 +8,35 @@ export function videoPlay(data,wm,callback) {
         videoSocket = new WebSocket(videoS)
     }
     let json;
-    if(wm === "Patrol"){
-        json ={
-            "type": "PlayVideo",
-            "cameraCode": data.detail_info
-        }
-    }else if(wm === "LinkAlarm"){
-        json ={
-            "type": wm,
-            "cameraCode": data
-        }
-    }else{
-        json ={
-            "type": "PlayVideo",
-            "detailInfo": data.detail_info
-        }
-    }
-    /* 园区 */
-    // json ={
-    //     "type": "PlayVideo",
-    //     "winNumber": "0",
-    //     "detailInfo": {
-    //         "Address": data.device_code,
-    //         "Port": "8000",
-    //         "UserName": "admin",
-    //         "Password": "dx123456",
-    //         "Channel": "1",
-    //         "CameraName": data.device_name
+    // if(wm === "Patrol"){
+    //     json ={
+    //         "type": "PlayVideo",
+    //         "cameraCode": data.detail_info
+    //     }
+    // }else if(wm === "LinkAlarm"){
+    //     json ={
+    //         "type": wm,
+    //         "cameraCode": data
+    //     }
+    // }else{
+    //     json ={
+    //         "type": "PlayVideo",
+    //         "detailInfo": data.detail_info
     //     }
     // }
+    /* 园区 */
+    json ={
+        "type": "PlayVideo",
+        "winNumber": "0",
+        "detailInfo": {
+            "Address": data.device_code,
+            "Port": "8000",
+            "UserName": "admin",
+            "Password": "dx123456",
+            "Channel": "1",
+            "CameraName": data.device_name
+        }
+    }
     videoSocket.onopen = function (e) {
         console.log('%c video websocket is open:',"color: red;font-size:13px")
         videoSocket.send(JSON.stringify(json))
@@ -49,7 +49,6 @@ export function videoPlay(data,wm,callback) {
     }
     if(videoSocket.readyState === 1){
         videoSocket.send(JSON.stringify(json))
-        
     }
 }
 

@@ -31,18 +31,12 @@ export const createMap = {
         setTimeout(function () {
             SetResolution(options, view3d);
         }, 500);
-        // if (!flag) {
-        //     setTimeout(() => {
-        //         Model.getModel(view3d);
-        //     }, 1000)
-        // }
-
         window.onkeydown = function (event) {
             console.log(event)
             if (event.code === "F11") {
                 setTimeout(function () {
                     SetResolution(options, view3d);
-                }, 100);
+                }, 500);
             }
         }
         return view3d;
@@ -140,9 +134,10 @@ export const createMap = {
     //     Model.showModel(view3d, "FW_V001_JZ0001_WK", false);
     // }
     //地面显示隐藏
-    showDM(groundVisible,view3d){
+    showDM(groundVisible, view3d) {
         groundVisible = !groundVisible;
         view3d.SetGroundVisible(groundVisible);
+        Model.getModel(view3d);
     }
 }
 //模型标注类
@@ -166,12 +161,14 @@ export const Model = {
         });
     },
     //模型高亮
-    modelHighlight(view3d,gid){
+    modelHighlight(view3d, gid) {
         view3d.SetObjectHighlight(gid);
+        Model.getModel(view3d);
     },
     //去除地图高亮
-    clearHighlight(view3d){
+    clearHighlight(view3d) {
         view3d.ClearHighlight();
+        Model.getModel(view3d);
     },
     //关闭编辑
     endEditing(view3d) {
@@ -331,6 +328,7 @@ export const Model = {
             var strObj = JSON.stringify(createObj);
             callback(strObj)
         });
+        Model.getModel(view3d);
     },
     // 创建折线
     createZheLine(view3d, points, callback) {
@@ -510,66 +508,74 @@ export const Model = {
     },
     removeGid(view3d, gid) {
         view3d.OverLayerRemoveObjectById(gid);
+        Model.getModel(view3d);
     },
     // 显示隐藏模型
     showModel(view3d, id, flag) {
         view3d.UpdateObjectVisible(id, flag);
+        Model.getModel(view3d);
     },
     //点击获取当前模型信息
     getModel(view3d) {
         // 过滤 对象  prefix 对象名称前缀   ，path 路径前缀
         var paramers = {
-            prefix: 'M,T,J,V',    
+            prefix: 'M,T,J,V',
             // prefix: '',
             path: '',
             speedroute: 10
         };
 
         view3d.SetParameters(paramers);
-        view3d.SetMouseCallback(res => {
-
-            let data = {}
-            console.log(res);
-            console.log(typeof (res))
-            if (res.typename === "model") {
-                data = {
-                    switchName: 'model',
-                    Personnel: res,
-                }
-                console.log(res);
-            } else if (res.typename === "label" && res.attr) {
-                if (res.attr.buildId) {
-                    data = {
-                        switchName: 'buildLable',
-                        Personnel: res.attr.buildId,
-                    }
+        setTimeout(() => {
+            view3d.SetMouseCallback(res => {
+                console.log(res, '点击的东西',typeof(res))
+                if (Array.isArray(res)) {
+                    console.log(res, '数组')
                 } else {
-                    data = {
-                        switchName: 'buildLable_wenzi',
-                        Personnel: res.attr
+                    let data = {}
+                    if (res.typename === "model") {
+                        data = {
+                            switchName: 'model',
+                            Personnel: res,
+                        }
+                        console.log(res);
+                    } else if (res.typename === "label" && res.attr) {
+                        if (res.attr.buildId) {
+                            data = {
+                                switchName: 'buildLable',
+                                Personnel: res.attr.buildId,
+                            }
+                        } else {
+                            data = {
+                                switchName: 'buildLable_wenzi',
+                                Personnel: res.attr
+                            }
+                        }
+                    } else if (res.typename === "image") {
+                        data = {
+                            switchName: 'ImagePC',
+                            Personnel: res,
+                        }
+                        // console.log(res);
+                    } else if (res.gid.split("_")[0] === "MP") {
+                        let buildarr = res.gid.split("_");
+                        console.log(buildarr, 'buildarr')
+                        buildarr.shift();
+                        console.log(buildarr, 'buildarr2')
+                        let buildId = buildarr.join("_");
+                        console.log(buildId, 'buildarr3')
+                        buildId = buildId.substring(0, buildId.length - 3)
+                        console.log(buildId, 'buildarr4')
+                        data = {
+                            switchName: 'buildLable',
+                            Personnel: buildId,
+                        }
                     }
+                    window.parent.postMessage(data, '*');
                 }
-            } else if (res.typename === "image") {
-                data = {
-                    switchName: 'ImagePC',
-                    Personnel: res,
-                }
-                // console.log(res);
-            } else if (res.gid.split("_")[0] === "MP") {
-                console.log(res.gid,'踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩踩从')
-
-                let buildarr = res.gid.split("_");
-                buildarr.shift();
-                let buildId = buildarr.join("_");
-                buildId = buildId.substring(0, buildId.length - 3)
-                data = {
-                    switchName: 'buildLable',
-                    Personnel: buildId,
-                }
-            }
-            window.parent.postMessage(data, '*');
-            // callback(strObj)
-        });
+                // callback(strObj)
+            });
+        }, 100);
     },
     // 修改模型高亮颜色
     updateModelStyle(view3d, gid, style) {
@@ -705,22 +711,22 @@ export const Build = {
     showFloor(view3d, buildingName, floorName, floor) {
         console.log(buildingName, floorName, floor)
 
-        let floorNum = Number(floorName.substring(floorName.length-2))>=10?Number(floorName.substring(floorName.length-2)):Number(floorName.slice(-1))
-        var FLOOR=floorName.substr(0,1);
-    
-        if(FLOOR==="B"){
-            floorNum=-floorNum
+        let floorNum = Number(floorName.substring(floorName.length - 2)) >= 10 ? Number(floorName.substring(floorName.length - 2)) : Number(floorName.slice(-1))
+        var FLOOR = floorName.substr(0, 1);
+
+        if (FLOOR === "B") {
+            floorNum = -floorNum
         }
 
         view3d.SetBuildingVisible(buildingName, floorName === "all" ? true : false);
-        console.log("数组",floor);
+        console.log("数组", floor);
         floor.forEach(item => {
             let FNum = Number(item.substring(1));
-            var ItmFloor=item.substr(0,1);
-            if(ItmFloor==="B"){
-                FNum=-FNum
+            var ItmFloor = item.substr(0, 1);
+            if (ItmFloor === "B") {
+                FNum = -FNum
             }
-            console.log(FNum,floorNum,buildingName,item)
+            console.log(FNum, floorNum, buildingName, item)
             if (FNum > floorNum) {
                 view3d.SetFloorVisible(buildingName, item, false);
             } else {
@@ -732,10 +738,12 @@ export const Build = {
                 }, 1000)
             }
         })
+        Model.getModel(view3d);
     },
     // 整个建筑显示隐藏
     allShow(view3d, buildVisible) {
         Build.getBuild(view3d, res => {
+            console.log("allShow",res)
             Array.from(JSON.parse(res)).forEach(item => {
                 console.log(item);
                 view3d.SetBuildingVisible(item.id, buildVisible);
@@ -743,6 +751,7 @@ export const Build = {
             view3d._command = 100107
             createMap.closeWkWang(view3d)
         })
+        Model.getModel(view3d);
         //createMap.closeWkWang(view3d)
     },
     // 爆炸分离

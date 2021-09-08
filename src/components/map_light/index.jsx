@@ -25,9 +25,9 @@ const MapLight = (props) => {
                 Common.initializationPosition(map_light)
             },0);
             setTimeout(() => {
+                Build.allShow(map_light,true)
                 cameraList_S().then(res=>{
                     var results = res.data;
-                    Build.allShow(map_light,true)
                     setTimeout(() => {
                         Common.addModel(0,results,map_light)
                     }, 500);

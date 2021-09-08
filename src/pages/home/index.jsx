@@ -180,7 +180,7 @@ function Home() {
         if (e !== undefined) {
           switch (e.data.switchName) {
             case 'model':
-              Model.clearHighlight(mp_light)
+              // Model.clearHighlight(mp_light)
               let msg = e.data.Personnel
               if (isSame.current !== msg) {
                 isSame.current = msg
@@ -192,11 +192,13 @@ function Home() {
                 } else {
                   //弹出视频控件
                   if (msg.attr.detail_info) {
-                    Model.modelHighlight(mp_light, msg.attr.model_url)
+                    // Model.modelHighlight(mp_light, msg.attr.model_url)
                     videoPlay(msg.attr, "playVideo", ((msg) => {
                       let timestamp = Date.parse(new Date()) + "video";
                       dispatch({ type: "checkVideo", isVideo: timestamp });
                     }))
+                    let newpos = msg.attr.position.points.slice(0,16)
+                    Model.createPolygon(mp_light, [...new Set(newpos)], ((msg) => {}))
                   } else {
                     message.warning("暂无视频编码");
                   }
