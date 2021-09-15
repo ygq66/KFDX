@@ -161,10 +161,10 @@ const FloorList = () => {
             Model.showModel(map, element.model_url, false)
         });
         //关闭分层
-        Build.allShow(map, true)
-        // let floorh2 = []
-        // buildData.floor_name.forEach(element => { floorh2.push(element.floor_id.split("#")[1]) });
-        // Build.showFloor(map, buildData.build_name.build_id, "all", floorh2)
+        // Build.allShow(map, true)
+        let floorh2 = []
+        buildData.floor_name.forEach(element => { floorh2.push(element.floor_id.split("#")[1]) });
+        Build.showFloor(map, buildData.build_name.build_id, "all", floorh2)
     }
     return (
         <Fragment>

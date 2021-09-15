@@ -29,7 +29,6 @@ export const Common = {
     //往地图递归添加模型
     addModel(index,data,map3d){
         if(data.length <=index){return};
-        console.log(data[index],'data[index]')   
         if(data[index].model_name !== null && data[index].model_url !== null){
             let position = data[index].list_style?data[index].list_style:data[index].center
             Model.modelLoading(map3d,{
@@ -37,8 +36,8 @@ export const Common = {
                 filename:data[index].model_name,
                 attr:data[index],
                 location:{
-                    x:Common.filter(position.x)-8500,
-                    y:Common.filter(position.y)+1000,
+                    x:Common.filter(position.x),
+                    y:Common.filter(position.y),
                     z:Common.filter(position.z),
                     pitch:Common.filter(position.pitch),
                     yaw:Common.filter(position.yaw),
@@ -72,8 +71,8 @@ export const Common = {
             typeStyle: iccon,
             attr:data[index],
             location: {
-                x: Common.filter(data[index].center.x)-8500,
-                y: Common.filter(data[index].center.y)+1000,
+                x: Common.filter(data[index].center.x),
+                y: Common.filter(data[index].center.y),
                 z: Common.filter(data[index].center.z),
                 pitch: Common.filter(data[index].center.pitch),
                 yaw: Common.filter(data[index].center.yaw),

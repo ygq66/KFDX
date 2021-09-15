@@ -3,7 +3,7 @@ import './style.scss'
 import Header from '../../components/header'
 import MapLight from '../../components/map_light'
 import MapDark from '../../components/map_dark'
-import { Model, createMap } from '../../utils/map3d'
+import { Model,createMap,Event } from '../../utils/map3d'
 import { useMappedState, useDispatch } from 'redux-react-hook';
 import Site from '../../components/site' //数字化工具
 import SmallTools from '../../components/smallTools' //小工具
@@ -47,6 +47,7 @@ function Home() {
   const [readyState, setReadyState] = useState('alarm_socket loading...');
   const [linkage, setLinkage] = useState(false)
   const [alarmData, setAlarmdata] = useState()
+  const polygonRef = useRef(null);
   const [animateName, setAnimateName] = useState("animate__fadeInLeft")
   const isSame = useRef(null) //防止重复点击
   const isSame2 = useRef(null) //防止重复点击
@@ -180,7 +181,6 @@ function Home() {
         if (e !== undefined) {
           switch (e.data.switchName) {
             case 'model':
-              // Model.clearHighlight(mp_light)
               let msg = e.data.Personnel
               if (isSame.current !== msg) {
                 isSame.current = msg
@@ -190,19 +190,46 @@ function Home() {
                 } else if (msg.attr.type_name === "门禁") {
                   setDataD(msg.attr)
                 } else {
-                  //弹出视频控件
                   if (msg.attr.detail_info) {
-                    // Model.modelHighlight(mp_light, msg.attr.model_url)
+                    //模型高亮
+                    Model.clearHighlight(mp_light)
+                    setTimeout(() => {
+                      Model.modelHighlight(mp_light, msg.attr.model_url)
+                    },100);
+                    //画面
+                    if(msg.attr.position.points){
+                      if(polygonRef.current){
+                        Model.removeGid(mp_light, polygonRef.current.gid)
+                        if(!(polygonRef.current.attr.device_name === msg.attr.device_name)){
+                          let newpos = msg.attr.position.points.slice(0,16)
+                          Model.createPolygon(mp_light, msg.attr, newpos,msg=>{
+                            polygonRef.current = JSON.parse(msg)
+                          })
+                        }else{
+                          polygonRef.current = null;
+                        }
+                      }else{
+                        let newpos = msg.attr.position.points.slice(0,16)
+                        Model.createPolygon(mp_light, msg.attr, newpos,msg=>{
+                          polygonRef.current = JSON.parse(msg)
+                        })
+                      }
+                    }
+                    //弹视频
                     videoPlay(msg.attr, "playVideo", ((msg) => {
                       let timestamp = Date.parse(new Date()) + "video";
                       dispatch({ type: "checkVideo", isVideo: timestamp });
                     }))
-                    let newpos = msg.attr.position.points.slice(0,16)
-                    Model.createPolygon(mp_light, [...new Set(newpos)], ((msg) => {}))
+                    //视频投地
+                    if(msg.attr.device_name === "1号岗亭人脸识别"){
+                      Event.videoProjection(mp_light,msg.location,"rtsp://admin:bwk12345@192.168.11.2/h264/ch1/main/av_stream")
+                    }else if(msg.attr.device_name === "4号岗亭人脸识别 "){
+                      Event.videoProjection(mp_light,msg.location,"rtsp://admin:bwk12345@192.168.11.35/h264/ch1/main/av_stream")
+                    }
                   } else {
                     message.warning("暂无视频编码");
                   }
-                  //视频状态
+                  /** 视频状态弹框 */
                   // setDataC(msg.attr)
                 }
               }
@@ -229,6 +256,13 @@ function Home() {
                 isSame3.current = labelMsg
                 // setDataB(labelMsg)
               }
+              break;
+            case "polygon":
+              let polygonMsg = e.data.Personnel
+              videoPlay(polygonMsg.attr, "playVideo", ((msg) => {
+                let timestamp = Date.parse(new Date()) + "video";
+                dispatch({ type: "checkVideo", isVideo: timestamp });
+              }))
               break;
             default:
               return null;

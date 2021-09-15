@@ -20,7 +20,7 @@ const SmallTools = () => {
     const [show, setShow] = useState(false)
     const mp_light = useMappedState(state => state.map3d_light);
     const mp_dark = useMappedState(state => state.map3d_dark);
-    const [isOver, setOver] = useState(true)
+    const [isOver, setOver] = useState(true)//漫游是否结束
 
     //获取漫游列表
     const getRoamList = () => {
@@ -64,58 +64,65 @@ const SmallTools = () => {
     }, [mp_light, mp_dark])
 
     const roamLine = (type, item, index) => {
-        setOver(false)
-        if (isOver || count2 === index) {
-            let ndatas = item.postions.points
-            if (type === "stop") {
-                setCount(index)
-                Event.pausePatrolPath(mp_light)
-            } else if (type === "Go_on") {
-                setCount()
-                Event.continuePatrolPath(mp_light)
-            } else if (type === "start") {
-                setCount()
-                setCount2(index)
-                let trajectory = []
-                ndatas.forEach(element => {
-                    trajectory.push({
-                        id: item.id,
-                        x: element.x,
-                        y: element.y,
-                        z: element.z,
-                        floor: "F1"
-                    })
-                });
-                let goTrajectory = {
-                    "visible": false,
-                    "style": "sim_arraw_Cyan",
-                    "width": 200,
-                    "speed": 35,
-                    "geom": trajectory
-                }
-                Event.createRoute(mp_light, goTrajectory, false)
-                Event.playPatrolPath(mp_light, msg => {
-                    if (msg.x === trajectory[trajectory.length - 1].x) {
-                        console.log("巡逻结束")
-                        setOver(true)
-                        setCount()
-                        setCount2()
-                        Event.clearPatrolPath(mp_light);
+        var ndatas = item.postions.points
+        if(ndatas){
+            if (isOver || count2 === index) {
+                if (type === "stop") {
+                    if(!isOver){
+                        setCount(index)
+                        Event.pausePatrolPath(mp_light)
                     }
-                })
-            } else if (type === "end") {
-                if (count2 === index) { setOver(true) }
-                setCount()
-                setCount2()
-                Event.clearPatrolPath(mp_light)
-                Common.initializationPosition(mp_light)
-            }
-        } else {
-            if (type === "end" && count2 === index) {
-                setOver(true)
+                } else if (type === "Go_on") {
+                    if(!isOver){
+                        setCount()
+                        Event.continuePatrolPath(mp_light)
+                    }
+                } else if (type === "start") {
+                    setOver(false)
+                    setCount()
+                    setCount2(index)
+                    let trajectory = []
+                    ndatas.forEach(element => {
+                        trajectory.push({
+                            id: item.id,
+                            x: element.x,
+                            y: element.y,
+                            z: element.z,
+                            floor: "F1"
+                        })
+                    });
+                    let goTrajectory = {
+                        "visible": true,
+                        "style": "sim_arraw_Cyan",
+                        "width": 200,
+                        "speed": 35,
+                        "geom": trajectory
+                    }
+                    Event.createRoute(mp_light, goTrajectory, false)
+                    Event.playPatrolPath(mp_light, msg => {
+                        console.log(msg,trajectory,'漫游实时位置')
+                        if (msg.x === trajectory[trajectory.length - 1].x) {
+                            console.log("巡逻结束")
+                            setOver(true)
+                            setCount()
+                            setCount2()
+                            Event.clearPatrolPath(mp_light);
+                            console.log(type, item, index,'芜湖给')
+                            roamLine(type, item, index)
+                        }
+                    })
+                } else if (type === "end") {
+                    setOver(true)
+                    setCount()
+                    setCount2()
+                    Event.clearPatrolPath(mp_light)
+                    Common.initializationPosition(mp_light)
+                }
             } else {
                 message.warning("请先结束当前漫游路线");
             }
+        }else{
+            message.warning("无路线数据");
         }
     }
     // 获取所有建筑信息
@@ -144,7 +151,6 @@ const SmallTools = () => {
         setShowBuild(new Set(showBuild));
         Build.splitBuildReset(mp_light, buildId);
     }
-
     return (
         <div id="smallTools">
             {

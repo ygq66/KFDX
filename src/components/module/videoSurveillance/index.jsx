@@ -88,6 +88,7 @@ const VideoSurveillance = (props) => {
                 setLine(false)
                 closePoint()
                 Model.drawLine(mp_light,msg=> {
+                    console.log(msg,'芜湖')
                     getDragList("linestring",msg.points)
                     Model.endEditing(mp_light);
                     Model.closeLine(mp_light);
@@ -101,15 +102,17 @@ const VideoSurveillance = (props) => {
                     cameraList_S({ device_code: "" }).then(res => {
                         if (res.msg === "success") {
                             let neendObj = []
-                            res.data.forEach(element => {
+                            res.data.forEach((element,index) => {
                                 if (!(JSON.stringify(element.position) === "{}") && !(element.position === null) && element.position.points !== null) {
-                                    console.log(element.position.points,'element.position.points')
-                                    Model.createPolygon(mp_light, element.position.points.slice(0,16), ((msg) => {
-                                        neendObj.push(JSON.parse(msg))
-                                    }))
+                                    setTimeout(() => {
+                                        Model.createPolygon(mp_light,element, element.position.points.slice(0,16), ((msg) => {
+                                            neendObj.push(JSON.parse(msg))
+                                        }))
+                                    },50*index);
                                 }
                             });
                             setapj(neendObj)
+                            console.log(neendObj,'neendObj')
                         }
                     })
                     setPolygon(false)
@@ -207,6 +210,7 @@ const VideoSurveillance = (props) => {
     }
     //删除可视区域面
     const closePolygon = () => {
+        console.log(allPolygonObj,'allPolygonObj')
         allPolygonObj.forEach(element => {
             Model.removeGid(mp_light, element.gid)
         });

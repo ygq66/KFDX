@@ -314,21 +314,23 @@ export const Model = {
         });
     },
     //创建面
-    createPolygon(view3d, point, callback, Color, style) {
+    createPolygon(view3d, data, point, callback, Color, style) {
         // 注意,此功能为异步操作
-        const obj = {
-            type: 'polygon',
-            style: style ? style : "",
-            color: Color ? Color : '#00ff00',
-            points: point
-        };
-        view3d.OverLayerCreateObject(obj, res => {
-            // view3d.SetMouseCallback(null);
-            createObj = res;
-            var strObj = JSON.stringify(createObj);
-            callback(strObj)
+        setTimeout(() => {
+            view3d.OverLayerCreateObject({
+                type: 'polygon',
+                color: Color ? Color : '#00ff00',
+                points: point,
+                attr:data
+            }, res => {
+                // view3d.SetMouseCallback(null);
+                createObj = res;
+                var strObj = JSON.stringify(createObj);
+                console.log(strObj,'strObj')
+                callback(strObj)
+            });
         });
-        Model.getModel(view3d);
+        // Model.getModel(view3d);
     },
     // 创建折线
     createZheLine(view3d, points, callback) {
@@ -522,60 +524,60 @@ export const Model = {
             prefix: 'M,T,J,V',
             // prefix: '',
             path: '',
-            speedroute: 10
+            speedroute: 10,
+            showmouse:false
         };
 
         view3d.SetParameters(paramers);
-        setTimeout(() => {
-            view3d.SetMouseCallback(res => {
-                console.log(res, '点击的东西',typeof(res))
-                if (Array.isArray(res)) {
-                    console.log(res, '数组')
-                } else {
-                    let data = {}
-                    if (res.typename === "model") {
-                        data = {
-                            switchName: 'model',
-                            Personnel: res,
-                        }
-                        console.log(res);
-                    } else if (res.typename === "label" && res.attr) {
-                        if (res.attr.buildId) {
-                            data = {
-                                switchName: 'buildLable',
-                                Personnel: res.attr.buildId,
-                            }
-                        } else {
-                            data = {
-                                switchName: 'buildLable_wenzi',
-                                Personnel: res.attr
-                            }
-                        }
-                    } else if (res.typename === "image") {
-                        data = {
-                            switchName: 'ImagePC',
-                            Personnel: res,
-                        }
-                        // console.log(res);
-                    } else if (res.gid.split("_")[0] === "MP") {
-                        let buildarr = res.gid.split("_");
-                        console.log(buildarr, 'buildarr')
-                        buildarr.shift();
-                        console.log(buildarr, 'buildarr2')
-                        let buildId = buildarr.join("_");
-                        console.log(buildId, 'buildarr3')
-                        buildId = buildId.substring(0, buildId.length - 3)
-                        console.log(buildId, 'buildarr4')
+        view3d.SetMouseCallback(res => {
+            console.log(res,'点击对象')
+            if (Array.isArray(res)) {
+                console.log(res, '数组')
+            } else {
+                let data = {}
+                if (res.typename === "model") {
+                    data = {
+                        switchName: 'model',
+                        Personnel: res,
+                    }
+                    console.log(res);
+                } else if (res.typename === "label" && res.attr) {
+                    if (res.attr.buildId) {
                         data = {
                             switchName: 'buildLable',
-                            Personnel: buildId,
+                            Personnel: res.attr.buildId,
+                        }
+                    } else {
+                        data = {
+                            switchName: 'buildLable_wenzi',
+                            Personnel: res.attr
                         }
                     }
-                    window.parent.postMessage(data, '*');
+                } else if (res.typename === "image") {
+                    data = {
+                        switchName: 'ImagePC',
+                        Personnel: res,
+                    }
+                    // console.log(res);
+                } else if (res.gid.split("_")[0] === "MP") {
+                    let buildarr = res.gid.split("_");
+                    buildarr.shift();
+                    let buildId = buildarr.join("_");
+                    buildId = buildId.substring(0, buildId.length - 3)
+                    data = {
+                        switchName: 'buildLable',
+                        Personnel: buildId,
+                    }
+                }else if(res.typename === "polygon"){
+                    data = {
+                        switchName: 'polygon',
+                        Personnel: res
+                    }
                 }
-                // callback(strObj)
-            });
-        }, 100);
+                window.parent.postMessage(data, '*');
+            }
+            // callback(strObj)
+        });
     },
     // 修改模型高亮颜色
     updateModelStyle(view3d, gid, style) {
@@ -751,8 +753,7 @@ export const Build = {
             view3d._command = 100107
             createMap.closeWkWang(view3d)
         })
-        Model.getModel(view3d);
-        //createMap.closeWkWang(view3d)
+        // Model.getModel(view3d);
     },
     // 爆炸分离
     splitBuild(view3d, buildingName, floorHeight) {
@@ -828,6 +829,7 @@ export const Event = {
     // 开始迅游
     playPatrolPath(view3d, callback) {
         view3d.PlayRoute(res => {
+            console.log(res,'巡游的实时位置')
             // 返回播放结束节点的位置和索引
             if (callback) {
                 callback(res);
@@ -876,6 +878,18 @@ export const Event = {
         //         createMap.getMousePosition(view3d)
         //     });
         // }
+    },
+    //视频投地
+    videoProjection(view3d,position,url){
+        var video2 = {
+            url: url,
+            width: 2000, // 单位厘米  10米
+            height: 1900, // 单位厘米  9米
+            position: position
+        }
+        console.log(video2,'视频投地参数');
+        view3d.StreamVideoOpen(video2);
+        Model.getModel(view3d);
     }
 }
 //设置屏幕
