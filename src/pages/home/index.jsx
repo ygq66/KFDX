@@ -48,6 +48,7 @@ function Home() {
   const [linkage, setLinkage] = useState(false)
   const [alarmData, setAlarmdata] = useState()
   const polygonRef = useRef(null);
+  const videoProjection_bolean = useRef(null);
   const [animateName, setAnimateName] = useState("animate__fadeInLeft")
   const isSame = useRef(null) //防止重复点击
   const isSame2 = useRef(null) //防止重复点击
@@ -196,35 +197,60 @@ function Home() {
                     setTimeout(() => {
                       Model.modelHighlight(mp_light, msg.attr.model_url)
                     },100);
-                    //画面
-                    if(msg.attr.position.points){
-                      if(polygonRef.current){
-                        Model.removeGid(mp_light, polygonRef.current.gid)
-                        if(!(polygonRef.current.attr.device_name === msg.attr.device_name)){
+                    // //视频投地-------->瓯海
+                    // if(msg.attr.device_name === "1号岗亭人脸识别"){
+                    //   videoProjection_bolean.current = true;
+                    //   Event.videoProjection(mp_light,msg.location,"rtsp://admin:bwk12345@192.168.11.2/h264/ch1/main/av_stream")
+                    // }else if(msg.attr.device_name === "1号岗亭球机"){
+                    //   videoProjection_bolean.current = true;
+                    //   Event.videoProjection(mp_light,msg.location,"rtsp://admin:bwk12345@192.168.11.1/h264/ch1/main/av_stream")
+                    // }else{
+                    //   if(videoProjection_bolean.current){
+                    //     Event.close_videoProjection(mp_light)
+                    //   }
+                    //   //弹视频
+                    //   videoPlay(msg.attr, "playVideo", ((msg) => {
+                    //     let timestamp = Date.parse(new Date()) + "video";
+                    //     dispatch({ type: "checkVideo", isVideo: timestamp });
+                    //   }))
+                    // }
+                    if(msg.attr.device_name === "河边球机"){
+                      if(polygonRef.current){Model.removeGid(mp_light, polygonRef.current.gid);setTimeout(() => {polygonRef.current = null;},300);}
+                      videoProjection_bolean.current = true;
+                      Event.videoProjection(mp_light,msg.location,"rtsp://admin:hk123456@192.168.0.236/h264/ch1/main/av_stream")
+                    }else if(msg.attr.device_name === "河堤边7"){
+                      if(polygonRef.current){Model.removeGid(mp_light, polygonRef.current.gid);setTimeout(() => {polygonRef.current = null;},300);}
+                      videoProjection_bolean.current = true;
+                      Event.videoProjection(mp_light,msg.location,"rtsp://admin:hk123456@192.168.0.232/h264/ch1/main/av_stream")
+                    }else{
+                      if(videoProjection_bolean.current){
+                        Event.close_videoProjection(mp_light)
+                        videoProjection_bolean.current = false;
+                      }
+                      //弹视频
+                      videoPlay(msg.attr, "playVideo", ((msg) => {
+                        let timestamp = Date.parse(new Date()) + "video";
+                        dispatch({ type: "checkVideo", isVideo: timestamp });
+                      }))
+                      //画面
+                      if(msg.attr.position.points){
+                        if(polygonRef.current){
+                          Model.removeGid(mp_light, polygonRef.current.gid)
+                          if(!(polygonRef.current.attr.device_name === msg.attr.device_name)){
+                            let newpos = msg.attr.position.points.slice(0,16)
+                            Model.createPolygon(mp_light, msg.attr, newpos,msg=>{
+                              polygonRef.current = JSON.parse(msg)
+                            })
+                          }else{
+                            polygonRef.current = null;
+                          }
+                        }else{
                           let newpos = msg.attr.position.points.slice(0,16)
                           Model.createPolygon(mp_light, msg.attr, newpos,msg=>{
                             polygonRef.current = JSON.parse(msg)
                           })
-                        }else{
-                          polygonRef.current = null;
                         }
-                      }else{
-                        let newpos = msg.attr.position.points.slice(0,16)
-                        Model.createPolygon(mp_light, msg.attr, newpos,msg=>{
-                          polygonRef.current = JSON.parse(msg)
-                        })
                       }
-                    }
-                    //弹视频
-                    videoPlay(msg.attr, "playVideo", ((msg) => {
-                      let timestamp = Date.parse(new Date()) + "video";
-                      dispatch({ type: "checkVideo", isVideo: timestamp });
-                    }))
-                    //视频投地
-                    if(msg.attr.device_name === "1号岗亭人脸识别"){
-                      Event.videoProjection(mp_light,msg.location,"rtsp://admin:bwk12345@192.168.11.2/h264/ch1/main/av_stream")
-                    }else if(msg.attr.device_name === "4号岗亭人脸识别 "){
-                      Event.videoProjection(mp_light,msg.location,"rtsp://admin:bwk12345@192.168.11.35/h264/ch1/main/av_stream")
                     }
                   } else {
                     message.warning("暂无视频编码");
@@ -310,6 +336,7 @@ function Home() {
   }
   useEffect(() => {
     getMapURL()
+    videoProjection_bolean.current = false;
     // eslint-disable-next-line
   }, [])
   return (

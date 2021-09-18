@@ -29,12 +29,12 @@ export function videoPlay(data,wm,callback) {
     //     "type": "PlayVideo",
     //     "winNumber": "0",
     //     "detailInfo": {
-    //         "Address": data.device_code,
+    //         "Address": data.device_code || data.camera_code,
     //         "Port": "8000",
     //         "UserName": "admin",
     //         "Password": "dx123456",
     //         "Channel": "1",
-    //         "CameraName": data.device_name
+    //         "CameraName": data.device_name || data.camera_name
     //     }
     // }
     videoSocket.onopen = function (e) {

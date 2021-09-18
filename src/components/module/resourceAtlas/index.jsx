@@ -30,13 +30,25 @@ const ResourceAtlas = (props) => {
             if (obj.category_name === "摄像头") {
                 cameraList_S({ device_code: "" }).then(res => {
                     if (res.msg === "success") {
-                        Common.add_iconModel(0,res.data,mp_light)
+                        let un_indoor = [];
+                        res.data.forEach(element => {
+                            if(!element.indoor){
+                                un_indoor.push(element)
+                            }
+                        });
+                        Common.add_iconModel(0,un_indoor,mp_light)
                     }
                 })
             } else {
                 infoListS({ category_id: obj.id }).then(res => {
                     if (res.msg === "success") {
-                        Common.add_iconModel(0,res.data,mp_light)
+                        let un_indoor = [];
+                        res.data.forEach(element => {
+                            if(!element.indoor){
+                                un_indoor.push(element)
+                            }
+                        });
+                        Common.add_iconModel(0,un_indoor,mp_light)
                     }
                 })
             }

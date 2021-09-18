@@ -599,7 +599,7 @@ export const Model = {
             location: {
                 x: style.location.x,
                 y: style.location.y,
-                z: style.location.z + 300,
+                z: style.location.z+300,
                 pitch: style.location.pitch, // 俯仰角 0——90度
                 yaw: style.location.yaw, // 偏航角 0-360度
                 roll: style.location.roll // 翻滚角
@@ -881,14 +881,22 @@ export const Event = {
     },
     //视频投地
     videoProjection(view3d,position,url){
-        var video2 = {
-            url: url,
-            width: 2000, // 单位厘米  10米
-            height: 1900, // 单位厘米  9米
-            position: position
-        }
-        console.log(video2,'视频投地参数');
-        view3d.StreamVideoOpen(video2);
+        Event.close_videoProjection(view3d);
+        setTimeout(() => {
+            var video2 = {
+                url: url,
+                width: 2000, // 单位厘米  10米
+                height: 1900, // 单位厘米  9米
+                position: position
+            }
+            console.log(video2,'视频投地参数');
+            view3d.StreamVideoOpen(video2);
+            Model.getModel(view3d);
+        }, 100);
+    },
+    //关闭投地
+    close_videoProjection(view3d){
+        view3d.StreamVideoClose();
         Model.getModel(view3d);
     }
 }
