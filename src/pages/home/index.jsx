@@ -51,7 +51,7 @@ function Home() {
   const videoProjection_bolean = useRef(null);
   const [animateName, setAnimateName] = useState("animate__fadeInLeft")
   const isSame = useRef(null) //防止重复点击
-  const isSame2 = useRef(null) //防止重复点击
+  // const isSame2 = useRef(null) //防止重复点击
   const isSame3 = useRef(null) //防止重复点击
   const openNotification = () => {
     notification.open({
@@ -261,20 +261,21 @@ function Home() {
               }
               break;
             case 'ImagePC':
-              let iconMsg = e.data.Personnel;
-              if (isSame2.current !== iconMsg) {
-                isSame2.current = iconMsg
-                // if(iconMsg.attr.category_name === "摄像头"){
-                //     if (iconMsg.attr.detail_info) {
-                //         videoPlay(iconMsg.attr,"playVideo",((msg)=>{
-                //             let timestamp = Date.parse(new Date())+"video";
-                //             dispatch({ type: "checkVideo", isVideo: timestamp });
-                //         }))
-                //     } else {
-                //         message.warning("暂无视频编码");
-                //     }
-                // }   
-              }
+              /** 图标点击有bug */
+              // let iconMsg = e.data.Personnel;
+              // if (isSame2.current !== iconMsg) {
+              //   isSame2.current = iconMsg
+              //   if(iconMsg.attr.category_name === "摄像头"){
+              //       if (iconMsg.attr.detail_info) {
+              //           videoPlay(iconMsg.attr,"playVideo",((msg)=>{
+              //               let timestamp = Date.parse(new Date())+"video";
+              //               dispatch({ type: "checkVideo", isVideo: timestamp });
+              //           }))
+              //       } else {
+              //           message.warning("暂无视频编码");
+              //       }
+              //   }   
+              // }
               break;
             case 'buildLable_wenzi':
               let labelMsg = e.data.Personnel;
@@ -283,7 +284,8 @@ function Home() {
                 // setDataB(labelMsg)
               }
               break;
-            case "polygon":
+            case "polygon":  //点击面
+              Model.updatePolygon(mp_light,e.data.Personnel,"","#FAAD14")
               let polygonMsg = e.data.Personnel
               videoPlay(polygonMsg.attr, "playVideo", ((msg) => {
                 let timestamp = Date.parse(new Date()) + "video";
