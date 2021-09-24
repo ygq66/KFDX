@@ -38,7 +38,7 @@ const FaceApplication =(props)=>{
     const [sliderBottom,setSb] = useState(true)
     const [cameraListS,setSlist] = useState([])
     const [cameraListS2,setSlist2] = useState([])
-    const [renSelect,setRenSelect] = useState({pageNo:"1",pageSize:"1000",name:"",certificateNum:""})//人脸库查询
+    const [renSelect,setRenSelect] = useState({pageNo:"1",pageSize:"400",name:"",certificateNum:""})//人脸库查询
     const [isRlgj,setRlgj] = useState(false)
     const [spinning,setSpinning] = useState(false)
     const [is_httpImg,setIshttp] = useState(false) //判断是人脸库还是图片上传
@@ -59,7 +59,7 @@ const FaceApplication =(props)=>{
     const getFacelibrary = ()=>{
         businessFace({
             pageNo:"1",
-            pageSize:"1000",
+            pageSize:"400",
             name:"",
             certificateNum:""
         }).then(res=>{
@@ -72,7 +72,9 @@ const FaceApplication =(props)=>{
     }
     //人脸库样式补位
     const renSupplement =(data)=>{
-        if(!(data.length % 4 === 0)){
+        console.log('人脸长度',data.length);
+        // if(!(data.length % 4 === 0)){
+            console.log('第一')
             if(data.length<4){
                 let number_r =  4-(data.length)
                 for(let i = 0;i<number_r;i++){
@@ -80,13 +82,14 @@ const FaceApplication =(props)=>{
                 }
                 setRenData(data)
             }else{
+                console.log('第二')
                 let number_r =  4-(data.length%4)
                 for(let i = 0;i<number_r;i++){
                     data.push({name:"zw"})
                 }
                 setRenData(data)
             }
-        }
+        // }
     }
     //大类选择
     const tabClick =(index)=>{
@@ -110,6 +113,7 @@ const FaceApplication =(props)=>{
         }else{
             setRenImg(true)
             setrackClick2(false)
+            searchRen();
         }
     }
     //右侧图片上传
@@ -192,8 +196,9 @@ const FaceApplication =(props)=>{
     //人脸库条件查询
     const searchRen = ()=>{
         businessFace(renSelect).then(res=>{
+            console.log('人脸过来的数据',res.data)
             if(res.msg === "success"){
-                setRenSelect({pageNo:"1",pageSize:"1000",name:"",certificateNum:""})
+                setRenSelect({pageNo:"1",pageSize:"400",name:"",certificateNum:""})
                 if(res.data.length>0){
                     renSupplement(res.data)
                 }else{

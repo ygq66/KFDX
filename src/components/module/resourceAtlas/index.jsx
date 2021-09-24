@@ -235,7 +235,8 @@ const ResourceAtlas = (props) => {
                     </div>
                 </Spin>
                 <div className="ResourceAtlas_list_bottom">
-                    <span className="ResourceAtlas_list_bottom_Pdfbt">导出PDF报表</span><span className="ResourceAtlas_list_bottom_Pdfbt" onClick={() => ResourceList()}>资源图谱</span>
+                    {/* <span className="ResourceAtlas_list_bottom_Pdfbt">导出PDF报表</span><span className="ResourceAtlas_list_bottom_Pdfbt" onClick={() => ResourceList()}>资源图谱</span> */}
+                    <span className="ResourceAtlas_list_bottom_Pdfbt hcolor">导出PDF报表</span><span className="ResourceAtlas_list_bottom_Pdfbt hcolor">资源图谱</span>
                     <div className="ListTree">
 
                         {/* {generateMenu(loadlist)} */}

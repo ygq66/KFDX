@@ -92,7 +92,7 @@
             height: 39.5vh;
             padding-left: 13PX;
             .ResourceAtlas_list_bottom_Pdfbt{
-                cursor: pointer;
+                // cursor: pointer;
                 float: left;
                 width: 148px;
                 height: 36px;
@@ -100,9 +100,14 @@
                 margin-top: 20px;
                 text-align: center;
                 font-weight: 650;
-                background: url("../../../../src/assets/images/pdf-bt.png") no-repeat center center;
+                // background: url("../../../../src/assets/images/pdf-bt.png") no-repeat center center;
                 background-size: 95%;
                 margin-left: 10px;
+            }
+            .hcolor{
+                background-color: darkgrey;
+                color:#fff;
+                cursor:not-allowed;
             }
         }
         .ListTree{

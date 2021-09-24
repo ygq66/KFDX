@@ -67,16 +67,19 @@ export const Common = {
         if (data[index].model_name === null) {
             iccon = "menjin_icon"
         }
+        if (data[index].model_name === 'renlian') {
+            iccon = "renlianxiangji_icon"
+        }
         Model.createIcon(map3d,{
             typeStyle: iccon,
             attr:data[index],
             location: {
-                x: Common.filter(data[index].center.x),
-                y: Common.filter(data[index].center.y),
-                z: Common.filter(data[index].center.z),
-                pitch: Common.filter(data[index].center.pitch),
-                yaw: Common.filter(data[index].center.yaw),
-                roll: Common.filter(data[index].center.roll)
+                x: Common.filter(data[index].list_style.x),
+                y: Common.filter(data[index].list_style.y),
+                z: Common.filter(data[index].list_style.z),
+                pitch: Common.filter(data[index].list_style.pitch),
+                yaw: Common.filter(data[index].list_style.yaw),
+                roll: Common.filter(data[index].list_style.roll)
             }
         },(msg)=>{
             if(++index<data.length){
