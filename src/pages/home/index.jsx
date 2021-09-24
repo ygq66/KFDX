@@ -34,6 +34,7 @@ function Home() {
   const mp_light = useMappedState(state => state.map3d_light);
   const mp_dark = useMappedState(state => state.map3d_dark);
   const videoShow = useMappedState(state => state.isVideo);
+  const checkedPolygons = useMappedState(state => state.checked_polygonList);
   const [ContentPage, setContentPage] = useState("div");//模块组件容器
   const [m_data, setData] = useState();//给子元素传值
   // eslint-disable-next-line
@@ -285,7 +286,12 @@ function Home() {
               }
               break;
             case "polygon":  //点击面
+              checkedPolygons.length>0&&checkedPolygons.forEach(element => {
+                  Model.updatePolygon(mp_light,element,"","#00ff00");
+              });
               Model.updatePolygon(mp_light,e.data.Personnel,"","#FAAD14")
+              checkedPolygons.push(e.data.Personnel)
+              dispatch({ type: "setPolygons", checked_polygonList: checkedPolygons })
               let polygonMsg = e.data.Personnel
               videoPlay(polygonMsg.attr, "playVideo", ((msg) => {
                 let timestamp = Date.parse(new Date()) + "video";

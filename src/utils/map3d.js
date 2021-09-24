@@ -173,6 +173,7 @@ export const Model = {
     //关闭编辑
     endEditing(view3d) {
         view3d.OverLayerStopEdit();
+        Model.getModel(view3d);
     },
     // 删除圆
     closeCircle(view3d) {
@@ -196,6 +197,7 @@ export const Model = {
     closeLine(view3d) {
         var types = [10200];
         view3d.OverLayerRemoveAll(types);
+        Model.getModel(view3d);
     },
     //修改坐标
     modify(view3d, locations) {

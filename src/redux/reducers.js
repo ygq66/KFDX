@@ -27,6 +27,9 @@ export default function reducer(state, action) {
         case "checkVideo": {
             return { ...state,isVideo: action.isVideo }
         }
+        case "setPolygons": {
+            return { ...state,checked_polygonList: action.checked_polygonList }
+        }
         default:
             return state
     }

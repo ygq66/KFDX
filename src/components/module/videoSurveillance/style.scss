@@ -150,16 +150,21 @@
                     padding: 5px 10px;
                     overflow-y: auto;
                     @include scrollbar(3px);
-                    span{
-                        margin:0;
-                        display: block;
-                        margin-left: 10px;
+                    ul{
+                        li{
+                            transition: all .2s;
+                            cursor: pointer;
+                            color: white;
+                            span{
+                                margin:0;
+                                display: block;
+                                margin-left: 10px;
+                            }
+                        }
+                        .checked{
+                            color:yellow!important;
+                        }
                     }
-                }
-                span{
-                    margin: -10px 0px 13px 35px;
-                    display: block;
-                    color: white;
                 }
             }
             .Dotline-Nd{

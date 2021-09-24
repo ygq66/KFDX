@@ -12,6 +12,7 @@ import './style.scss';
 const VideoSurveillance = (props) => {
     const dispatch = useDispatch();
     const mp_light = useMappedState(state => state.map3d_light);
+    const checkedPolygons = useMappedState(state => state.checked_polygonList);
     const [carmealist, setlist] = useState([]);
     const [Dotlinelist, setlinelist] = useState([]);
     const [spinning, setSpinning] = useState(true)
@@ -20,6 +21,7 @@ const VideoSurveillance = (props) => {
     const [isPoint, setDrowPoint] = useState(true)
     const [isLine, setLine] = useState(true)
     const [fenceng, setSF] = useState({build_id:"",allfloor:""})
+    const [isCheck,setCheck] = useState()
     //Compiled with warnings
     useEffect(() => {
         regionList({ category_id: "10001",onmap:true}).then(res => {
@@ -91,7 +93,6 @@ const VideoSurveillance = (props) => {
                     console.log(msg,'芜湖')
                     getDragList("linestring",msg.points)
                     Model.endEditing(mp_light);
-                    Model.closeLine(mp_light);
                     setLine(true)
                 })
                 break;
@@ -142,6 +143,8 @@ const VideoSurveillance = (props) => {
     function dotLineclose() {
         // eslint-disable-next-line
         setlinelist(new Array())
+        Model.closeLine(mp_light)
+        recoverPolygon()
     }
     //显示单摄像头的区域
     const showArea = (data)=>{
@@ -300,14 +303,30 @@ const VideoSurveillance = (props) => {
         props.close();
         closePolygon(); 
         Build.allShow(mp_light, true);
-        Model.clearHighlight(mp_light)
+        Model.clearHighlight(mp_light);
+        recoverPolygon();
     }
     //点线视频查看
     const handelCamera = (data)=>{
+        recoverPolygon()
+        allPolygonObj.length>0&&allPolygonObj.forEach(element => {
+            if(element.attr.device_code === data.device_code){
+                checkedPolygons.push(element)
+                dispatch({ type: "setPolygons", checked_polygonList: checkedPolygons })
+                Model.updatePolygon(mp_light,element,"","#FAAD14");
+            }
+        });
+        setCheck(data.device_code)
         videoPlay(data,"preview",((msg)=>{
             let timestamp = Date.parse(new Date())+"video";
             dispatch({ type: "checkVideo", isVideo: timestamp });
         }))
+    }
+    //被点击过的面恢复正常
+    const recoverPolygon= ()=>{
+        checkedPolygons.length>0&&checkedPolygons.forEach(element => {
+            Model.updatePolygon(mp_light,element,"","#00ff00");
+        });
     }
     return (
         <div id="VideoSurveillance" className="VideoSurveillance">
@@ -354,13 +373,15 @@ const VideoSurveillance = (props) => {
                                 <div className="Dotline-Nr" key={index}>
                                     <p><span className="Dotline-Nr-tit">{index+1}.{item.name}</span></p>
                                     <div className="allpath">
-                                        {
-                                            item.children.map((str, key) => {
-                                                return (
-                                                    key++, <span key={key} onClick={()=> handelCamera(str)}>({key})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span>
-                                                )
-                                            })
-                                        }
+                                        <ul>
+                                            {
+                                                item.children.map((str, key) => {
+                                                    return (
+                                                        <li  key={key} className={str.device_code === isCheck?"checked":null}  onClick={()=> handelCamera(str)}><span>({key+1})  :&nbsp;&nbsp;&nbsp;{str.device_name}</span></li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
                                     </div>
                                 </div>
                             )

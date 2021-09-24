@@ -205,7 +205,7 @@ const Alarm = () => {
                                     {
                                         totals.length>0?<div className="total_number">
                                             <div className="allAlarm"><span className="font-family number">{totals[3].count}次</span><span className="total_s_title">{totals[3].category_name}</span></div>
-                                            <div className="cameraTotal totalItem" onClick={()=>More()}><span className="font-family number">{totals[0].count}次</span><span className="total_s_title">{totals[0].device_category_name}</span></div>
+                                            <div className="cameraTotal totalItem" onClick={()=>More()}><span className="font-family number">{totals[0].count}次</span><span className="total_s_title">{totals[0].category_name}</span></div>
                                             <div className="intercomTotal totalItem" onClick={()=>More()}><span className="font-family number">{totals[2].count}次</span><span className="total_s_title">{totals[2].category_name}</span></div>
                                             <div className="doorTotal totalItem" onClick={()=>More()}><span className="font-family number">{totals[1].count}次</span><span className="total_s_title">{totals[1].category_name}</span></div>
                                             <div className="firefightingTotal" onClick={()=>More()}><img src={require("../../assets/images/qita.png").default} alt=""/></div>
