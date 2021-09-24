@@ -49,6 +49,7 @@ const FloorList = () => {
                             getForPosition(e.data.floor_id)
                         } else { 
                             Build.allShow(mp, true) 
+                            setCount()
                         }
                         break;
                     default:
