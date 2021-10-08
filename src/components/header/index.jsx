@@ -5,7 +5,6 @@ import { useDispatch, useMappedState } from 'redux-react-hook';
 import { Common } from '../../utils/mapMethods';
 import { useHistory } from "react-router-dom";
 
-
 function Header(props) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -82,6 +81,13 @@ function Header(props) {
     }
     // handle top
     const handle_top = (item, index) => {
+        if(item.modules_name === "电梯控制"){
+            props.mapWidth("100%")
+            props.ctrlcheck(true)
+        }else{
+            props.mapWidth("50%")
+            props.ctrlcheck(false)
+        }
         if (mp_light) {
             Common.navigationClose(mp_light)
         }

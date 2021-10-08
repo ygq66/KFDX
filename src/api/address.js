@@ -10,6 +10,7 @@ var intercomS;//对讲机
 var videoDonwload_url;//视频下载地址
 var posPerson;//人员定位接口
 var PersonS;//人员定位socket
+var elvtorSocket;
 
 $.ajax({
     url: "./config.json",
@@ -33,6 +34,7 @@ $.ajax({
         videoDonwload_url = response.videoDownload;
         posPerson = response.positionPerson;
         PersonS = response.personSocket;
+        elvtorSocket = response.elevatorControl
 
     }
 })
@@ -48,3 +50,4 @@ export var iSocket = intercomS
 export var videodurl = videoDonwload_url
 export var positionS = posPerson
 export var pSocket = PersonS
+export var eSocket = elvtorSocket

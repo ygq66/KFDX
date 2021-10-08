@@ -9,5 +9,6 @@
     "luwangName":"nmd",
     "luwangIp":"192.168.0.245:9901",
     "positionPerson":"http://65.68.201.19:8082",
-    "personSocket":"ws://65.68.201.19:4649"
+    "personSocket":"ws://65.68.201.19:4649",
+    "elevatorControl":"ws://192.168.0.111:4649"
 }   

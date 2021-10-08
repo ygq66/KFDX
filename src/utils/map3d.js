@@ -216,6 +216,11 @@ export const Model = {
         createObj.location = location
         view3d.OverLayerUpdateObject(createObj);
     },
+    //电梯修改
+    updateElevator(view3d,obj){
+        obj.position.z += 5000
+        view3d.OverLayerUpdateObject(obj);
+    },
     //删除所有模型
     allmove(view3d) {
         view3d.OverLayerRemoveAll();

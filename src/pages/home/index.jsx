@@ -311,6 +311,7 @@ function Home() {
   // 切换模块
   useLayoutEffect(() => {
     if (top_module !== "") {
+      setAnimateName("animate__fadeInLeft")
       setContentPage(lazy(() => import(`../../components/module/${top_module}`)))
     }
   }, [top_module])
@@ -349,7 +350,7 @@ function Home() {
   }, [])
   return (
     <div className="home">
-      <Header animate={setAnimateName} />
+      <Header animate={setAnimateName} mapWidth={setDw} ctrlcheck={setDark}/>
       <div className="conent">
         {
           dark ? <div className="map">
@@ -362,11 +363,12 @@ function Home() {
             }
           </div> : <div className="map"><MapLight setWidth="100%" /></div>
         }
-        {top_module !== "" && <Suspense fallback={<div>"loading"</div>}>
-          <div className={`${"popup animate_speed animate__animated"} ${animateName}`}>
-            <ContentPage close={closePage} />
-          </div>
-        </Suspense>}
+        {top_module !== "elevatorControl"? <Suspense fallback={<div>"loading"</div>}>
+            <div className={`${"popup animate_speed animate__animated"} ${animateName}`}>
+              <ContentPage close={closePage} />
+            </div>
+          </Suspense>:<Suspense fallback={<div>"loading"</div>}><ContentPage/></Suspense>
+        }
         <div className="untils_site">
           <Site ctrlcheck={setDark} ctrlwidth={setDw} ctrlall={setDa} ref={siteRef} stl={setLinkage} />
         </div>

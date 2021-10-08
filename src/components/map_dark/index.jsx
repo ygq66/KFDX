@@ -20,8 +20,8 @@ import './style.scss'
         view3d = createMap.createMap({
             id: "mapv3dContainer_dark",
             url:url,
-            projectId: "5nbmjsdljf785208",
-            token: "rt2d645ty3eadaed32268mdta6"
+            projectId: "8ba97e5eb1664968adef330c80eb1244",
+            token: "3fd98e6128a5967772af3b633ba67bf3"
         },()=>{})
         dispatch({type:"mp_dark",map3d_dark:view3d});
     }
