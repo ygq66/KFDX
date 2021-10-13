@@ -1,122 +1,146 @@
-#ele_ctrl_left{
-    width:450px;
-    height: 989px;
-    background: url(../../../../assets/elevator/bg_1.png) no-repeat;
-    padding: 38px 25px 0;
-    position: absolute;
-    top: 80px;
-    @include notSelect;
-    z-index: 1;
-    .ecl_title{
-        background: url(../../../../assets/elevator/title.png) no-repeat;
-        width: 100%;
-        height:37px;
-        padding-top: 1.5px;
-        h1{
-            color: #ffff;
-            font-size: 20px;
-            margin-left: 14px;
-            letter-spacing: .7px;
-        }
+#ele_ctrl_left {
+  width: 450px;
+  height: 989px;
+  background: url(../../../../assets/elevator/bg_1.png) no-repeat;
+  padding: 38px 25px 0;
+  position: absolute;
+  top: 80px;
+  @include notSelect;
+  z-index: 1;
+
+  .ecl_title {
+    background: url(../../../../assets/elevator/title.png) no-repeat;
+    width: 100%;
+    height: 37px;
+    padding-top: 1.5px;
+
+    h1 {
+      color: #ffff;
+      font-size: 20px;
+      margin-left: 14px;
+      letter-spacing: .7px;
     }
-    .content_top{
-        .top_title{
-            @extend .ecl_title;
-        }
-        .top_datas{
-            margin: 20px 0 0 6px;
-            ul{
-                display: flex;
-                flex-wrap: wrap;
-                li{
-                    text-align: center;
-                    margin-bottom: 10px;
-                    .title_name_bg{
-                        width: 120px;
-                        height: 28px;
-                        line-height: 28px;
-                        text-align: center;
-                        background: url(../../../../assets/elevator/title_name_bg.png) no-repeat;
-                        span{
-                            color: #fff;
-                            font-size: 14px;
-                        }
-                    }
-                    .title_num{
-                        height: 48px;
-                        color:#fff;
-                        font-size: 16px;
-                        line-height: 48px;
-                        .num{
-                            color:#00AACF;
-                            font-size: 24px;
-                            font-weight: 500;
-                            letter-spacing: 1px;
-                            display: inline-block;
-                            margin-right: 5px;
-                        }
-                    }
-                }
-                li:nth-child(2),li:nth-child(5){
-                    margin: 0 10px;
-                }
-            }
-        }
+  }
+
+  .content_top {
+    .top_title {
+      @extend .ecl_title;
     }
-    .content_mid{
-        margin-top: 20px;
-        .mid_title{
-            @extend .ecl_title;
-        }
-        .mid_echarts{
-            margin-top: -30px;
+
+    .top_datas {
+      margin: 20px 0 0 6px;
+
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+
+        li {
+          text-align: center;
+          margin-bottom: 10px;
+
+          .title_name_bg {
+            width: 120px;
+            height: 28px;
+            line-height: 28px;
             text-align: center;
-            #BarChart{
-                width: 400px;
-                height: 350px;
+            background: url(../../../../assets/elevator/title_name_bg.png) no-repeat;
+
+            span {
+              color: #fff;
+              font-size: 14px;
             }
-        }
-    }
-    .content_btm{
-        .btm_title{
-            @extend .ecl_title;
-        }
-        .btm_echarts{
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            .health_item{
-                text-align: center;
-                .health_item_title{
-                    background: url(../../../../assets/elevator/dt_bg.png) no-repeat;
-                    width: 160px;
-                    height: 43px;
-                    color: #fff;
-                    line-height: 43px;
-                    font-size: 18px;
-                    text-align: center;
-                }
-                .healthChart{
-                    margin-top: 16px;
-                    background: url(../../../../assets/elevator/dt_chart_bg.png) no-repeat;
-                    width: 144px;
-                    height: 144px;
-                    .ant-progress{
-                        margin-top: 23px;
-                    }
-                    .ant-progress-circle .ant-progress-text{
-                        color: #fff;
-                    }
-                }
-                h3{
-                    margin-top: 20px;
-                    font-size: 16px;
-                    color: #fff;
-                    font-weight: normal;
-                    letter-spacing: 1px;
-                }
+          }
+
+          .title_num {
+            height: 48px;
+            color: #fff;
+            font-size: 16px;
+            line-height: 48px;
+
+            .num {
+              color: #00AACF;
+              font-size: 24px;
+              font-weight: 500;
+              letter-spacing: 1px;
+              display: inline-block;
+              margin-right: 5px;
             }
+          }
         }
+
+        li:nth-child(2),
+        li:nth-child(5) {
+          margin: 0 10px;
+        }
+      }
     }
+  }
+
+  .content_mid {
+    margin-top: 20px;
+
+    .mid_title {
+      @extend .ecl_title;
+    }
+
+    .mid_echarts {
+      margin-top: -30px;
+      text-align: center;
+
+      #BarChart {
+        width: 400px;
+        height: 350px;
+      }
+    }
+  }
+
+  .content_btm {
+    .btm_title {
+      @extend .ecl_title;
+    }
+
+    .btm_echarts {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+
+      .health_item {
+        text-align: center;
+
+        .health_item_title {
+          background: url(../../../../assets/elevator/dt_bg.png) no-repeat;
+          width: 160px;
+          height: 43px;
+          color: #fff;
+          line-height: 43px;
+          font-size: 18px;
+          text-align: center;
+        }
+
+        .healthChart {
+          margin-top: 16px;
+          background: url(../../../../assets/elevator/dt_chart_bg.png) no-repeat;
+          width: 144px;
+          height: 144px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          #percentChart1,#percentChart2{
+            width: 98px;
+            height: 98px;
+          }
+        }
+
+        h3 {
+          margin-top: 20px;
+          font-size: 16px;
+          color: #fff;
+          font-weight: normal;
+          letter-spacing: 1px;
+        }
+      }
+    }
+  }
 }

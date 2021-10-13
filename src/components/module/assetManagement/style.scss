@@ -1,0 +1,156 @@
+#assetManagement {
+  width: 450px;
+  height: 989px;
+  background: url(../../../assets/elevator/bg_1.png) no-repeat;
+  padding: 38px 25px 0;
+  margin-top: -20px;
+  @include notSelect;
+
+  .titleStyle {
+    background: url(../../../assets/elevator/title.png) no-repeat;
+    width: 100%;
+    height: 37px;
+    padding-top: 1.5px;
+
+    h1 {
+      color: #ffff;
+      font-size: 20px;
+      margin-left: 14px;
+      letter-spacing: .7px;
+    }
+  }
+
+  .content_top {
+    .top_title {
+      @extend .titleStyle;
+    }
+
+    .top_percent {
+      margin-top: 23px;
+
+      ul {
+        display: flex;
+
+        li {
+          display: flex;
+
+          .percent_content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .percentChart {
+              width: 90px;
+              height: 90px;
+              margin: 0 20px;
+            }
+
+            .percent_name {
+              margin-top: 15px;
+              width: 98px;
+              height: 28px;
+              line-height: 28px;
+              text-align: center;
+              background: url(../../../assets/elevator/percent_t_bg.png) no-repeat;
+
+              span {
+                color: #fff;
+                font-size: 16px;
+              }
+            }
+          }
+
+          img {
+            margin-top: -5px;
+          }
+        }
+      }
+    }
+  }
+
+  .content_bottom {
+    margin-top: 40px;
+    .mid_title {
+      @extend .titleStyle;
+    }
+    .search{
+      margin-top: 30px;
+      display: flex;
+      input{
+        width: 308px;
+        height: 32px;
+        background: #0E586F;
+        border: 1px solid #2FB4D1;
+        border-bottom-left-radius: 8px;
+        border-top-left-radius: 8px;
+        outline: none;
+        color: #fff;
+        padding: 0 10px;
+      }
+      input::-webkit-input-placeholder{
+        color: #64afc5;
+        letter-spacing: 1px;
+      }
+      .icon{
+        text-align: center;
+        width: 68px;
+        background: #0E586F;
+        border: 1px solid #2FB4D1;
+        border-bottom-right-radius: 8px;
+        border-top-right-radius: 8px;
+        img{
+          cursor: pointer;
+          padding: 0 20px;
+          margin-top: 1px;
+          transition: all .3s;
+          transform: scale(.8);
+        }
+        img:active{
+          transform: scale(1);
+        }
+      }
+    }
+    .tables{
+      color: #fff;
+      margin-top: 22px;
+      table{
+        thead{
+          display: block;
+          margin-bottom: 11px;
+          background: rgba(16, 104, 123, 0.5);
+          border: 1px solid #1189A3;
+          border-radius: 8px;
+          tr{
+            display: flex;
+            align-items: center;
+            width: 374px;
+            height: 32px;
+            padding: 0 11px;
+            th{
+              font-size: 16px;
+              font-weight: 400;
+              line-height: 32px;
+              text-align: left;
+            }
+          }
+        }
+        tbody{
+          border-radius: 8px;
+
+          display: block;
+          tr{
+          width: 376px;
+
+            td{
+              padding: 0 15px;
+          border: 1px solid #1189A3;
+          background: rgba(16, 104, 123, 0.5);
+
+              
+            }
+          }
+        }
+      }
+    }
+  }
+}

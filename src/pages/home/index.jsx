@@ -198,23 +198,6 @@ function Home() {
                     setTimeout(() => {
                       Model.modelHighlight(mp_light, msg.attr.model_url)
                     },100);
-                    // //视频投地-------->瓯海
-                    // if(msg.attr.device_name === "1号岗亭人脸识别"){
-                    //   videoProjection_bolean.current = true;
-                    //   Event.videoProjection(mp_light,msg.location,"rtsp://admin:bwk12345@192.168.11.2/h264/ch1/main/av_stream")
-                    // }else if(msg.attr.device_name === "1号岗亭球机"){
-                    //   videoProjection_bolean.current = true;
-                    //   Event.videoProjection(mp_light,msg.location,"rtsp://admin:bwk12345@192.168.11.1/h264/ch1/main/av_stream")
-                    // }else{
-                    //   if(videoProjection_bolean.current){
-                    //     Event.close_videoProjection(mp_light)
-                    //   }
-                    //   //弹视频
-                    //   videoPlay(msg.attr, "playVideo", ((msg) => {
-                    //     let timestamp = Date.parse(new Date()) + "video";
-                    //     dispatch({ type: "checkVideo", isVideo: timestamp });
-                    //   }))
-                    // }
                     if(msg.attr.device_name === "河边球机"){
                       if(polygonRef.current){Model.removeGid(mp_light, polygonRef.current.gid);setTimeout(() => {polygonRef.current = null;},300);}
                       videoProjection_bolean.current = true;
