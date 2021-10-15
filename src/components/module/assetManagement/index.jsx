@@ -20,7 +20,7 @@ const AssetManagement = () => {
     },
     {
       floorName: "一层", roomTotal: 9, roomList: [
-        { roomNum: "1101,1108,1129", roomName: "杭州历历信息科技有限公司" },
+        { roomNum: "1101", roomName: "杭州历历信息科技有限公司" },
         { roomNum: "1102", roomName: "米来依（杭州）科技有限公司" },
         { roomNum: "1103", roomName: "浙江一杭检测有限公司" },
         { roomNum: "1104", roomName: "杭州宇曜科技有限公司" },

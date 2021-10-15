@@ -1,6 +1,6 @@
 import React,{ useState,useEffect,useRef,Fragment } from 'react';
 import { DatePicker,Space,Select } from 'antd';
-import { lineLista,lineAlllist } from '../../../api/mainApi';
+import { lineList,lineAlllist,PlanList,PlanList_p } from '../../../api/mainApi';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { useMappedState } from 'redux-react-hook';
 import { Common } from '../../../utils/mapMethods'
@@ -35,17 +35,27 @@ const ElectronicPatrol = () => {
         {time:"11:10:13",address:"1号楼大门口",name:"赵萌萌"}
     ])
     // eslint-disable-next-line
-    const [lineList,setLineList] = useState([]) 
+    const [lineLists,setLineList] = useState([]) 
+    const [planLists,setPlanList] = useState([])
     const [speed,setSpeed] = useState(20)
     const [stop,setStop] = useState(true)
     useEffect(()=>{
         getLinepatrol()
+        getPlanList()
     },[]);
     //获取巡逻路线
     const getLinepatrol = () =>{
-        lineLista().then(res=>{
+        lineList().then(res=>{
             if(res.msg === "success"){
                 setLineList(res.data)
+            }
+        })
+    }
+    //获取巡预案路线
+    const getPlanList = () =>{
+        PlanList().then(res=>{
+            if(res.msg === "success"){
+                setPlanList(res.data)
             }
         })
     }
@@ -124,6 +134,80 @@ const ElectronicPatrol = () => {
             }
         })
     }
+
+    const startXL2 = (data)=>{
+        setShow(false)
+        setShow2(true)
+        setCount2(9)
+        PlanList_p({plan_id:data.id}).then(res=>{
+            if(res.msg === "success"){
+                var before_lines = res.data[0].patrol_line_subsection
+                var trajectory =[]
+                before_lines.forEach(element => {
+                    trajectory.push({
+                        id:res.data.id,
+                        x:element.options.line[0],
+                        y:element.options.line[1],
+                        z:400,
+                        floor:"F1",
+                        cameraList:element.patrol_camera
+                    })
+
+                });
+                trajectory.push({
+                    id:res.data.id,
+                    x:before_lines[before_lines.length-1].options.noodles[0][2],
+                    y:before_lines[before_lines.length-1].options.noodles[0][3],
+                    z:400,
+                    floor:"F1",
+                    cameraList:before_lines[before_lines.length-1].patrol_camera
+                })
+
+                let goTrajectory = {
+                    "style": "sim_arraw_Cyan",
+                    "width": 200,
+                    "speed": speed,
+                    "geom":trajectory
+                }
+                console.log("创建路线的数据",trajectory)
+                Event.createRoute(mp_light,goTrajectory,false)
+
+                setTimeout(()=>{
+                    if(before_lines[0].patrol_camera.length>0){
+                        before_lines[0].patrol_camera.forEach((elcs,index)=>{
+                            (function(index){
+                                setTimeout(()=>{
+                                    // ------中院
+                                    videoPlay(elcs,"Patrol") 
+                                    // ------汉中
+                                    // videoPlay({device_code:elcs.camera_code})
+                                },index*1500)
+                            }(index))
+                        })
+                    }
+                    Event.playPatrolPath(mp_light,((msg)=>{
+                        trajectory.forEach(element=> {
+                            if(element.x === msg.x && element.y === msg.y){
+                                if(element.cameraList.length>0){
+                                    element.cameraList.forEach((elc,index)=>{
+                                        (function(index){
+                                            setTimeout(()=>{
+                                                // ------中院
+                                                videoPlay(elc,"Patrol")
+                                                // ------汉中
+                                                // videoPlay({device_code:elc.camera_code})
+                                            },index*1500)
+                                        }(index))
+                                    })
+                                }
+                            }
+                        });
+                    }))
+                },100)
+            }
+        })
+    }
+
     const handle_top2=(index)=>{
         setCount2(index)
         if(index === 1){
@@ -189,11 +273,26 @@ const ElectronicPatrol = () => {
                     </div>
                     <div className="content_list">
                         <ul>
-                            {lineList.map((item, index) => {
+                            {lineLists.map((item, index) => {
                                 return (
                                     <li key={index}>
                                         <span>{item.line_name}</span>
                                         <div className="button" onClick={()=>startXL(item)}>开始</div>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                    <div className="content_top3">
+                        <h2>巡逻预案</h2>
+                    </div>
+                    <div className="content_list3">
+                        <ul>
+                            {planLists.map((item, index) => {
+                                return (
+                                    <li key={index}>
+                                        <span>{item.plan_name}</span>
+                                        <div className="button" onClick={()=>startXL2(item)}>开始</div>
                                     </li>
                                 )
                             })}

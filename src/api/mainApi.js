@@ -57,9 +57,22 @@ export function infoList(paramsData) {
         data: paramsData
     })
 }
-export function lineLista() {
+export function lineList() {
     return request({
         url: constant.lineList,
+        method: 'get',
+    })
+}
+export function PlanList_p(paramsData) {
+    return request({
+        url: constant.PlanList,
+        method: 'post',
+        data: paramsData
+    })
+}
+export function PlanList() {
+    return request({
+        url: constant.PlanList,
         method: 'get',
     })
 }

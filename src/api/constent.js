@@ -37,8 +37,11 @@ const constant =  {
 
   //巡逻路线
   lineList:`${ApiUrl2}/patrol/line/list`,
+
+  //巡逻预案
+  PlanList:`${ApiUrl2}/patrol/plan/list`,
   
-  //根据id查路线
+  //根据id查巡逻路线
   lineAlllist:`${ApiUrl2}/patrol/line/alllist`,
 
   //建筑id查建筑和楼层数据

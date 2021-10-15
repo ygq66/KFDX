@@ -581,7 +581,7 @@ export const Model = {
                         Personnel: res
                     }
                 }
-                window.parent.postMessage(data, '*');
+                window.postMessage(data, '*');
             }
             // callback(strObj)
         });
