@@ -37,7 +37,7 @@ const ElectronicPatrol = () => {
     // eslint-disable-next-line
     const [lineLists,setLineList] = useState([]) 
     const [planLists,setPlanList] = useState([])
-    const [speed,setSpeed] = useState(20)
+    const [speed,setSpeed] = useState(5)
     const [stop,setStop] = useState(true)
     useEffect(()=>{
         getLinepatrol()
@@ -141,11 +141,17 @@ const ElectronicPatrol = () => {
         setCount2(9)
         PlanList_p({plan_id:data.id}).then(res=>{
             if(res.msg === "success"){
-                var before_lines = res.data[0].patrol_line_subsection
+                let before_lines = []
+                res.data.forEach(element => {
+                   element.patrol_line_subsection.forEach(element2 => {
+                        before_lines.push(element2)
+                   });
+                });
+
                 var trajectory =[]
-                before_lines.forEach(element => {
+                before_lines.forEach((element,index) => {
                     trajectory.push({
-                        id:res.data.id,
+                        id:"yuan"+index,
                         x:element.options.line[0],
                         y:element.options.line[1],
                         z:400,
@@ -155,7 +161,7 @@ const ElectronicPatrol = () => {
 
                 });
                 trajectory.push({
-                    id:res.data.id,
+                    id:"yuan_end",
                     x:before_lines[before_lines.length-1].options.noodles[0][2],
                     y:before_lines[before_lines.length-1].options.noodles[0][3],
                     z:400,
@@ -177,10 +183,7 @@ const ElectronicPatrol = () => {
                         before_lines[0].patrol_camera.forEach((elcs,index)=>{
                             (function(index){
                                 setTimeout(()=>{
-                                    // ------中院
-                                    videoPlay(elcs,"Patrol") 
-                                    // ------汉中
-                                    // videoPlay({device_code:elcs.camera_code})
+                                    videoPlay({detail_info:{camera_code:elcs.camera_code,camera_name:elcs.camera_name}},"Patrol") 
                                 },index*1500)
                             }(index))
                         })
@@ -192,10 +195,7 @@ const ElectronicPatrol = () => {
                                     element.cameraList.forEach((elc,index)=>{
                                         (function(index){
                                             setTimeout(()=>{
-                                                // ------中院
-                                                videoPlay(elc,"Patrol")
-                                                // ------汉中
-                                                // videoPlay({device_code:elc.camera_code})
+                                                videoPlay({detail_info:{camera_code:elc.camera_code,camera_name:elc.camera_name}},"Patrol") 
                                             },index*1500)
                                         }(index))
                                     })
