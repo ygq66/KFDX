@@ -10,5 +10,9 @@
     "luwangIp":"192.168.0.245:9901",
     "positionPerson":"http://65.68.201.19:8082",
     "personSocket":"ws://65.68.201.19:4649",
-    "elevatorControl":"ws://192.168.0.111:4649"
+    "elevatorControl":"ws://192.168.0.111:4649",
+    "projectId": "b830662bd44b489590e69a70bf6f8283",
+    "token": "0dde1801b83c6c19e1d78a0f710fb387",
+    "projectId2": "b830662bd44b489590e69a70bf6f8283",
+    "token2": "0dde1801b83c6c19e1d78a0f710fb387"
 }   

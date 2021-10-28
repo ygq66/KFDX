@@ -11,6 +11,10 @@ var videoDonwload_url;//视频下载地址
 var posPerson;//人员定位接口
 var PersonS;//人员定位socket
 var elvtorSocket;
+var projectId;//项目id
+var token;//项目token
+var projectId2;
+var token2;
 
 $.ajax({
     url: "./config.json",
@@ -34,7 +38,11 @@ $.ajax({
         videoDonwload_url = response.videoDownload;
         posPerson = response.positionPerson;
         PersonS = response.personSocket;
-        elvtorSocket = response.elevatorControl
+        elvtorSocket = response.elevatorControl;
+        projectId = response.projectId;
+        token = response.token;
+        projectId2 = response.projectId2;
+        token2 = response.token2;
 
     }
 })
@@ -51,3 +59,7 @@ export var videodurl = videoDonwload_url
 export var positionS = posPerson
 export var pSocket = PersonS
 export var eSocket = elvtorSocket
+export var pjectid = projectId
+export var tk = token
+export var pjectid2 = projectId2
+export var tk2 = token2

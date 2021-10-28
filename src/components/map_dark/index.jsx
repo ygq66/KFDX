@@ -3,6 +3,7 @@ import {createMap} from '../../utils/map3d'
 // import virtualization from '../../utils/virtualization'
 import { useMappedState,useDispatch } from 'redux-react-hook';
 // import { api2 as ApiUrl2} from '../../api/address';
+import { pjectid2 as projectId2, tk2 as token2} from '../../api/address';
 import './style.scss'
 
  const Map = (props) => {
@@ -20,8 +21,8 @@ import './style.scss'
         view3d = createMap.createMap({
             id: "mapv3dContainer_dark",
             url:url,
-            projectId: "8ba97e5eb1664968adef330c80eb1244",
-            token: "3fd98e6128a5967772af3b633ba67bf3"
+            projectId: projectId2,
+            token: token2
         },()=>{})
         dispatch({type:"mp_dark",map3d_dark:view3d});
     }

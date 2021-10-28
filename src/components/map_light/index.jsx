@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { createMap, Model, Build } from '../../utils/map3d';
 import { Common } from '../../utils/mapMethods';
 import { useMappedState, useDispatch } from 'redux-react-hook';
-import { cameraList_S, labelLists } from '../../api/mainApi'
-import './style.scss'
+import { cameraList_S, labelLists } from '../../api/mainApi';
+import { pjectid as projectId, tk as token } from '../../api/address';
+import './style.scss';
 
 const MapLight = (props) => {
   const dispatch = useDispatch();
@@ -16,8 +17,8 @@ const MapLight = (props) => {
     var map_light = createMap.createMap({
       id: "mapv3dContainer_light",
       url: url,
-      projectId: "5nbmjsdljf785208",
-      token: "rt2d645ty3eadaed32268mdta6"
+      projectId: projectId,
+      token: token
     }, (() => {
       dispatch({ type: "mp_light", map3d_light: map_light });
       //初始化位置
