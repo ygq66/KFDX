@@ -44,8 +44,8 @@ const FloorList = () => {
                         })
                         setShow(true)
                         //监听相机模型事件触发楼层列表下标
-                        if (e.data.index) { 
-                            setCount(e.data.index - 1) 
+                        if (e.data.floor_id) { 
+                            setCount(e.data.floor_id) 
                             getForPosition(e.data.floor_id)
                         } else { 
                             Build.allShow(mp, true) 
@@ -138,7 +138,7 @@ const FloorList = () => {
         del_label()
         // getFloorPosition(buildData.build_name.build_id, item.floor_id)
         //传给床位组件
-        setCount(index)
+        setCount(item.floor_id)
         //分层
         var floorh = []
         buildData.floor_name.forEach(element => { floorh.push(element.floor_id.split("#")[1]) });
@@ -179,7 +179,7 @@ const FloorList = () => {
                         <ul>
                             {flList.map((item, index) => {
                                 return (
-                                    <li key={index} className={count === index ? "acitve" : null} onClick={() => handleFloor(item, index)}>{item.name}</li>
+                                    <li key={index} className={count === item.floor_id ? "acitve" : null} onClick={() => handleFloor(item, index)}>{item.name}</li>
                                 )
                             })}
                         </ul>
