@@ -116,5 +116,114 @@ export const Common = {
     Model.closeIcon(map3d);
     Event.clearPatrolPath(map3d);
     Model.getModel(map3d);
+  },
+
+  /**
+   * 批量添加模型
+   * @param map   {Object}
+   * @param source {Array}
+   * @param size  {Number} 每次最多添加10个。不能再多。多了数据传输会失败。
+   * @param cb    {Function}
+   */
+  batchedAddModel(map, source, size = 10, cb) {
+    if (!Array.isArray(source)) {
+      return
+    }
+    const sourceSize = source.length
+    const addModel = (startOffset, endOffset = 0) => {
+      const sourceSlice = source.slice(startOffset, endOffset)
+      if (startOffset > sourceSize - 1) {
+        setTimeout(() => {
+          cb && cb()
+        }, 0)
+        return
+      }
+
+      // 注意,此功能为异步操作
+      map.OverLayerCreateObjects(sourceSlice, res => {
+        if (startOffset < sourceSize) {
+          setTimeout(() => {
+            addModel(endOffset, endOffset + size)
+          }, size || 0)
+        }
+      })
+    }
+
+    addModel(0, size)
+  },
+
+  // 单个，递归的添加模型
+  addModelSync(map, source, cb) {
+    const size = source.length
+    const addModel = (index) => {
+      if (index >= size) {
+        cb && cb()
+        return
+      }
+      const model = source[index]
+      map.OverLayerCreateObject(model, res => {
+        console.log('add model success: ', index, '/', size)
+        setTimeout(() => {
+          addModel(++index)
+        }, 20)
+      })
+    }
+
+    addModel(0)
+  },
+
+  /**
+   * 显示模型
+   * @param map
+   * @param modelList
+   */
+  showModels(map, modelList) {
+    if (map) {
+      modelList.forEach(model => {
+        map.UpdateObjectVisible(model.gid, true)
+      })
+    }
+  },
+
+  /**
+   * 隐藏模型
+   * @param map
+   * @param modelList
+   */
+  hideModels(map, modelList) {
+    if (map) {
+      modelList.forEach(model => {
+        map.UpdateObjectVisible(model.gid, false)
+      })
+    }
+  },
+
+  /**
+   * 更新模型
+   * @param map
+   * @param modelList
+   */
+  batchUpdateModel(map, modelList) {
+    if (map) {
+      modelList.forEach(model => {
+        map.OverLayerUpdateObject(model)
+      })
+    }
+  },
+
+  batchUpdateModelVisible(map, modelList) {
+    if (map) {
+      modelList.forEach(model => {
+        map.UpdateObjectVisible(model.gid, model.visible)
+      })
+    }
+  },
+
+  batchRemoveModel(map, modelList) {
+    if (map) {
+      modelList.forEach(model => {
+        map.OverLayerRemoveObjectById(model.gid)
+      })
+    }
   }
 }

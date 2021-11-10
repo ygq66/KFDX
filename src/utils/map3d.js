@@ -372,7 +372,7 @@ export const Model = {
             type: 'cylinder',
             radius: radius ? radius : 100.0, // 半径
             height: height ? height : 3000.0, // 高
-            style: 'SplineOrangeHighlight', // style 样式优先于color 
+            style: 'SplineOrangeHighlight', // style 样式优先于color
             location: {
                 x: points.x,
                 y: points.y,
@@ -387,7 +387,7 @@ export const Model = {
             type: 'cylinder',
             radius: 1000.0, // 半径
             height: 100.0, // 高
-            style: 'SplineOrangeHighlight1', // style 样式优先于color 
+            style: 'SplineOrangeHighlight1', // style 样式优先于color
             location: {
                 x: points.x,
                 y: points.y,
@@ -566,7 +566,7 @@ export const Model = {
                         Personnel: res,
                     }
                     // console.log(res);
-                } else if (res.gid.split("_")[0] === "MP") {
+                } else if (res.gid && res.gid.split("_")[0] === "MP") {
                     let buildarr = res.gid.split("_");
                     buildarr.shift();
                     let buildId = buildarr.join("_");
@@ -690,7 +690,7 @@ export const Model = {
         const obj = {
             type: 'circle',
             radius: style.radius ? style.radius : 100, // 半径
-            // style : 'red', 
+            // style : 'red',
             color: style.color ? style.color : '#FF0000',
             location: style.location
         };
@@ -703,12 +703,18 @@ export const Model = {
 }
 // 建筑楼层类
 export const Build = {
+    //地面显示隐藏
+    showDM(groundVisible, view3d) {
+        view3d && view3d.SetGroundVisible(groundVisible);
+    },
+
     getBuild(view3d, callback) {
         view3d.GetBuildingNames(res => {
             var strObj = JSON.stringify(res);
             callback(strObj)
         });
     },
+
     getFloor(view3d, buildingName, callback) {
         view3d.GetFloorNames(buildingName, res => {
             var strObj = JSON.stringify(res);
@@ -720,41 +726,57 @@ export const Build = {
     showFloor(view3d, buildingName, floorName, floor) {
         console.log(buildingName, floorName, floor)
 
-        let floorNum = Number(floorName.substring(floorName.length - 2)) >= 10 ? Number(floorName.substring(floorName.length - 2)) : Number(floorName.slice(-1))
-        var FLOOR = floorName.substr(0, 1);
-
-        if (FLOOR === "B") {
-            floorNum = -floorNum
+        view3d.SetBuildingVisible(buildingName, floorName === "all")
+        if (floorName === 'all') {
+            return
         }
 
-        view3d.SetBuildingVisible(buildingName, floorName === "all" ? true : false);
-        console.log("数组", floor);
-        floor.forEach(item => {
-            let FNum = Number(item.substring(1));
+        // floor undefined 的报错处理。
+        if (!floor) {
+            return;
+        }
+
+        if (floorName.indexOf('#') !== -1) {
+            floorName = floorName.split('#')[1]
+        }
+
+        let floorNum = Build.getFloorNumberByName(floorName)
+        let isCurrentFloorUnderground = floorName.startsWith('B')
+
+        if (isCurrentFloorUnderground) {
+            floorNum = -floorNum
+            // 显示地下的情况时,把地面隐藏掉
+            Build.showDM(false, view3d)
+        } else {
+            Build.showDM(true, view3d)
+        }
+
+        floor.forEach((item, index) => {
+            let FNum = Build.getFloorNumberByName(item)
             var ItmFloor = item.substr(0, 1);
             if (ItmFloor === "B") {
-                FNum = -FNum
+                FNum = -FNum;
             }
-            console.log(FNum, floorNum, buildingName, item)
+
+            let floorVisible = true
             if (FNum > floorNum) {
-                view3d.SetFloorVisible(buildingName, item, false);
-            } else {
-                view3d.SetFloorVisible(buildingName, item, true);
+                floorVisible = false
             }
-            if (floor.length - 1 === item) {
+
+            view3d.SetFloorVisible(buildingName, item, floorVisible);
+
+            if (index === floor.length - 1) {
                 setTimeout(() => {
                     Model.getModel(view3d);
-                }, 1000)
+                }, 1000);
             }
         })
-        Model.getModel(view3d);
     },
+
     // 整个建筑显示隐藏
     allShow(view3d, buildVisible) {
         Build.getBuild(view3d, res => {
-            console.log("allShow",res)
             Array.from(JSON.parse(res)).forEach(item => {
-                console.log(item);
                 view3d.SetBuildingVisible(item.id, buildVisible);
             })
             view3d._command = 100107
@@ -762,13 +784,53 @@ export const Build = {
         })
         // Model.getModel(view3d);
     },
+
     // 爆炸分离
     splitBuild(view3d, buildingName, floorHeight) {
         view3d.SplitBuilding(buildingName, floorHeight);
     },
+
     // 分离恢复
     splitBuildReset(view3d, buildingName) {
         view3d.SplitBuildingReset(buildingName);
+    },
+
+    /**
+     * 提取楼层号 V001_JZ0002#F003 => 3
+     * @param floorId V001_JZ0002#F003
+     * @returns {number} 数字格式的楼层号
+     */
+    getFloorNumberByFloorId(floorId) {
+        let floorName = Build.getFloorNameByFloorId(floorId)
+        return Build.getFloorNumberByName(floorName)
+    },
+
+    /**
+     * V001_JZ0002#F003 => F003
+     * @param floorId
+     */
+    getFloorNameByFloorId(floorId) {
+        return floorId.split('#')[1]
+    },
+
+    /**
+     * 提取楼层号 F001 => 1, B001 => -1
+     * @param floorNameString F001,B001的格式
+     * @returns {number|number} 数字格式的楼层号
+     */
+    getFloorNumberByName(floorNameString) {
+        let floorReg = /\d+/
+        let floorNumString = floorNameString.match(floorReg)[0]
+        let isUnderFloor = floorNameString.startsWith('B')
+        return floorNumString ? (isUnderFloor ? Number(floorNumString) * -1 : Number(floorNumString)) : 1
+    },
+
+    /**
+     * V001_JZ0002#F003 => F3
+     * @param floorId
+     */
+    getFloorLabelById(floorId) {
+        return `${floorId[0]}${Build.getFloorNumberByFloorId(floorId)}`
     }
 }
 // 功能块

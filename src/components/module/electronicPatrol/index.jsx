@@ -1,11 +1,11 @@
 import React,{ useState,useEffect,useRef,Fragment } from 'react';
 import { DatePicker,Space,Select } from 'antd';
-import { lineList,lineAlllist,PlanList,PlanList_p } from '../../../api/mainApi';
+import { lineList, lineAlllist, PlanList, PlanList_p, labelList } from '../../../api/mainApi';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { useMappedState } from 'redux-react-hook';
 import { Common } from '../../../utils/mapMethods'
 import { videoPlay } from '../../../utils/untils'
-import { Event } from '../../../utils/map3d'
+import { Build, Event } from '../../../utils/map3d'
 
 import './style.scss'
 const { Option } = Select;
@@ -63,6 +63,33 @@ const ElectronicPatrol = () => {
         console.log(date, dateString);
     }
     const startXL = (value)=>{
+        console.log(value)
+        const floorId = value.floor_id
+        const floorNumber = Build.getFloorNumberByFloorId(floorId)
+        const floorName = Build.getFloorNameByFloorId(floorId)
+
+        let isIndoor = value.indoor
+        let buildId = value.build_id
+
+        let routeZValue = 400
+        let floorLabel = 'F1'
+
+        if (floorNumber) {
+            routeZValue *= floorNumber
+        }
+
+        // 是室内的室内的巡逻路线
+        if (isIndoor) {
+            // 获取这栋建筑内的所有楼层
+            labelList({build_id: buildId}).then(res => {
+                let floorList = res.data[0].floor_name.map(floor => floor.floor_name)
+                Build.showFloor(mp_light, buildId, floorName, floorList)
+                floorLabel = Build.getFloorLabelById(floorId)
+            })
+        }
+
+        // return
+
         setShow(false)
         setShow2(true)
         setCount2(9)
@@ -75,8 +102,8 @@ const ElectronicPatrol = () => {
                         id:res.data.id,
                         x:element.options.line[0],
                         y:element.options.line[1],
-                        z:400,
-                        floor:"F1",
+                        z:routeZValue,
+                        floor: floorLabel,
                         cameraList:element.patrol_camera
                     })
 
@@ -85,8 +112,8 @@ const ElectronicPatrol = () => {
                     id:res.data.id,
                     x:before_lines[before_lines.length-1].options.noodles[0][2],
                     y:before_lines[before_lines.length-1].options.noodles[0][3],
-                    z:400,
-                    floor:"F1",
+                    z:routeZValue,
+                    floor: floorLabel,
                     cameraList:before_lines[before_lines.length-1].patrol_camera
                 })
 
@@ -136,10 +163,12 @@ const ElectronicPatrol = () => {
     }
 
     const startXL2 = (data)=>{
+
         setShow(false)
         setShow2(true)
         setCount2(9)
         PlanList_p({plan_id:data.id}).then(res=>{
+            console.log(res)
             if(res.msg === "success"){
                 let before_lines = []
                 res.data.forEach(element => {
@@ -222,6 +251,8 @@ const ElectronicPatrol = () => {
             //退出清除路线
             Event.clearPatrolPath(mp_light)
             Common.initializationPosition(mp_light)
+            Build.allShow(mp_light, true)
+
         }else if(index === 2){
             setYcsb(true)
         }else{

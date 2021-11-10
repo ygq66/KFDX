@@ -16,9 +16,12 @@ const MapLight = (props) => {
   const createMapsss = (url) => {
     var map_light = createMap.createMap({
       id: "mapv3dContainer_light",
-      url: url,
-      projectId: projectId,
-      token: token
+      // url: url,
+      // projectId: projectId,
+      // token: token
+      url: 'http://localhost:9911',
+      projectId: 'd8c9e62481b4400bac626500c5bd3337',
+      token: 'db52598939c493e14691900048a26020'
     }, (() => {
       dispatch({ type: "mp_light", map3d_light: map_light });
       //初始化位置
