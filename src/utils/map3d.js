@@ -98,6 +98,7 @@ export const createMap = {
         //     roll : 0     // 翻滚角
         // };
         view3d.FlyToPosition(pos);
+
         Model.getModel(view3d);
     },
     flawto(view3d, location) {
@@ -333,7 +334,7 @@ export const Model = {
                 // view3d.SetMouseCallback(null);
                 createObj = res;
                 var strObj = JSON.stringify(createObj);
-                console.log(strObj,'strObj')
+                // console.log(strObj,'strObj')
                 callback(strObj)
             });
         });
@@ -522,8 +523,13 @@ export const Model = {
     // 显示隐藏模型
     showModel(view3d, id, flag) {
         view3d.UpdateObjectVisible(id, flag);
-        Model.getModel(view3d);
+        // Model.getModel(view3d);
     },
+
+    clearMouseCallBack(map) {
+        map.SetMouseCallback(null)
+    },
+
     //点击获取当前模型信息
     getModel(view3d) {
         // 过滤 对象  prefix 对象名称前缀   ，path 路径前缀
@@ -535,6 +541,7 @@ export const Model = {
             showmouse:false
         };
 
+        view3d.SetMouseCallback(null)
         view3d.SetParameters(paramers);
         view3d.SetMouseCallback(res => {
             console.log(res,'点击对象')
@@ -724,8 +731,6 @@ export const Build = {
 
     // 楼层显示隐藏
     showFloor(view3d, buildingName, floorName, floor) {
-        console.log(buildingName, floorName, floor)
-
         view3d.SetBuildingVisible(buildingName, floorName === "all")
         if (floorName === 'all') {
             return
@@ -767,7 +772,7 @@ export const Build = {
 
             if (index === floor.length - 1) {
                 setTimeout(() => {
-                    Model.getModel(view3d);
+                    // Model.getModel(view3d);
                 }, 1000);
             }
         })
@@ -898,7 +903,7 @@ export const Event = {
     // 开始迅游
     playPatrolPath(view3d, callback) {
         view3d.PlayRoute(res => {
-            console.log(res,'巡游的实时位置')
+            // console.log(res,'巡游的实时位置')
             // 返回播放结束节点的位置和索引
             if (callback) {
                 callback(res);

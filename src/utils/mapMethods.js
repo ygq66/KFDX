@@ -118,11 +118,30 @@ export const Common = {
     Model.getModel(map3d);
   },
 
+  createModelConfig(model) {
+    let position = model.list_style ?model.list_style : model.center
+    return {
+      gid: model.model_url,
+      type: 'model',
+      filename: model.model_name,
+      attr: model,
+      location: {
+        x: Common.filter(position.x),
+        y: Common.filter(position.y),
+        z: Common.filter(position.z),
+        pitch: Common.filter(position.pitch),
+        yaw: Common.filter(position.yaw),
+        roll: Common.filter(position.roll)
+      }
+    }
+  },
+
   /**
    * 批量添加模型
    * @param map   {Object}
    * @param source {Array}
-   * @param size  {Number} 每次最多添加10个。不能再多。多了数据传输会失败。
+   * @param size  {Number} 每次最多添加10个。不能再多。多了数据传输会失败。如果一次想添加很多(50, 100个)，
+   *                       要自己定义attr属性的值，不要把整个接口返回的模型数据附加到 attr
    * @param cb    {Function}
    */
   batchedAddModel(map, source, size = 10, cb) {
@@ -132,6 +151,7 @@ export const Common = {
     const sourceSize = source.length
     const addModel = (startOffset, endOffset = 0) => {
       const sourceSlice = source.slice(startOffset, endOffset)
+
       if (startOffset > sourceSize - 1) {
         setTimeout(() => {
           cb && cb()
