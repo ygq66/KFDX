@@ -126,7 +126,7 @@ const ElectronicPatrol = () => {
     cameraPlayTimer.current = setTimeout(playVideo, speed * 1000)
   }
 
-  const startXL = (value) => {
+  const startXL = (value, patrolFinishCallback) => {
     console.log(value)
     const floorId = value.floor_id
 
@@ -164,24 +164,28 @@ const ElectronicPatrol = () => {
 
     lineAlllist({id: value.id}).then(res => {
       if (res.msg === "success") {
-        var before_lines = res.data.patrol_line_subsection
+        let before_lines = Array.from(res.data.patrol_line_subsection)
 
         console.log(before_lines)
 
-        var trajectory = []
+        let trajectory = []
 
         const patrolOneLine = (currentLineIndex) => {
           console.log('')
-          console.log(`开始第：${currentLineIndex + 1} 段巡游路线！ 共 ${before_lines.length - 1} 条路线.`)
+          console.log(`开始第：${currentLineIndex + 1} 段巡游路线！ 共 ${before_lines.length} 条路线.`)
 
-          if (currentLineIndex >= before_lines.length - 1) {
+          if (currentLineIndex > before_lines.length - 1) {
             console.log(currentLineIndex, before_lines.length)
             console.log('巡更结束！')
-            handle_top2(1)
+            if (patrolFinishCallback) {
+              patrolFinishCallback()
+            } else {
+              handle_top2(1)
+              currentPlayCameraIndex.current = -1
+              clearTimeout(cameraPlayTimer.current)
+              cameraPlayTimer.current = null
+            }
 
-            currentPlayCameraIndex.current = -1
-            clearTimeout(cameraPlayTimer.current)
-            cameraPlayTimer.current = null
             return
           }
 
@@ -192,23 +196,39 @@ const ElectronicPatrol = () => {
           trajectory = []
           trajectory.push({
             id: res.data.id,
-            x: element.options.line[0],
-            y: element.options.line[1],
+            x: element.options.noodles[0][0],
+            y: element.options.noodles[0][1],
             z: routeZValue,
             floor: floorLabel,
             cameraList: element.patrol_camera
           })
 
+          // 最后一个元素时，添加到本身元素的noodles的点作为最后一段
+          if (nextElement) {
+            trajectory.push({
+              id: res.data.id,
+              // x: nextElement.options.line[0],
+              // y: nextElement.options.line[1],
+              x: nextElement.options.noodles[0][0],
+              y: nextElement.options.noodles[0][1],
+              z: routeZValue,
+              floor: floorLabel,
+              cameraList: nextElement.patrol_camera
+            })
+          } else {
+            console.log('到最后一个点了：', currentLineIndex, JSON.stringify(nextElement), element)
+            nextElement = element
+            trajectory.push({
+              id: res.data.id,
+              x: nextElement.options.noodles[0][6],
+              y: nextElement.options.noodles[0][7],
+              z: routeZValue,
+              floor: floorLabel,
+              cameraList: nextElement.patrol_camera
+            })
+          }
 
-          trajectory.push({
-            id: res.data.id,
-            x: nextElement.options.line[0],
-            y: nextElement.options.line[1],
-            z: routeZValue,
-            floor: floorLabel,
-            cameraList: nextElement.patrol_camera
-          })
-
+          //
           if (endElement) {
             trajectory.push({
               id: res.data.id,
@@ -218,6 +238,15 @@ const ElectronicPatrol = () => {
               floor: floorLabel,
               cameraList: endElement.patrol_camera
             })
+          } else if (!endElement && currentLineIndex === before_lines.length - 2) {
+            trajectory.push({
+              id: res.data.id,
+              x: before_lines[before_lines.length - 1].options.noodles[0][6],
+              y: before_lines[before_lines.length - 1].options.noodles[0][7],
+              z: routeZValue,
+              floor: floorLabel,
+              cameraList: before_lines[before_lines.length - 1].patrol_camera
+            })
           }
 
           let cameraNumber = element.patrol_camera.length + nextElement.patrol_camera.length
@@ -226,11 +255,9 @@ const ElectronicPatrol = () => {
 
           // 获取本段巡游路线的整体时间
           const getRouteTime = () => {
-            let allCameraNumber = trajectory[0].cameraList.length + trajectory[1].cameraList.length
-
             // 有相机的路线，整体巡逻时间，最小应该是相机的个数 * 单个设备巡逻速度
-            if (allCameraNumber > 0) {
-              return allCameraNumber * speed
+            if (cameraNumber > 0) {
+              return cameraNumber * speed
             }
 
             return noDeviceRouteTime
@@ -241,12 +268,15 @@ const ElectronicPatrol = () => {
             console.log('两点之间的距离：', distance, ' m')
             let tempSpeed = distance / getRouteTime()
             console.log('速率： ', tempSpeed, ' m/s.')
-
+            // 无设备巡逻帧率固定成设定的帧率。因为目前没办法计算精确的巡逻速率 m/s.
+            if (cameraNumber === 0) {
+              return noDeviceRouteTime
+            }
             return tempSpeed
           }
 
           let goTrajectory = {
-            "visible": false, // 路线是否可见
+            "visible": true, // 路线是否可见
             // "style": "sim_arraw_Cyan",
             "style": "default",
             "width": 200,
@@ -364,14 +394,41 @@ const ElectronicPatrol = () => {
     })
   }
 
+  // 点击开始巡逻预案
   const startXL2 = (data) => {
 
     setShow(false)
     setShow2(true)
     setCount2(9)
+
+
     PlanList_p({plan_id: data.id}).then(res => {
       console.log(res)
       if (res.msg === "success") {
+        let currentPatrolIndex = 0
+        let planPatrolLines = Array.from(res.data)
+
+        let planPatrolExec = (index) => {
+          console.log(index, planPatrolLines.length)
+          if (currentPatrolIndex < planPatrolLines.length) {
+            startXL(planPatrolLines[currentPatrolIndex], () => {
+              ++currentPatrolIndex
+              setTimeout(() => {
+                planPatrolExec(currentPatrolIndex)
+              }, 10)
+            })
+          } else {
+            console.log('巡逻预案结束！')
+            handle_top2(1)
+            currentPlayCameraIndex.current = -1
+            clearTimeout(cameraPlayTimer.current)
+            cameraPlayTimer.current = null
+          }
+        }
+
+        planPatrolExec(currentPatrolIndex)
+
+        return
         let before_lines = []
         res.data.forEach(element => {
           element.patrol_line_subsection.forEach(element2 => {
@@ -464,6 +521,7 @@ const ElectronicPatrol = () => {
       Event.clearPatrolPath(mp_light)
       Common.initializationPosition(mp_light)
       Build.allShow(mp_light, true)
+      clearTimeout(cameraPlayTimer.current)
 
     } else if (index === 2) {
       setYcsb(true)
