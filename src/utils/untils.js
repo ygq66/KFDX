@@ -84,3 +84,7 @@ export function timeFormat(date) {
     var json_date = new Date(date).toJSON();
     return new Date(new Date(json_date) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '') 
 }
+
+export function getDistance(start, end) {
+    return Math.sqrt(Math.pow(start.x  - end.x, 2) + Math.pow(start.y - end.y, 2))
+}

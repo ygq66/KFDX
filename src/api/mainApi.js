@@ -63,6 +63,7 @@ export function lineList() {
         method: 'get',
     })
 }
+
 export function PlanList_p(paramsData) {
     return request({
         url: constant.PlanList,
@@ -70,12 +71,14 @@ export function PlanList_p(paramsData) {
         data: paramsData
     })
 }
+
 export function PlanList() {
     return request({
         url: constant.PlanList,
         method: 'get',
     })
 }
+
 export function lineAlllist(paramsData) {
     return request({
         url: constant.lineAlllist,
@@ -83,6 +86,7 @@ export function lineAlllist(paramsData) {
         data: paramsData
     })
 }
+
 export function labelList(paramsData) {
     return request({
         url: constant.labelList,

@@ -166,6 +166,9 @@ const FloorList = () => {
         let floorh2 = []
         buildData.floor_name.forEach(element => { floorh2.push(element.floor_id.split("#")[1]) });
         Build.showFloor(map, buildData.build_name.build_id, "all", floorh2)
+
+        // 显示地面
+        Build.showDM(true)
     }
     return (
         <Fragment>

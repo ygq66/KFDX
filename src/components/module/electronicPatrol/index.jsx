@@ -4,8 +4,8 @@ import { lineList, lineAlllist, PlanList, PlanList_p, labelList } from '../../..
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { useMappedState } from 'redux-react-hook';
 import { Common } from '../../../utils/mapMethods'
-import { videoPlay } from '../../../utils/untils'
-import { Build, Event, Model } from '../../../utils/map3d'
+import { getDistance, videoPlay } from '../../../utils/untils'
+import { Build, Event, Model, createMap } from '../../../utils/map3d'
 
 import './style.scss'
 
@@ -271,6 +271,7 @@ const ElectronicPatrol = () => {
           }
 
           const calcSpeed = () => {
+            return 20
             let distance = Math.sqrt(Math.pow((trajectory[0].x - trajectory[1].x), 2) + Math.pow((trajectory[0].y - trajectory[1].y), 2)) / 100
             console.log('两点之间的距离：', distance, ' m')
             let tempSpeed = distance / getRouteTime()
@@ -308,11 +309,12 @@ const ElectronicPatrol = () => {
           setTimeout(() => {
 
             Event.playPatrolPath(mp_light, res => {
-              let currentEndPoint = trajectory[trajectory.length - 1]
-              if ((res.x === trajectory[1].x && res.y === trajectory[1].y) || (
+              // let currentEndPoint = trajectory[trajectory.length - 1]
+                // if ((res.x === trajectory[1].x && res.y === trajectory[1].y) || (
                 // 有一种情况，第一个点和第二个点相距近，PlayRoute的回调的执行时机甚至在视角移动到第二个点后才执行，这时终点就取第3个点
-                res.x === currentEndPoint.x && res.y === currentEndPoint.y)) {
-
+                // res.x === currentEndPoint.x && res.y === currentEndPoint.y)) {
+                // 一段巡逻路线的结束为: 移动到距离本段的终点小于 1 米范围内
+                if (getDistance(res, trajectory[1]) <= 100) {
                 let endTime = +new Date()
                 console.log('本段巡逻路线共耗时：', (endTime - startTime) / 1000, ' s.')
 
@@ -375,81 +377,6 @@ const ElectronicPatrol = () => {
         }
 
         planPatrolExec(currentPatrolIndex)
-
-        return
-        let before_lines = []
-        res.data.forEach(element => {
-          element.patrol_line_subsection.forEach(element2 => {
-            before_lines.push(element2)
-          });
-        });
-
-        var trajectory = []
-        before_lines.forEach((element, index) => {
-          trajectory.push({
-            id: "yuan" + index,
-            x: element.options.line[0],
-            y: element.options.line[1],
-            z: 400,
-            floor: "F1",
-            cameraList: element.patrol_camera
-          })
-
-        });
-        trajectory.push({
-          id: "yuan_end",
-          x: before_lines[before_lines.length - 1].options.noodles[0][2],
-          y: before_lines[before_lines.length - 1].options.noodles[0][3],
-          z: 400,
-          floor: "F1",
-          cameraList: before_lines[before_lines.length - 1].patrol_camera
-        })
-
-        let goTrajectory = {
-          "style": "sim_arraw_Cyan",
-          "width": 200,
-          "speed": speed,
-          "geom": trajectory
-        }
-        console.log("创建路线的数据", trajectory)
-        Event.createRoute(mp_light, goTrajectory, false)
-
-        setTimeout(() => {
-          if (before_lines[0].patrol_camera.length > 0) {
-            before_lines[0].patrol_camera.forEach((elcs, index) => {
-              (function (index) {
-                setTimeout(() => {
-                  videoPlay({
-                    detail_info: {
-                      camera_code: elcs.camera_code,
-                      camera_name: elcs.camera_name
-                    }
-                  }, "Patrol")
-                }, index * 1500)
-              }(index))
-            })
-          }
-          Event.playPatrolPath(mp_light, ((msg) => {
-            trajectory.forEach(element => {
-              if (element.x === msg.x && element.y === msg.y) {
-                if (element.cameraList.length > 0) {
-                  element.cameraList.forEach((elc, index) => {
-                    (function (index) {
-                      setTimeout(() => {
-                        videoPlay({
-                          detail_info: {
-                            camera_code: elc.camera_code,
-                            camera_name: elc.camera_name
-                          }
-                        }, "Patrol")
-                      }, index * 1500)
-                    }(index))
-                  })
-                }
-              }
-            });
-          }))
-        }, 100)
       }
     })
   }
@@ -470,6 +397,8 @@ const ElectronicPatrol = () => {
       Common.initializationPosition(mp_light)
       Build.allShow(mp_light, true)
       clearTimeout(cameraPlayTimer.current)
+
+      createMap.showDM(false, mp_light)
 
     } else if (index === 2) {
       setYcsb(true)
