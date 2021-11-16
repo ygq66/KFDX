@@ -5,7 +5,7 @@ import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { useMappedState } from 'redux-react-hook';
 import { Common } from '../../../utils/mapMethods'
 import { videoPlay } from '../../../utils/untils'
-import { Build, Event } from '../../../utils/map3d'
+import { Build, Event, Model } from '../../../utils/map3d'
 
 import './style.scss'
 
@@ -177,6 +177,10 @@ const ElectronicPatrol = () => {
           if (currentLineIndex > before_lines.length - 1) {
             console.log(currentLineIndex, before_lines.length)
             console.log('巡更结束！')
+
+            // 这里Clear是必须的。目的是清除上一个巡游中的回调
+            mp_light.Clear()
+
             if (patrolFinishCallback) {
               patrolFinishCallback()
             } else {
@@ -184,6 +188,11 @@ const ElectronicPatrol = () => {
               currentPlayCameraIndex.current = -1
               clearTimeout(cameraPlayTimer.current)
               cameraPlayTimer.current = null
+
+              // 因为巡逻过程中调用了Clear，所以在本次巡逻结束后，重新绑定一下事件
+              setTimeout(() => {
+                Model.getModel(mp_light)
+              })
             }
 
             return
@@ -196,8 +205,8 @@ const ElectronicPatrol = () => {
           trajectory = []
           trajectory.push({
             id: res.data.id,
-            x: element.options.noodles[0][0],
-            y: element.options.noodles[0][1],
+            x: element.options[0].x,
+            y: element.options[0].y,
             z: routeZValue,
             floor: floorLabel,
             cameraList: element.patrol_camera
@@ -207,10 +216,8 @@ const ElectronicPatrol = () => {
           if (nextElement) {
             trajectory.push({
               id: res.data.id,
-              // x: nextElement.options.line[0],
-              // y: nextElement.options.line[1],
-              x: nextElement.options.noodles[0][0],
-              y: nextElement.options.noodles[0][1],
+              x: nextElement.options[0].x,
+              y: nextElement.options[0].y,
               z: routeZValue,
               floor: floorLabel,
               cameraList: nextElement.patrol_camera
@@ -220,8 +227,8 @@ const ElectronicPatrol = () => {
             nextElement = element
             trajectory.push({
               id: res.data.id,
-              x: nextElement.options.noodles[0][6],
-              y: nextElement.options.noodles[0][7],
+              x: nextElement.options[1].x,
+              y: nextElement.options[1].y,
               z: routeZValue,
               floor: floorLabel,
               cameraList: nextElement.patrol_camera
@@ -232,8 +239,8 @@ const ElectronicPatrol = () => {
           if (endElement) {
             trajectory.push({
               id: res.data.id,
-              x: endElement.options.line[0],
-              y: endElement.options.line[1],
+              x: endElement.options[0].x,
+              y: endElement.options[0].y,
               z: routeZValue,
               floor: floorLabel,
               cameraList: endElement.patrol_camera
@@ -241,8 +248,8 @@ const ElectronicPatrol = () => {
           } else if (!endElement && currentLineIndex === before_lines.length - 2) {
             trajectory.push({
               id: res.data.id,
-              x: before_lines[before_lines.length - 1].options.noodles[0][6],
-              y: before_lines[before_lines.length - 1].options.noodles[0][7],
+              x: before_lines[before_lines.length - 1].options[1].x,
+              y: before_lines[before_lines.length - 1].options[1].y,
               z: routeZValue,
               floor: floorLabel,
               cameraList: before_lines[before_lines.length - 1].patrol_camera
@@ -301,9 +308,6 @@ const ElectronicPatrol = () => {
           setTimeout(() => {
 
             Event.playPatrolPath(mp_light, res => {
-              // console.log('开始巡逻第：', currentLineIndex + 1, ' 段！', res)
-              //
-              // console.log(res)
               let currentEndPoint = trajectory[trajectory.length - 1]
               if ((res.x === trajectory[1].x && res.y === trajectory[1].y) || (
                 // 有一种情况，第一个点和第二个点相距近，PlayRoute的回调的执行时机甚至在视角移动到第二个点后才执行，这时终点就取第3个点
@@ -334,62 +338,6 @@ const ElectronicPatrol = () => {
         }
 
         patrolOneLine(0)
-
-        // before_lines.forEach(element => {
-        //   trajectory.push({
-        //     id: res.data.id,
-        //     x: element.options.line[0],
-        //     y: element.options.line[1],
-        //     z: routeZValue,
-        //     floor: floorLabel,
-        //     cameraList: element.patrol_camera
-        //   })
-        // })
-        // trajectory.push({
-        //   id: res.data.id,
-        //   x: before_lines[before_lines.length - 1].options.noodles[0][2],
-        //   y: before_lines[before_lines.length - 1].options.noodles[0][3],
-        //   z: routeZValue,
-        //   floor: floorLabel,
-        //   cameraList: before_lines[before_lines.length - 1].patrol_camera
-        // })
-
-
-        // Event.createRoute(mp_light,goTrajectory,false)
-
-        return
-        setTimeout(() => {
-          if (before_lines[0].patrol_camera.length > 0) {
-            before_lines[0].patrol_camera.forEach((elcs, index) => {
-              (function (index) {
-                setTimeout(() => {
-                  // ------中院
-                  videoPlay(elcs, "Patrol")
-                  // ------汉中
-                  // videoPlay({device_code:elcs.camera_code})
-                }, index * 1500)
-              }(index))
-            })
-          }
-          Event.playPatrolPath(mp_light, ((msg) => {
-            trajectory.forEach(element => {
-              if (element.x === msg.x && element.y === msg.y) {
-                if (element.cameraList.length > 0) {
-                  element.cameraList.forEach((elc, index) => {
-                    (function (index) {
-                      setTimeout(() => {
-                        // ------中院
-                        videoPlay(elc, "Patrol")
-                        // ------汉中
-                        // videoPlay({device_code:elc.camera_code})
-                      }, index * 1500)
-                    }(index))
-                  })
-                }
-              }
-            });
-          }))
-        }, 100)
       }
     })
   }
@@ -409,10 +357,9 @@ const ElectronicPatrol = () => {
         let planPatrolLines = Array.from(res.data)
 
         let planPatrolExec = (index) => {
-          console.log(index, planPatrolLines.length)
+          // console.log(index, planPatrolLines.length)
           if (currentPatrolIndex < planPatrolLines.length) {
             startXL(planPatrolLines[currentPatrolIndex], () => {
-              ++currentPatrolIndex
               setTimeout(() => {
                 planPatrolExec(currentPatrolIndex)
               }, 10)
@@ -424,6 +371,7 @@ const ElectronicPatrol = () => {
             clearTimeout(cameraPlayTimer.current)
             cameraPlayTimer.current = null
           }
+          ++currentPatrolIndex
         }
 
         planPatrolExec(currentPatrolIndex)
