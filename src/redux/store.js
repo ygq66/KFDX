@@ -12,6 +12,7 @@ export function makeStore() {
         mapDark_url:"",//黑地图url
         alarmMsg:[],//报警闪光的对象合集
         isVideo:"",//控件下载提示
-        checked_polygonList:[]//点选过的面
+        checked_polygonList:[],//点选过的面
+        video_url:""//
     })
 }

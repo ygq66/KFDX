@@ -1,0 +1,478 @@
+#DoorApply {
+  @include notSelect;
+  background-image: url('../../../assets/doorApply_copy/Vector254.png');
+  width: 410px;
+  height: 940px;
+  .DoorApply_top {
+    position: relative;
+    h1 {
+      position: absolute;
+      width: 74px;
+      height: 27px;
+      font-size: 18px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      color: #66FFF6;
+      left: 45px;
+      top: 5px;
+    }
+    img {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      bottom: 0;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+  .doorApply_text{
+    position: relative;
+    .img_gs{
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      background: url('../../../assets/doorApply_copy/img_gs_1.png') no-repeat; 
+      background-size: 100%;
+      top: 65px;
+      left: 115px;
+      p{
+        position: absolute;
+        top: 43px;
+        left: 39px;
+        width: 67px;
+        height: 36px;
+        font-size: 30px;
+        font-family: Aleo-Regular, Aleo;
+        color: #FFD466;
+        letter-spacing: 1px;
+      }
+      span{
+        position: absolute;
+        top: 80px;
+        left: 49px;
+        width: 48px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        font-weight: 400;
+        color: #FFFFFF;
+      }
+    }
+    
+  }
+  
+    .Rectangle_left{
+      .rectangle{
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        top: 229px;
+        left: 58px;
+        background: #66FFF6;
+        border-radius: 0px 0px 0px 0px;
+        opacity: 1;
+      }
+      span{
+        position: absolute;
+        width: 80px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: rgba(255, 255, 255, 0.9);
+        top: 222px;
+        left: 80px;
+      }
+      p{
+        position: absolute;
+        top: 246px;
+        left: 80px;
+        width: 60px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+      }
+      .jian{
+        position: absolute;
+        top: 260px;
+        left: 144px;
+        width: 16px;
+        height: 17px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        line-height: 17px;
+      }
+    }
+    .Rectangle_right{
+      .rectangle{
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        top: 229px;
+        left: 225px;
+        background: #5C9DFF;
+        border-radius: 0px 0px 0px 0px;
+        opacity: 1;
+      }
+      span{
+        position: absolute;
+        width: 80px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: rgba(255, 255, 255, 0.9);
+        top: 222px;
+        left: 247px;
+      }
+      .room{
+        position: absolute;
+        top: 246px;
+        left: 247px;
+        width: 60px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+      }
+      .jian_1{
+        position: absolute;
+        top: 260px;
+        left: 311px;
+        width: 16px;
+        height: 17px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        line-height: 17px;
+      }
+    }
+    .group{
+      position: relative;
+      .group_1{
+        position: absolute;
+        background: url('../../../assets/doorApply_copy/建筑面积.png') no-repeat;
+        background-size: 100%;
+        width: 367px;
+        height: 43px;
+        top: 297px;
+        left: 22px;
+        p{
+          position: absolute;
+          width: 95px;
+          height: 27px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          top: 10px;
+          left: 19px;
+        }
+        span{
+          position: absolute;
+          width: 59px;
+          height: 44px;
+          font-size: 29px;
+          font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+          color: #66FFF6;
+          left: 159px;
+          top: 0;
+        }
+        .square{
+          position: absolute;
+          width: 72px;
+          // height: 17px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          top: 10px;
+          left: 223px;
+        }
+      }
+      .group_2{
+        position: absolute;
+        background: url('../../../assets/doorApply_copy/建筑面积.png') no-repeat;
+        background-size: 100%;
+        width: 367px;
+        height: 43px;
+        top: 350px;
+        left: 22px;
+        p{
+          position: absolute;
+          width: 95px;
+          height: 27px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          top: 10px;
+          left: 19px;
+        }
+        span{
+          position: absolute;
+          width: 59px;
+          height: 44px;
+          font-size: 29px;
+          font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+          color: #66FFF6;
+          left: 159px;
+          top: 0;
+        }
+        .mu{
+          position: absolute;
+          width: 72px;
+          // height: 17px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          top: 10px;
+          left: 246px;
+        }
+      }
+      .group_3{
+        position: absolute;
+        background: url('../../../assets/doorApply_copy/建筑面积.png') no-repeat;
+        background-size: 100%;
+        width: 367px;
+        height: 43px;
+        top: 401px;
+        left: 22px;
+        p{
+          position: absolute;
+          width: 95px;
+          height: 27px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          top: 10px;
+          left: 19px;
+        }
+        span{
+          position: absolute;
+          width: 59px;
+          height: 44px;
+          font-size: 29px;
+          font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+          color: #66FFF6;
+          left: 159px;
+          top: 0;
+        }
+        .dong{
+          position: absolute;
+          width: 72px;
+          // height: 17px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          top: 10px;
+          left: 205px;
+        }
+      }
+    }
+    .doorApply_buttom {
+      position: relative;
+      .liebiao_top{
+        h1 {
+          position: absolute;
+          width: 74px;
+          height: 27px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+          color: #66FFF6;
+          left: 42px;
+          top: 450px;
+        }
+        img {
+          position: absolute;
+          top: 457px;
+          left: 10px;
+          bottom: 0;
+          right: 0;
+          cursor: pointer;
+        }
+      }
+     
+      .buttom_1{
+        img{
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          top: 510px;
+          left: 24px;
+        }
+        .text_1{
+          position: absolute;
+          width: 207px;
+          height: 24px;
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          left: 51px;
+          top: 510px;
+        }
+      }
+      .buttom_2{
+        position: relative;
+        img{
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          top: 539px;
+          left: 55px;
+        }
+        .text_2{
+          position: absolute;
+          width: 158px;
+          height: 24px;
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          left: 78px;
+          top: 538px;
+        }
+      }
+      .buttom_3{
+        position: relative;
+        img{
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          top: 566px;
+          left: 80px;
+        }
+        .text_3{
+          position: absolute;
+          width: 133px;
+          height: 24px;
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          left: 107px;
+          top: 566px;
+        }
+      }
+      .buttom_4{
+        position: relative;
+        ul{
+          position: absolute;
+          width: 100%;
+          top: 594px;
+          left: 120px;
+        }
+        li{
+          width: 28px;
+          height: 24px;
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+        }
+      }
+    }
+    .buttom_5{
+      .frame-1{
+        position: relative;
+        .icon-frame{
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          top: 767px;
+          left: 80px;
+        }
+        p{
+          position: absolute;
+          width: 133px;
+          height: 24px;
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          font-weight: 400;
+          color: #FFFFFF;
+          top: 765px;
+          left: 107px;
+        }
+      }
+      .frame-2{
+        position: relative;
+        .icon-frame-1{
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          top: 800px;
+          left: 80px;
+        }
+        p{
+          position: absolute;
+          width: 133px;
+          height: 24px;
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          font-weight: 400;
+          color: #FFFFFF;
+          top: 799px;
+          left: 107px;
+        }
+      }
+      .frame-3{
+        position: relative;
+        .icon-frame-2{
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          top: 833px;
+          left: 80px;
+        }
+        p{
+          position: absolute;
+          width: 133px;
+          height: 24px;
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          font-weight: 400;
+          color: #FFFFFF;
+          top: 831px;
+          left: 107px;
+        }
+      }
+    }
+    .buttom_6{
+      .frame-4{
+        position: relative;
+        .icon-frame-3{
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          top: 865px;
+          left: 51px;
+        }
+        p{
+          position: absolute;
+          width: 158px;
+          height: 24px;
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          font-weight: 400;
+          color: #FFFFFF;
+          top: 864px;
+          left: 78px;
+        }
+    }
+    .frame-5{
+      position: relative;
+      .icon-frame-4{
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        top: 897px;
+        left: 51px;
+      }
+      p{
+        position: absolute;
+        width: 158px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        font-weight: 400;
+        color: #FFFFFF;
+        top: 895px;
+        left: 78px;
+      }
+  }
+  }
+}
+

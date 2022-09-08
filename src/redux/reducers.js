@@ -30,6 +30,9 @@ export default function reducer(state, action) {
         case "setPolygons": {
             return { ...state,checked_polygonList: action.checked_polygonList }
         }
+        case "checkVideoUrl": {
+            return { ...state,video_url: action.video_url }
+        }
         default:
             return state
     }

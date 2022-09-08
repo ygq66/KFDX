@@ -175,10 +175,12 @@ const VideoSurveillance = (props) => {
       Model.clearHighlight(mp_light)
       Model.modelHighlight(mp_light, info.node.title.props.item.model_id)
       if (info.node.title.props.item.detail_info) {
-        videoPlay(info.node.title.props.item, "playVideo", ((msg) => {
-          let timestamp = Date.parse(new Date()) + "video";
-          dispatch({ type: "checkVideo", isVideo: timestamp });
-        }))
+        // videoPlay(info.node.title.props.item, "playVideo", ((msg) => {
+        //   let timestamp = Date.parse(new Date()) + "video";
+        //   dispatch({ type: "checkVideo", isVideo: timestamp });
+        // }))
+        console.log(info.node.title.props.item.device_code,"视频组件")
+        dispatch({ type: "checkVideoUrl", video_url: info.node.title.props.item.device_code });
       } else {
         message.warning("缺少_detail_info");
       }
@@ -331,10 +333,11 @@ const VideoSurveillance = (props) => {
       }
     });
     setCheck(data.device_code)
-    videoPlay(data, "preview", ((msg) => {
-      let timestamp = Date.parse(new Date()) + "video";
-      dispatch({ type: "checkVideo", isVideo: timestamp });
-    }))
+    // videoPlay(data, "preview", ((msg) => {
+    //   let timestamp = Date.parse(new Date()) + "video";
+    //   dispatch({ type: "checkVideo", isVideo: timestamp });
+    // }))
+    dispatch({ type: "checkVideoUrl", video_url: data.device_code });
   }
   //被点击过的面恢复正常
   const recoverPolygon = () => {

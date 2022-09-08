@@ -1,0 +1,531 @@
+#DoorApply {
+  @include notSelect;
+  background-image: url('../../../assets/doorApply_copy/Vector254.png');
+  width: 410px;
+  height: 940px;
+  .DoorApply_top {
+    position: relative;
+    h1 {
+      position: absolute;
+      width: 110px;
+      height: 27px;
+      font-size: 18px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      color: #66FFF6;
+      left: 45px;
+      top: 12px;
+    }
+    img {
+      position: absolute;
+      top: 14px;
+      left: 10px;
+      bottom: 0;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+  .box{
+    position: relative;
+    .box-1{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_4/box_jgaq_3.png');
+      width: 377px;
+      height: 72px;
+      top: 65px;
+      margin-left: 13px;
+      img{
+        margin-top: 10px;
+        margin-left: 26px;
+      }
+      p{
+        position: absolute;
+        width: 80px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 25px;
+        left: 141px;
+      }
+      span{
+        position: absolute;
+        width: 60px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 16px;
+        left: 233px;
+      }
+      h1{
+        position: absolute;
+        width: 39px;
+        height: 36px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 24px;
+        left: 299px;
+      }
+    }
+    .box-2{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_4/box_jgaq_3.png');
+      width: 377px;
+      height: 72px;
+      top: 153px;
+      margin-left: 13px;
+      img{
+        margin-top: 10px;
+        margin-left: 26px;
+      }
+      p{
+        position: absolute;
+        width: 96px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 25px;
+        left: 125px;
+      }
+      span{
+        position: absolute;
+        width: 60px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 16px;
+        left: 233px;
+      }
+      h1{
+        position: absolute;
+        width: 39px;
+        height: 36px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 24px;
+        left: 284px;
+      }
+    }
+  }
+  .statistical {
+    position: relative;
+    h1 {
+      position: absolute;
+      width: 110px;
+      height: 27px;
+      font-size: 18px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      color: #66FFF6;
+      left: 45px;
+      top: 255px;
+    }
+    img {
+      position: absolute;
+      top: 255px;
+      left: 10px;
+      bottom: 0;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+
+  .classification{
+    position: relative;
+    .chart{
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      top: 304px;
+      margin-left: 114px;
+    }
+    .chart-1{
+      .text{
+        position: relative;
+        .text_1{
+          position: absolute;
+          width: 15px;
+          height: 8px;
+          background: #E7428D;
+          border-radius: 0px 0px 0px 0px;
+          opacity: 1;
+          top: 502px;
+          left: 13px;
+          p{
+            position: absolute;
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            top: -10px;
+            left: 23px;
+          }
+        }
+        .text_2{
+          position: absolute;
+          width: 15px;
+          height: 8px;
+          background: #FFBA08;
+          border-radius: 0px 0px 0px 0px;
+          opacity: 1;
+          top: 502px;
+          left: 111px;
+          p{
+            position: absolute;
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            top: -10px;
+            left: 23px;
+          }
+        }
+        .text_3{
+          position: absolute;
+          width: 15px;
+          height: 8px;
+          background: #3F37C9;
+          border-radius: 0px 0px 0px 0px;
+          opacity: 1;
+          top: 502px;
+          left: 209px;
+          p{
+            position: absolute;
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            top: -10px;
+            left: 23px;
+          }
+        }
+        .text_4{
+          position: absolute;
+          width: 15px;
+          height: 8px;
+          background: #30CD8B;
+          border-radius: 0px 0px 0px 0px;
+          opacity: 1;
+          top: 502px;
+          left: 307px;
+          p{
+            position: absolute;
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            top: -10px;
+            left: 23px;
+          }
+        }
+      }
+
+      .text-1{
+        position: relative;
+        .text_5{
+          position: absolute;
+          width: 15px;
+          height: 8px;
+          background: #2B88DD;
+          border-radius: 0px 0px 0px 0px;
+          opacity: 1;
+          top: 550px;
+          left: 13px;
+          p{
+            position: absolute;
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            top: -10px;
+            left: 23px;
+          }
+        }
+        .text_6{
+          position: absolute;
+          width: 15px;
+          height: 8px;
+          background: #A32791;
+          border-radius: 0px 0px 0px 0px;
+          opacity: 1;
+          top: 550px;
+          left: 111px;
+          p{
+            position: absolute;
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            top: -10px;
+            left: 23px;
+          }
+        }
+        .text_7{
+          position: absolute;
+          width: 15px;
+          height: 8px;
+          background: #58D8F4;
+          border-radius: 0px 0px 0px 0px;
+          opacity: 1;
+          top: 550px;
+          left: 209px;
+          p{
+            position: absolute;
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            top: -10px;
+            left: 23px;
+          }
+        }
+        .text_8{
+          position: absolute;
+          width: 15px;
+          height: 8px;
+          background: #7209B7;
+          border-radius: 0px 0px 0px 0px;
+          opacity: 1;
+          top: 550px;
+          left: 307px;
+          p{
+            position: absolute;
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            top: -10px;
+            left: 23px;
+          }
+        }
+      }
+    }
+  }
+
+  .ranking {
+    position: relative;
+    h1 {
+      position: absolute;
+      width: 74px;
+      height: 27px;
+      font-size: 18px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      color: #66FFF6;
+      left: 45px;
+      top: 585px;
+    }
+    img {
+      position: absolute;
+      top: 585px;
+      left: 10px;
+      bottom: 0;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+
+  .item-buttom{
+    position: relative;
+    .item-1{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_3/Group738.png');
+      width: 369px;
+      height: 38px;
+      top: 630px;
+      margin-left: 20px;
+      p{
+        width: 64px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #FFFFFF;
+        margin-top: 9px;
+        margin-left: 91px;
+      }
+      span{
+        position: absolute;
+        width: 45px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 2px;
+        left: 252px;
+      }
+      h1{
+        position: absolute;
+        width: 34px;
+        height: 21px;
+        font-size: 14px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 11px;
+        left: 300px;
+      }
+    }
+    .item-2{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_3/Group\ 1215.png');
+      width: 369px;
+      height: 38px;
+      top: 680px;
+      margin-left: 20px;
+      p{
+        width: 64px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #FFFFFF;
+        margin-top: 9px;
+        margin-left: 91px;
+      }
+      span{
+        position: absolute;
+        width: 45px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 2px;
+        left: 252px;
+      }
+      h1{
+        position: absolute;
+        width: 34px;
+        height: 21px;
+        font-size: 14px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 11px;
+        left: 300px;
+      }
+    }
+
+    .item-3{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_3/Group\ 1216.png');
+      width: 369px;
+      height: 38px;
+      top: 731px;
+      margin-left: 20px;
+      p{
+        width: 64px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #FFFFFF;
+        margin-top: 9px;
+        margin-left: 91px;
+      }
+      span{
+        position: absolute;
+        width: 45px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 2px;
+        left: 252px;
+      }
+      h1{
+        position: absolute;
+        width: 34px;
+        height: 21px;
+        font-size: 14px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 11px;
+        left: 300px;
+      }
+    }
+
+    .item-4{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_3/Group\ 1217.png');
+      width: 369px;
+      height: 38px;
+      top: 783px;
+      margin-left: 20px;
+      p{
+        width: 64px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #FFFFFF;
+        margin-top: 9px;
+        margin-left: 91px;
+      }
+      span{
+        position: absolute;
+        width: 45px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 2px;
+        left: 252px;
+      }
+      h1{
+        position: absolute;
+        width: 34px;
+        height: 21px;
+        font-size: 14px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 11px;
+        left: 300px;
+      }
+    }
+
+    .item-5{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_3/Group\ 1218.png');
+      width: 369px;
+      height: 38px;
+      top: 836px;
+      margin-left: 20px;
+      p{
+        width: 64px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #FFFFFF;
+        margin-top: 9px;
+        margin-left: 91px;
+      }
+      span{
+        position: absolute;
+        width: 45px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 2px;
+        left: 252px;
+      }
+      h1{
+        position: absolute;
+        width: 34px;
+        height: 21px;
+        font-size: 14px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 11px;
+        left: 300px;
+      }
+    }
+  }
+
+}
+

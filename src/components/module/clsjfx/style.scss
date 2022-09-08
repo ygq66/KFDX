@@ -1,0 +1,184 @@
+#DoorApply {
+  @include notSelect;
+  background-image: url('../../../assets/doorApply_copy/Vector254.png');
+  width: 410px;
+  height: 940px;
+  .DoorApply_top {
+    position: relative;
+    h1 {
+      position: absolute;
+      width: 110px;
+      height: 27px;
+      font-size: 18px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      color: #66FFF6;
+      left: 45px;
+      top: 12px;
+    }
+    img {
+      position: absolute;
+      top: 14px;
+      left: 10px;
+      bottom: 0;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+  .cheliang{
+    position: relative;
+    .icon-cheliang img{
+      width: 134px;
+      height: 134px;
+      opacity: 1;
+      margin-top: 74px;
+      margin-left: 14px;
+    }
+      .slice-1{
+        position: absolute;
+        background: url('../../../assets/doorApply_copy_1/1.png');
+        width: 200px;
+        height: 32px;
+        top: 77px;
+        left: 185px;
+        p{
+          width: 80px;
+          height: 27px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+          color: #FFFFFF;
+          letter-spacing: 2px;
+          margin-left: 12px;
+          margin-top: 3px;
+        }
+        .Math-1{
+          width: 52px;
+          height: 39px;
+          font-size: 26px;
+          font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+          color: #97FFF9;
+          letter-spacing: 2px;
+          margin-top: -33px;
+          margin-left: 126px;
+        }
+    }
+    .slice-2{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_1/2.png');
+      width: 200px;
+      height: 32px;
+      top: 122px;
+      left: 185px;
+      p{
+        width: 80px;
+        height: 27px;
+        font-size: 18px;
+        font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+        color: #FFFFFF;
+        letter-spacing: 2px;
+        margin-left: 12px;
+        margin-top: 3px;
+      }
+      .Math-2{
+        width: 52px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+        color: #97FFF9;
+        letter-spacing: 2px;
+        margin-top: -33px;
+        margin-left: 126px;
+      }
+    }
+  .slice-3{
+    position: absolute;
+    background: url('../../../assets/doorApply_copy_1/3.png');
+    width: 200px;
+    height: 32px;
+    top: 167px;
+    left: 185px;
+    p{
+      width: 80px;
+      height: 27px;
+      font-size: 18px;
+      font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+      color: #FFFFFF;
+      letter-spacing: 2px;
+      margin-left: 12px;
+      margin-top: 3px;
+    }
+    .Math-3{
+      width: 52px;
+      height: 39px;
+      font-size: 26px;
+      font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+      color: #97FFF9;
+      letter-spacing: 2px;
+      margin-top: -33px;
+      margin-left: 126px;
+      }
+    }
+  } 
+  .management{
+    .cheliang_top_1 {
+      position: relative;
+      h1 {
+        position: absolute;
+        width: 74px;
+        height: 27px;
+        font-size: 18px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        left: 45px;
+        top: 40px;
+      }
+      img {
+        position: absolute;
+        top: 42px;
+        left: 10px;
+        bottom: 0;
+        right: 0;
+        cursor: pointer;
+      }
+    }
+  } 
+    .sousuo{
+      position: relative;
+      background: url('../../../assets/doorApply_copy_1/Vector.png');
+      width: 390px;
+      height: 35px;
+      margin-top: 91px;
+      margin-left: 10px;
+      p{
+        position: absolute;
+        width: 83px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        left: 12px;
+        top: 5px;
+      }
+      .icon_sousuo img{
+        width: 24px;
+        height: 24px;
+        margin-left: 356px;
+        margin-top: 5px;
+      }
+    }  
+  
+    .chepai{
+      ul{
+        margin-top: 10px;
+        margin-left: 35px;
+        li{
+          width: 102px;
+          height: 27px;
+          font-size: 18px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          color: #FFFFFF;
+          margin-top: 4px;
+        }
+      } 
+    }
+}
+

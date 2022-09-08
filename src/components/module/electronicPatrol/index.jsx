@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { DatePicker, Space, Select } from 'antd';
 import { lineList, lineAlllist, PlanList, PlanList_p, labelList } from '../../../api/mainApi';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
-import { useMappedState } from 'redux-react-hook';
+import { useMappedState,useDispatch } from 'redux-react-hook';
 import { Common } from '../../../utils/mapMethods'
 import { getDistance, videoPlay } from '../../../utils/untils'
 import { Build, Event, Model, createMap } from '../../../utils/map3d'
@@ -11,6 +11,7 @@ import './style.scss'
 
 const {Option} = Select;
 const ElectronicPatrol = () => {
+  const dispatch = useDispatch();
   const inputRef = useRef();
   const mp_light = useMappedState(state => state.map3d_light);
   const [UploadImg, setImg] = useState(require('../../../assets/images/up_load.png').default)
@@ -116,9 +117,10 @@ const ElectronicPatrol = () => {
 
       let currentCamera = cameraList[currentPlayCameraIndex.current]
       console.log(`播放第${currentPlayCameraIndex.current}/${cameraList.length}个相机视频！`)
-      console.log(currentCamera)
+      console.log(currentCamera,"巡游数据")
       if (currentCamera) {
-        videoPlay(currentCamera, "Patrol")
+        // videoPlay(currentCamera, "Patrol")
+        dispatch({ type: "checkVideoUrl", video_url: currentCamera.camera_code });
         cameraPlayTimer.current = setTimeout(playVideo, speed * 1000)
       }
     }

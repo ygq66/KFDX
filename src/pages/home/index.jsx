@@ -14,6 +14,8 @@ import InterphonePopup from '../../components/popups/interphonePopup' //对讲�
 import CameraPopup from '../../components/popups/cameraPopup' //摄像头气泡
 import DoorPopup from '../../components/popups/doorPopup' //摄像头气泡
 import BedDetails from '../../components/bedDetails' //床位列表
+
+import HikVideo from '../../components/HikVideo'
 import { cameraList_S, cameraRegion, getConfig_L } from '../../api/mainApi'
 import { ASocekt as alarmS } from '../../api/address';
 import { videoPlay } from '../../utils/untils'
@@ -211,11 +213,13 @@ function Home() {
                         Event.close_videoProjection(mp_light)
                         videoProjection_bolean.current = false;
                       }
-                      //弹视频
-                      videoPlay(msg.attr, "playVideo", ((msg) => {
-                        let timestamp = Date.parse(new Date()) + "video";
-                        dispatch({ type: "checkVideo", isVideo: timestamp });
-                      }))
+                      // //弹视频
+                      // videoPlay(msg.attr, "playVideo", ((msg) => {
+                      //   let timestamp = Date.parse(new Date()) + "video";
+                      //   dispatch({ type: "checkVideo", isVideo: timestamp });
+                      // }))
+                      console.log("11111",msg.attr.device_code)
+                      dispatch({ type: "checkVideoUrl", video_url: msg.attr.device_code });
                       //画面
                       if(msg.attr.position.points){
                         if(polygonRef.current){
@@ -296,6 +300,7 @@ function Home() {
     if (top_module !== "") {
       setAnimateName("animate__fadeInLeft")
       setContentPage(lazy(() => import(`../../components/module/${top_module}`)))
+      // setContentPage(lazy(() => import(`../../components/HikVideo`)))
     }
   }, [top_module])
 
@@ -378,6 +383,9 @@ function Home() {
         </div>
         <div className="untils_doorPopup">
           <DoorPopup msgdata={d_data} />
+        </div>
+        <div className='untils_video'>
+          <HikVideo/>
         </div>
       </div>
     </div>

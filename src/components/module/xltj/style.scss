@@ -1,0 +1,229 @@
+#DoorApply {
+  @include notSelect;
+  background-image: url('../../../assets/doorApply_copy/Vector254.png');
+  width: 410px;
+  height: 940px;
+  .DoorApply_top {
+    position: relative;
+    h1 {
+      position: absolute;
+      width: 110px;
+      height: 27px;
+      font-size: 18px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      color: #66FFF6;
+      left: 45px;
+      top: 12px;
+    }
+    img {
+      position: absolute;
+      top: 14px;
+      left: 10px;
+      bottom: 0;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+  .xunluo{
+    position: relative;
+    .xunluo-1{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_4/box_jgaq_3.png');
+      width: 377px;
+      height: 72px;
+      top: 65px;
+      margin-left: 13px;
+      img{
+        margin-top: 10px;
+        margin-left: 26px;
+      }
+      p{
+        position: absolute;
+        width: 80px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 25px;
+        left: 141px;
+      }
+      span{
+        position: absolute;
+        width: 60px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 16px;
+        left: 221px;
+      }
+      h1{
+        position: absolute;
+        width: 39px;
+        height: 36px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 24px;
+        left: 287px;
+      }
+    }
+    .xunluo-2{
+      position: absolute;
+      background: url('../../../assets/doorApply_copy_4/box_jgaq_3.png');
+      width: 377px;
+      height: 72px;
+      top: 153px;
+      margin-left: 13px;
+      img{
+        margin-top: 10px;
+        margin-left: 26px;
+      }
+      p{
+        position: absolute;
+        width: 96px;
+        height: 24px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 25px;
+        left: 125px;
+      }
+      span{
+        position: absolute;
+        width: 60px;
+        height: 39px;
+        font-size: 26px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        color: #66FFF6;
+        top: 16px;
+        left: 221px;
+      }
+      h1{
+        position: absolute;
+        width: 39px;
+        height: 36px;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        color: #FFFFFF;
+        top: 24px;
+        left: 272px;
+      }
+    }
+  }
+  .router{
+    position: relative;
+    background: url('../../../assets/doorApply_copy_4/查看导航路线.png');
+    width: 160px;
+    height: 37px;
+    top: 245px;
+    left: 224px;
+    p{
+      position: absolute;
+      width: 126px;
+      height: 24px;
+      font-size: 16px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      color: #66FFF6;
+      left: 23px;
+      top: 6px;
+    }
+  }
+  .shishi {
+    position: relative;
+    h1 {
+      position: absolute;
+      width: 74px;
+      height: 27px;
+      font-size: 18px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      color: #66FFF6;
+      left: 45px;
+      top: 264px;
+    }
+    img {
+      position: absolute;
+      top: 264px;
+      left: 10px;
+      bottom: 0;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+
+  .POLICE{
+    margin-top: 317px;
+    width: 100%;
+    height: 100%;
+    .police-1{
+      position: relative;
+      width: 368px;
+      height: 98px;
+      margin-top: 20px;
+      margin-left: 16px;
+      img{
+        position: absolute;
+        width: 88px;
+        height: 88px;
+        left: 11px;
+      }
+        .weiting{
+          background: url('../../../assets/doorApply_copy_4/title_ai_1.png');
+          width: 226px;
+          height: 26px;
+          margin-left: 111px;
+          p{
+            width: 64px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            color: #FFFFFF;
+            margin-left:4px;
+          }
+        }
+        .time-map{
+          width: 100%;
+          img{
+            width: 16px;
+            height: 16px;
+            margin-left: 100px;
+            margin-top: 5px;
+          }
+          p{
+            width: 158px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+            color: #FFFFFF;
+            margin-left: 133px;
+            margin-top: 8px;
+          }
+        }
+        .address{
+          img{
+            width: 16px;
+            height: 16px;
+            margin-left: 100px;
+            margin-top: 5px;
+          }
+          p{
+            width: 158px;
+            height: 24px;
+            font-size: 16px;
+            font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+            color: #FFFFFF;
+            margin-left: 133px;
+            margin-top: 8px;
+          }
+        }
+        .line{
+          width: 368px;
+          height: 0px;
+          opacity: 1;
+          border: 1px solid #4A729A;
+          margin-top: 10px;
+        }
+    }
+  }
+}
+

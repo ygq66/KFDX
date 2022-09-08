@@ -1,0 +1,23 @@
+.HikVideo {
+    border-radius: 5px;
+    width: 500px;
+    height: 500px;
+    border: 1px solid red;
+    // background: red;
+    position: relative;
+    z-index: 999999999;
+    .video_header{
+        width: 100%;
+        padding: 0 10px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        background: #1E4380;
+        color: #Fff;
+        justify-content: space-between;
+      }
+      .vh_right{
+        display: inline-block;
+        
+      }
+}

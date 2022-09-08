@@ -188,12 +188,37 @@ export const Model = {
             color: '#ff0f00',
             points: []
         };
-        view3d.OverLayerStartEdit(obj, res => {
-            if (callback) {
-                callback(res);
-            }
-        });
+        // view3d.OverLayerStartEdit(obj, res => {
+        //     if (callback) {
+        //         callback(res);
+        //     }
+        // });
+        let points = []
+    Model.getModelNull(view3d)
+    Model.isUseGetModel = false;
+    view3d.OverLayerStartEdit(obj, (res) => {
+
+      points.push(res.points[res.points.length - 1])
+      console.log(points, "points")
+    });
+    window.addEventListener('mousedown', function rClick(e) {
+      if (e.button === 2) {
+        window.removeEventListener('mousedown', rClick)
+        Model.endEditing(view3d);
+        if (callback) {
+          callback({
+            ...obj,
+            points: points
+          });
+        }
+        Model.isUseGetModel = true
+      }
+    })
     },
+    isUseGetModel: true,
+    getModelNull(view3d) {
+        view3d.SetMouseCallback(null)
+      },
     // 删除折线
     closeLine(view3d) {
         var types = [10200];
@@ -589,6 +614,9 @@ export const Model = {
                     }
                 }
                 window.postMessage(data, '*');
+            }
+            if(res.gid.slice(0,5) ==="V001" && res.gid.length === 14){
+                console.log("111111111111111")
             }
             // callback(strObj)
         });

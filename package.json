@@ -166,5 +166,13 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "http://192.168.0.228/sincejuly/ty_view"
+  },
+  "author": "",
+  "license": "ISC"
 }
